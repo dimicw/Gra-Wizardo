@@ -1,5 +1,4 @@
 C:\Users\domin\source\repos\testKratki\testKratki\obj\Debug\net5.0-windows\testKratki.csproj.AssemblyReference.cache
-C:\Users\domin\source\repos\testKratki\testKratki\obj\Debug\net5.0-windows\testKratki.Form1.resources
 C:\Users\domin\source\repos\testKratki\testKratki\obj\Debug\net5.0-windows\testKratki.csproj.GenerateResource.cache
 C:\Users\domin\source\repos\testKratki\testKratki\obj\Debug\net5.0-windows\testKratki.GeneratedMSBuildEditorConfig.editorconfig
 C:\Users\domin\source\repos\testKratki\testKratki\obj\Debug\net5.0-windows\testKratki.AssemblyInfoInputs.cache
@@ -16,3 +15,4 @@ C:\Users\domin\source\repos\testKratki\testKratki\obj\Debug\net5.0-windows\testK
 C:\Users\domin\source\repos\testKratki\testKratki\obj\Debug\net5.0-windows\ref\testKratki.dll
 C:\Users\domin\source\repos\testKratki\testKratki\obj\Debug\net5.0-windows\testKratki.pdb
 C:\Users\domin\source\repos\testKratki\testKratki\obj\Debug\net5.0-windows\testKratki.genruntimeconfig.cache
+C:\Users\domin\source\repos\testKratki\testKratki\obj\Debug\net5.0-windows\testKratki.Values.resources

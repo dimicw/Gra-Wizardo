@@ -10,113 +10,148 @@ using System.Windows.Forms;
 
 namespace testKratki
 {
-	public partial class Form1 : Form
+	public static class Values		// base of the game
 	{
-		Player player = new Player(); # siemka
+		public static int xAxis = 40, yAxis = 20;		// size of the map
+		public static bool[,] occupiedTile;				// is something blocking you from moving onto the tile
+		public static PictureBox[,] floor;				// mesh of the floor
+		public static PictureBox[,] board;              // board for zombies and the Magnificent Wizardo himself
+		public static Player player = new Player();		// statblock for the most potent wizard - the player (Wizardo)
+	}
+
+	public partial class Form1 : Form
+	{				
 
 		public Form1()
 		{
 			InitializeComponent();
+			Text = "Zombifying Adventures of Wizardo";							// title of the game (and window)
 		}
 
-		int xAxis, yAxis;
-		PictureBox[,] Floor;
-		PictureBox[,] Board;
-		bool[,] occupiedTile;
+		private void Form1_Load(object sender, EventArgs e)						// instructions done immediately after starting the program
+		{	
+			Values.floor = new PictureBox[Values.yAxis, Values.xAxis];			// adds dimensions to floor matrix
+			Values.board = new PictureBox[Values.yAxis, Values.xAxis];          // adds dimensions to board matrix
+			Values.occupiedTile = new bool[Values.yAxis, Values.xAxis];         // adds dimensions to occupiedTile matrix
 
-		private void Form1_KeyDown(object sender, KeyEventArgs e)
-		{
-			char key = '0';
-			switch (e.KeyData)		//test123
+			int left = 2, top = 2;												// margin values, later used to create the board
+			for (int i=0; i < Values.yAxis; i++)								// rows of the board
 			{
-				case Keys.W:
-					key = 'w';
-					Board[player.previousPositionY, player.previousPositionX].Image = null;
-					Board[player.positionY, player.positionX].Image = Image.FromFile(@"C:\Users\domin\source\repos\testKratki\testKratki\images\wizardo\wizardo-north.png");
-					break;
-				case Keys.D:
-					key = 'd';
-					Board[player.previousPositionY, player.previousPositionX].Image = null;
-					Board[player.positionY, player.positionX].Image = Image.FromFile(@"C:\Users\domin\source\repos\testKratki\testKratki\images\wizardo\wizardo-east.png");
-					break;
-				case Keys.S:
-					key = 's';
-					Board[player.previousPositionY, player.previousPositionX].Image = null;
-					Board[player.positionY, player.positionX].Image = Image.FromFile(@"C:\Users\domin\source\repos\testKratki\testKratki\images\wizardo\wizardo-south.png");
-					break;
-				case Keys.A:
-					key = 'a';
-					Board[player.previousPositionY, player.previousPositionX].Image = null;
-					Board[player.positionY, player.positionX].Image = Image.FromFile(@"C:\Users\domin\source\repos\testKratki\testKratki\images\wizardo\wizardo-west.png");
-					break;
-				default:
-					break;
-			}
-
-			player.Action(key);
-
-
-		}
-
-		private void Form1_Load(object sender, EventArgs e)
-		{
-			xAxis = 40;
-			yAxis = 20;
-			Floor = new PictureBox[yAxis, xAxis];
-			Board = new PictureBox[yAxis, xAxis];
-			occupiedTile = new bool[yAxis,xAxis];
-
-			int left = 2, top = 2;
-			for (int i=0; i < yAxis; i++)
-			{
-				left = 2;
-				for (int j = 0; j < xAxis; j++)
+				left = 2;														// reset of margin
+				for (int j = 0; j < Values.xAxis; j++)							// columns of the board
 				{
-					Floor[i, j] = new PictureBox();
-					Floor[i, j].Image = Image.FromFile(@"C:\Users\domin\source\repos\testKratki\testKratki\images\build\floor.png");
-					Floor[i, j].Location = new Point(left, top);
-					Floor[i, j].Size = new Size(20, 20);
+					Values.floor[i, j] = new PictureBox();						// create new picturebox
+					Values.floor[i, j].Image									// fill the picturebox with floor image
+						= Image.FromFile(@"C:\Users\domin\source\repos\testKratki\testKratki\images\build\floor.png");
+					Values.floor[i, j].Location = new Point(left, top);			// relocate the tile next to the previous tile
+					Values.floor[i, j].Size = new Size(20, 20);					// resize the tile
+					mapBase.Controls.Add(Values.floor[i, j]);					// fix the tiles to the base
 
-					mapBase.Controls.Add(Floor[i, j]);
+					Values.board[i, j] = new PictureBox();						// create new picturebox
+					Values.floor[i, j].Controls.Add(Values.board[i, j]);		// make the picturebox a child of the floor tile
+					Values.board[i, j].Location = new Point(0, 0);              // relocate the tile to match the floor tile
+					Values.board[i, j].BackColor = Color.Transparent;			// make the background of the image transparent
 
-					Board[i, j] = new PictureBox();
-					if (i==0 && j==0) Board[i, j].Image = Image.FromFile(@"C:\Users\domin\source\repos\testKratki\testKratki\images\wizardo\wizardo-west.png");
-					player.positionY = 0;
-					player.positionX = 0;
-					Floor[i, j].Controls.Add(Board[i, j]);
-					Board[i, j].Location = new Point(0, 0);
-					Board[i, j].BackColor = Color.Transparent;
+					if (i == 1 && j == 1) Values.board[i, j].Image				// place the player on the board
+							= Image.FromFile(@"C:\Users\domin\source\repos\testKratki\testKratki\images\wizardo\wizardo-west.png");
+					Values.player.positionY = 1;								// assign starting position values to the player
+					Values.player.positionX = 1;
+					Values.player.previousPositionY = 1;
+					Values.player.previousPositionX = 1;
 
-					occupiedTile[i, j] = false;
+					Values.occupiedTile[i, j] = false;							// make the tile available for the player
 					left += 20;
 				}
 				top += 20;
 			}
+			LoadMap1();
 		}
+
+		private void Form1_KeyDown(object sender, KeyEventArgs e)       // reaction for each pressed key
+		{
+			switch (e.KeyData)											// choose action depending on the key pressed by the player
+			{
+				case Keys.W:
+				case Keys.Up:
+					Values.player.Action('w');							// changes values of facing and position of the player
+					Values.board[Values.player.previousPositionY, Values.player.previousPositionX].Image = null;		// clears previous tile
+					Values.board[Values.player.positionY, Values.player.positionX].Image								// places Wizardo onto a new tile
+						= Image.FromFile(@"C:\Users\domin\source\repos\testKratki\testKratki\images\wizardo\wizardo-north.png");
+					break;
+				case Keys.D:
+				case Keys.Right:
+					Values.player.Action('d');                          // changes values of facing and position of the player
+					Values.board[Values.player.previousPositionY, Values.player.previousPositionX].Image = null;        // clears previous tile
+					Values.board[Values.player.positionY, Values.player.positionX].Image                                // places Wizardo onto a new tile
+						= Image.FromFile(@"C:\Users\domin\source\repos\testKratki\testKratki\images\wizardo\wizardo-east.png");
+					break;
+				case Keys.S:
+				case Keys.Down:
+					Values.player.Action('s');                          // changes values of facing and position of the player
+					Values.board[Values.player.previousPositionY, Values.player.previousPositionX].Image = null;        // clears previous tile
+					Values.board[Values.player.positionY, Values.player.positionX].Image                                // places Wizardo onto a new tile
+						= Image.FromFile(@"C:\Users\domin\source\repos\testKratki\testKratki\images\wizardo\wizardo-south.png");
+					break;
+				case Keys.A:
+				case Keys.Left:
+					Values.player.Action('a');                          // changes values of facing and position of the player
+					Values.board[Values.player.previousPositionY, Values.player.previousPositionX].Image = null;        // clears previous tile
+					Values.board[Values.player.positionY, Values.player.positionX].Image                                // places Wizardo onto a new tile
+						= Image.FromFile(@"C:\Users\domin\source\repos\testKratki\testKratki\images\wizardo\wizardo-west.png");
+					break;
+				default:
+					break;
+			}
+		}
+
+		private void LoadMap1()							// creator of the first level
+		{
+			for (int i = 0; i < 10; i++)
+			{
+				wall(0, i);
+				wall(i, 7);
+				wall(13, i + 4);
+			}
+		}
+
+		private void wall(int y, int x)					// creator of a single wall
+		{
+			Values.board[y, x].Image					// fill the tile with wall image
+				= Image.FromFile(@"C:\Users\domin\source\repos\testKratki\testKratki\images\build\wall.png");
+			Values.occupiedTile[y, x] = true;           // make the tile unavailable for the player
+		}
+
+
 	}
 
 
 	public class Player
 	{
-		int HP, DMG;				// current hit poionts left, damage dealt with each attack
+		int HP, DMG;										// current hit poionts left, damage dealt with each attack
 
-		int facing;					// 0-north, 1-east, 2-south, 3-west
-		bool movement, attack;      // true if currently able to do so, false if not
+		int facing;											// 0-north, 1-east, 2-south, 3-west
+		bool movement, attack;								// true if currently able to do so, false if not
 
 		public int positionX, positionY,					// player's X and Y coordinates	
 			previousPositionX, previousPositionY;			// player's previous X and Y coordinates
 
-		public Player()
+		public Player()										// function to create a new plyer and assing default values
 		{
-			this.HP = 40;
-			this.DMG = 2;
+			HP = 40;
+			DMG = 2;
 
-			this.facing = 0;
-			this.movement = true;
-			this.attack = true;
+			facing = 0;
+			movement = true;
+			attack = true;
+
+			positionX = 0;
+			positionY = 0;
+			previousPositionX = 0;
+			previousPositionY = 0;
 		}
 
-		public Player(int HP, int DMG, int facing, bool movement, bool attack)
+		public Player(int HP, int DMG, int facing,           // function to create a new plyer and assing custom values
+			bool movement, bool attack, int positionX, int positionY)		
 		{
 			this.HP = HP;
 			this.DMG = DMG;
@@ -124,48 +159,67 @@ namespace testKratki
 			this.facing = facing;
 			this.movement = movement;
 			this.attack = attack;
+
+			this.positionX = positionX;
+			this.positionY = positionY;
+			previousPositionX = positionX;
+			previousPositionY = positionY;
 		}
 
-		public void Action(char input)
+		public void Action(char input)						// change values of the player depending on the key pressed
 		{
 			if (input == 'w')
 			{
-				if (this.facing == 0) positionY--;
-				else
+				if (this.facing == 0)						// check if the player is facing north
 				{
-					facing = 0;
+					if (positionY != 0 && Values.occupiedTile[positionY - 1, positionX] == false)       // check for obstacles and map borders
+					{
+						previousPositionY = positionY;		// save current position
+						previousPositionX = positionX;		
+						positionY--;						// move the player north
+					}
 				}
+				else facing = 0;							// rotate the player north
 			}
 			else if (input == 'd')
 			{
-				if (this.facing == 1) positionX++;
-				else
+				if (this.facing == 1)						// check if the player is facing east
 				{
-					facing = 1;
+					if (positionX != Values.xAxis - 1 && Values.occupiedTile[positionY, positionX + 1] == false)        // check for obstacles and map borders
+					{
+						previousPositionY = positionY;      // save current position
+						previousPositionX = positionX;
+						positionX++;                        // move the player north
+					}
 				}
+				else facing = 1;                            // rotate the player north
 			}
 			else if (input == 's')
 			{
-				if (this.facing == 2) positionY++;
-				else
+				if (this.facing == 2)                       // check if the player is facing south
 				{
-					facing = 2;
+					if (positionY != Values.yAxis - 1 && Values.occupiedTile[positionY + 1, positionX] == false)        // check for obstacles and map borders
+					{
+						previousPositionY = positionY;      // save current position
+						previousPositionX = positionX;
+						positionY++;                        // move the player south
+					}
 				}
+				else facing = 2;                            // rotate the player south
 			}
 			else if (input == 'a')
 			{
-				if (this.facing == 3) positionX--;
-				else
+				if (this.facing == 3)                       // check if the player is facing west
 				{
-					facing = 3;
+					if (positionX != 0 && Values.occupiedTile[positionY, positionX - 1] == false)       // check for obstacles and map borders
+					{
+						previousPositionY = positionY;      // save current position
+						previousPositionX = positionX;
+						positionX--;                        // move the player west
+					}
 				}
+				else facing = 3;                            // rotate the player west
 			}
-			else if (input == '1') CastArcaneBolt();
-		}
-
-		private void CastArcaneBolt()
-		{
-
 		}
 	}
 }
