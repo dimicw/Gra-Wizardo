@@ -31,18 +31,22 @@ namespace testKratki
 			{
 				case Keys.W:
 					key = 'w';
+					Board[player.previousPositionY, player.previousPositionX].Image = null;
 					Board[player.positionY, player.positionX].Image = Image.FromFile(@"C:\Users\domin\source\repos\testKratki\testKratki\images\wizardo\wizardo-north.png");
 					break;
 				case Keys.D:
 					key = 'd';
+					Board[player.previousPositionY, player.previousPositionX].Image = null;
 					Board[player.positionY, player.positionX].Image = Image.FromFile(@"C:\Users\domin\source\repos\testKratki\testKratki\images\wizardo\wizardo-east.png");
 					break;
 				case Keys.S:
 					key = 's';
+					Board[player.previousPositionY, player.previousPositionX].Image = null;
 					Board[player.positionY, player.positionX].Image = Image.FromFile(@"C:\Users\domin\source\repos\testKratki\testKratki\images\wizardo\wizardo-south.png");
 					break;
 				case Keys.A:
 					key = 'a';
+					Board[player.previousPositionY, player.previousPositionX].Image = null;
 					Board[player.positionY, player.positionX].Image = Image.FromFile(@"C:\Users\domin\source\repos\testKratki\testKratki\images\wizardo\wizardo-west.png");
 					break;
 				default:
