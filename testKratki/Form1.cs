@@ -51,10 +51,10 @@ namespace testKratki
 			}
 
 			player.Action(key);
-
+//player.Action(key);
 
 		}
-
+		
 		private void Form1_Load(object sender, EventArgs e)
 		{
 			xAxis = 40;
