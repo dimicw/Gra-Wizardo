@@ -10,15 +10,6 @@ using System.Windows.Forms;
 
 namespace testKratki
 {
-	public static class Values		// base of the game
-	{
-		public static int xAxis = 40, yAxis = 20;		// size of the map (in tiles)
-		public static bool[,] occupiedTile;				// is something blocking you from moving onto the tile
-		public static PictureBox[,] floor;				// mesh of the floor
-		public static PictureBox[,] board;              // board for zombies and the Magnificent Wizardo himself
-		public static Player player = new Player();		// statblock for the most potent wizard - the player (Wizardo)
-	}
-
 	public partial class Form1 : Form
 	{				
 
@@ -30,9 +21,10 @@ namespace testKratki
 
 		private void Form1_Load(object sender, EventArgs e)						// instructions done immediately after starting the program
 		{	
-			Values.floor = new PictureBox[Values.yAxis, Values.xAxis];			// adds dimensions to floor matrix
-			Values.board = new PictureBox[Values.yAxis, Values.xAxis];          // adds dimensions to board matrix
-			Values.occupiedTile = new bool[Values.yAxis, Values.xAxis];         // adds dimensions to occupiedTile matrix
+			Values.floor = new PictureBox[Values.yAxis, Values.xAxis];			// adds dimensions to floor table
+			Values.board = new PictureBox[Values.yAxis, Values.xAxis];          // adds dimensions to board table
+			Values.occupiedTile = new bool[Values.yAxis, Values.xAxis];         // adds dimensions to occupiedTile table
+			Values.zombie = new Zombie[6];
 
 			int left = 2, top = 2;												// margin values, later used to create the board
 			for (int i=0; i < Values.yAxis; i++)								// rows of the board
@@ -52,19 +44,20 @@ namespace testKratki
 					Values.board[i, j].Location = new Point(0, 0);              // relocate the tile to match the floor tile
 					Values.board[i, j].BackColor = Color.Transparent;			// make the background of the image transparent
 
-					if (i == 1 && j == 1) Values.board[i, j].Image				// place the player on the board
-							= Image.FromFile(@"C:\Users\domin\source\repos\testKratki\testKratki\images\wizardo\wizardo-west.png");
-					Values.player.positionY = 1;								// assign starting position values to the player
-					Values.player.positionX = 1;
-					Values.player.previousPositionY = 1;
-					Values.player.previousPositionX = 1;
-
 					Values.occupiedTile[i, j] = false;							// make the tile available for the player
 					left += 20;
 				}
 				top += 20;
 			}
-			LoadMap1();
+			LoadMap1();																	// load the first level
+			Values.player = new Player(1, 1);											// place the player
+			Values.board[Values.player.positionY, Values.player.positionX].Image        // places Wizardo onto a new tile
+						= Image.FromFile(@"C:\Users\domin\source\repos\testKratki\testKratki\images\wizardo\wizardo-east.png");
+			visibleHP.Text = Values.player.HP + " / 40";                                // display player's current HP 
+
+			Values.zombie[0] = new Zombie(6, 6);                                        // place the zombie
+			Values.board[Values.zombie[0].positionY, Values.zombie[0].positionX].Image  // places the zombie onto a new tile
+						= Image.FromFile(@"C:\Users\domin\source\repos\testKratki\testKratki\images\zombie\zombie-west.png");
 		}
 
 		private void Form1_KeyDown(object sender, KeyEventArgs e)       // reaction for each pressed key
@@ -98,6 +91,11 @@ namespace testKratki
 					Values.board[Values.player.previousPositionY, Values.player.previousPositionX].Image = null;        // clears previous tile
 					Values.board[Values.player.positionY, Values.player.positionX].Image                                // places Wizardo onto a new tile
 						= Image.FromFile(@"C:\Users\domin\source\repos\testKratki\testKratki\images\wizardo\wizardo-west.png");
+					break;
+				case Keys.Space:
+				case Keys.Enter:
+					Values.zombie[0].brainless();
+					visibleHP.Text = Values.player.HP + " / 40";        // display player's current HP 
 					break;
 				default:
 					break;
@@ -137,41 +135,58 @@ namespace testKratki
 
 	}
 
-
-	public class Player
+	public static class Values							// base of the game
 	{
-		int HP, DMG;										// current hit poionts left, damage dealt with each attack
+		public static int xAxis = 40, yAxis = 20;       // size of the map (in tiles)
+		public static bool[,] occupiedTile;             // is something blocking you from moving onto the tile
+		public static PictureBox[,] floor;              // mesh of the floor
+		public static PictureBox[,] board;              // board for zombies and the Magnificent Wizardo himself
+		public static Player player;                    // statblock for the most potent wizard - the player (Wizardo)
+		public static Zombie[] zombie;					// table of statblocks for zombies
+	}
+	public class Creature									// base class for player and zombies
+	{
+		public int HP;                                      // current hit poionts left
 
-		int facing;											// 0-north, 1-east, 2-south, 3-west
-		bool movement, attack;								// true if currently able to do so, false if not
+		public int facing;                                  // 0-north, 1-east, 2-south, 3-west
+		public bool movement, attack;                       // true if currently able to do so, false if not
 
-		public int positionX, positionY,					// player's X and Y coordinates	
-			previousPositionX, previousPositionY;			// player's previous X and Y coordinates
+		public int positionX, positionY,                    // player's X and Y coordinates	
+			previousPositionX, previousPositionY;           // player's previous X and Y coordinates
+	}
 
-		public Player()										// function to create a new plyer and assing default values
+	public class Player : Creature							// class only for the player
+	{
+		bool spell1unlocked, spell2unlocked;				// true if Wizardo can use those spells
+
+		public Player (int positionX, int posotionY)        // function to create a new plyer and assingn custom location
 		{
 			HP = 40;
-			DMG = 2;
 
 			facing = 0;
 			movement = true;
 			attack = true;
 
-			positionX = 0;
-			positionY = 0;
-			previousPositionX = 0;
-			previousPositionY = 0;
+			spell1unlocked = true;
+			spell2unlocked = false;
+
+			this.positionX = positionX;
+			this.positionY = posotionY;
+			previousPositionX = positionX;
+			previousPositionY = posotionY;
 		}
 
 		public Player(int HP, int DMG, int facing,           // function to create a new plyer and assing custom values
-			bool movement, bool attack, int positionX, int positionY)		
+			bool movement, bool attack, bool spell1unlocked, bool spell2unlocked, int positionX, int positionY)		
 		{
 			this.HP = HP;
-			this.DMG = DMG;
 
 			this.facing = facing;
 			this.movement = movement;
 			this.attack = attack;
+
+			this.spell1unlocked = spell1unlocked;
+			this.spell2unlocked = spell2unlocked;
 
 			this.positionX = positionX;
 			this.positionY = positionY;
@@ -232,6 +247,57 @@ namespace testKratki
 					}
 				}
 				else facing = 3;                            // rotate the player west
+			}
+		}
+	}
+
+	public class Zombie : Creature							// class for zombies
+	{
+		int DMG;											// damage dealt with each attack
+
+		public Zombie (int positionX, int posotionY)		// function to create a new zombie and assingn custom location
+		{
+			HP = 10;
+			DMG = 2;
+
+			facing = 0;
+			movement = true;
+			attack = true;
+
+			this.positionX = positionX;
+			this.positionY = posotionY;
+			previousPositionX = positionX;
+			previousPositionY = posotionY;
+		}
+
+		public void brainless()
+		{
+			int xDifference = Values.player.positionX - positionX;
+			int yDifference = Values.player.positionY - positionY;
+
+			if (Math.Abs(xDifference) <= 1 && Math.Abs(yDifference) <= 1)
+			{
+				Values.player.HP -= DMG;
+			}
+			else
+			{
+				if (xDifference > 1)
+				{
+					
+				}
+				else if (xDifference < -1) 
+				{
+					
+				}
+				else if (yDifference > 1) 
+				{
+					
+				}
+				else if (yDifference < -1) 
+				{
+					
+				}
+
 			}
 		}
 	}
