@@ -27,7 +27,7 @@ namespace testKratki
 		private void Form1_KeyDown(object sender, KeyEventArgs e)
 		{
 			char key = '0';
-			switch (e.KeyData)
+			switch (e.KeyData)		//test123
 			{
 				case Keys.W:
 					key = 'w';
