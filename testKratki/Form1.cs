@@ -166,3 +166,4 @@ namespace testKratki
 		}
 	}
 }
+//test na koniec
