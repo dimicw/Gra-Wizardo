@@ -12,7 +12,7 @@ namespace testKratki
 {
 	public static class Values		// base of the game
 	{
-		public static int xAxis = 40, yAxis = 20;		// size of the map
+		public static int xAxis = 40, yAxis = 20;		// size of the map (in tiles)
 		public static bool[,] occupiedTile;				// is something blocking you from moving onto the tile
 		public static PictureBox[,] floor;				// mesh of the floor
 		public static PictureBox[,] board;              // board for zombies and the Magnificent Wizardo himself
@@ -110,8 +110,15 @@ namespace testKratki
 			{
 				wall(0, i);
 				wall(i, 7);
-				wall(13, i + 4);
+				wall(11, i + 1);
+				wall(Values.yAxis - 1 - i, 4);
 			}
+			wall(3, 3);
+			wall(3, 4);
+			wall(4, 3);
+			wall(4, 4);
+			clear(15, 4);
+			for (int i = 0; i < Values.yAxis; i++) for (int j = 12; j < Values.xAxis; j++) wall(i, j);
 		}
 
 		private void wall(int y, int x)					// creator of a single wall
@@ -119,6 +126,12 @@ namespace testKratki
 			Values.board[y, x].Image					// fill the tile with wall image
 				= Image.FromFile(@"C:\Users\domin\source\repos\testKratki\testKratki\images\build\wall.png");
 			Values.occupiedTile[y, x] = true;           // make the tile unavailable for the player
+		}
+
+		private void clear(int y, int x)				// clear single tile
+		{
+			Values.board[y, x].Image = null;            // remove the tile image
+			Values.occupiedTile[y, x] = false;          // make the tile available for the player
 		}
 
 
