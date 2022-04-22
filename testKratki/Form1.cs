@@ -12,7 +12,7 @@ namespace testKratki
 {
 	public partial class Form1 : Form
 	{
-		Player player = new Player();
+		Player player = new Player(); # siemka
 
 		public Form1()
 		{
