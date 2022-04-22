@@ -10,6 +10,7 @@ using System.Windows.Forms;
 
 namespace testKratki
 {
+	//test
 	public partial class Form1 : Form
 	{
 		Player player = new Player();
