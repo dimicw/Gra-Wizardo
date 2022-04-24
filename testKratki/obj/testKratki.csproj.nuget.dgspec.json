@@ -1,20 +1,24 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\domin\\source\\repos\\testKratki\\testKratki\\testKratki.csproj": {}
+    "D:\\gitHubRepositories\\testKratki\\testKratki\\testKratki.csproj": {}
   },
   "projects": {
-    "C:\\Users\\domin\\source\\repos\\testKratki\\testKratki\\testKratki.csproj": {
+    "D:\\gitHubRepositories\\testKratki\\testKratki\\testKratki.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\domin\\source\\repos\\testKratki\\testKratki\\testKratki.csproj",
+        "projectUniqueName": "D:\\gitHubRepositories\\testKratki\\testKratki\\testKratki.csproj",
         "projectName": "testKratki",
-        "projectPath": "C:\\Users\\domin\\source\\repos\\testKratki\\testKratki\\testKratki.csproj",
-        "packagesPath": "C:\\Users\\domin\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\domin\\source\\repos\\testKratki\\testKratki\\obj\\",
+        "projectPath": "D:\\gitHubRepositories\\testKratki\\testKratki\\testKratki.csproj",
+        "packagesPath": "C:\\Users\\Gaming\\.nuget\\packages\\",
+        "outputPath": "D:\\gitHubRepositories\\testKratki\\testKratki\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "C:\\Users\\domin\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Gaming\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -57,7 +61,7 @@
               "privateAssets": "none"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.407\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.202\\RuntimeIdentifierGraph.json"
         }
       }
     }
