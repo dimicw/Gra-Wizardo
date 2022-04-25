@@ -49,7 +49,8 @@ namespace testKratki
 				}
 				top += 20;
 			}
-			LoadMap1();																	// load the first level
+			LoadMap1();                                                         // load the first level
+			zombieSpawn();														// spawn a zombie
 			Values.player = new Player(1, 1);											// place the player
 			Values.board[Values.player.positionY, Values.player.positionX].Image        // places Wizardo onto a new tile
 						= Image.FromFile(@"..\..\..\images\wizardo\wizardo-east.png");
@@ -123,7 +124,7 @@ namespace testKratki
 			wall(4, 4);
 			clear(15, 4);
 			for (int i = 0; i < Values.yAxis; i++) for (int j = 12; j < Values.xAxis; j++) wall(i, j);
-			zombieSpawn();
+			
 		}
 
 		private void wall(int y, int x)					// creator of a single wall
@@ -141,38 +142,21 @@ namespace testKratki
 
 		private void zombieSpawn()
 		{
-            //Values.zombie[0] = new Zombie(6, 6);  // place the zombie
-            //Values.zombie[1] = new Zombie(7, 6);  // place the zombie
-            //Values.board[Values.zombie[0].positionY, Values.zombie[0].positionX].Image  // places the zombie onto a new tile
-            //            = Image.FromFile(@"..\..\..\images\zombie\zombie-west.png");
-            //Values.board[Values.zombie[1].positionY, Values.zombie[1].positionX].Image  // places the zombie onto a new tile
-            //            = Image.FromFile(@"..\..\..\images\zombie\zombie-west.png");
+			int xRand, yRand;
 
-            //num of zombies at random places
-
-            //int[] xRand = new int[Values.zombieCount + 1];
-            //int[] yRand = new int[Values.zombieCount + 1];
-            for (int i = 0; i <= Values.zombieCount; i++)
+			for (int i = 0; i <= Values.zombieCount; i++)
             {
-                int xRand = new Random().Next(Values.xAxis - 1);
-                int yRand = new Random().Next(Values.yAxis - 1);
+                xRand = new Random().Next(Values.xAxis - 1);
+                yRand = new Random().Next(Values.yAxis - 1);
 
-                //xRand[i] = new Random().Next(Values.xAxis-1);
-                //yRand[i] = new Random().Next(Values.yAxis-1);
-
-                //if (Values.occupiedTile[yRand[i], xRand[i]] == false)
                 if (Values.occupiedTile[yRand, xRand] == false)
-
                 {
-                    //Values.zombie[i] = new Zombie(yRand[i], xRand[i]);
                     Values.zombie[i] = new Zombie(yRand, xRand);
                     Values.board[Values.zombie[i].positionY, Values.zombie[i].positionX].Image  // places the zombie onto a new tile
                         = Image.FromFile(@"..\..\..\images\zombie\zombie-west.png");
                 }
-                else
-                {
-                    i -= 1;
-                }
+                else i -= 1;
+                
 
                 //Math.Abs(Values.player.positionX - Values.zombie[i].positionX) > 2 &&
                 //	Math.Abs(Values.player.positionY - Values.zombie[i].positionY) > 2)
@@ -205,7 +189,7 @@ namespace testKratki
 	{
 		bool spell1unlocked, spell2unlocked;				// true if Wizardo can use those spells
 
-		public Player (int positionX, int posotionY)        // function to create a new plyer and assingn custom location
+		public Player (int positionY, int positionX)        // function to create a new plyer and assingn custom location
 		{
 			HP = 40;
 
@@ -217,9 +201,9 @@ namespace testKratki
 			spell2unlocked = false;
 
 			this.positionX = positionX;
-			this.positionY = posotionY;
+			this.positionY = positionY;
 			previousPositionX = positionX;
-			previousPositionY = posotionY;
+			previousPositionY = positionY;
 		}
 
 		public Player(int HP, int DMG, int facing,           // function to create a new plyer and assing custom values (new lvl probably)
@@ -301,7 +285,7 @@ namespace testKratki
 	{
 		int DMG;											// damage dealt with each attack
 
-		public Zombie (int positionX, int posotionY)		// function to create a new zombie and assingn custom location
+		public Zombie (int positionY, int positionX)		// function to create a new zombie and assingn custom location
 		{
 			HP = 10;
 			DMG = 2;
@@ -311,9 +295,9 @@ namespace testKratki
 			attack = true;
 
 			this.positionX = positionX;
-			this.positionY = posotionY;
+			this.positionY = positionY;
 			previousPositionX = positionX;
-			previousPositionY = posotionY;
+			previousPositionY = positionY;
 		}
 
 		public void brainless() // zombie movement and attack
