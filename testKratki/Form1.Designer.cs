@@ -52,7 +52,7 @@ namespace testKratki
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(858, 447);
+            this.ClientSize = new System.Drawing.Size(824, 444);
             this.Controls.Add(this.visibleHP);
             this.Controls.Add(this.mapBase);
             this.Name = "Form1";

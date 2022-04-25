@@ -54,38 +54,10 @@ namespace testKratki
 			Values.board[Values.player.positionY, Values.player.positionX].Image        // places Wizardo onto a new tile
 						= Image.FromFile(@"..\..\..\images\wizardo\wizardo-east.png");
 			visibleHP.Text = Values.player.HP + " / 40";                                // display player's current HP 
-															
-			//Values.zombie[0] = new Zombie(6, 6);  // place the zombie
-			//Values.zombie[1] = new Zombie(7, 6);  // place the zombie
-			//Values.board[Values.zombie[0].positionY, Values.zombie[0].positionX].Image  // places the zombie onto a new tile
-			//			= Image.FromFile(@"..\..\..\images\zombie\zombie-west.png");
-			//Values.board[Values.zombie[1].positionY, Values.zombie[1].positionX].Image  // places the zombie onto a new tile
-			//			= Image.FromFile(@"..\..\..\images\zombie\zombie-west.png");
-
-											// num of zombies at random places
-			for (int i=0; i<=Values.zombieCount; i++)									
-			{
-				int[] xRand = new int[Values.zombieCount+1];
-				int[] yRand = new int[Values.zombieCount+1];
-
-				xRand[i] = new Random().Next(Values.xAxis-1);
-				yRand[i] = new Random().Next(Values.yAxis-1);
-
-                if (Values.occupiedTile[yRand[i], xRand[i]] == false)
-                {
-                    Values.zombie[i] = new Zombie(yRand[i], xRand[i]);
-					Values.board[Values.zombie[i].positionY, Values.zombie[i].positionX].Image  // places the zombie onto a new tile
-						= Image.FromFile(@"..\..\..\images\zombie\zombie-west.png");
-                }
-                else
-                {
-                    i -= 1;
-                }
-
-                //Math.Abs(Values.player.positionX - Values.zombie[i].positionX) > 2 &&
-                //	Math.Abs(Values.player.positionY - Values.zombie[i].positionY) > 2)
-            }
+			
+	
 		}
+
 
 		private void Form1_KeyDown(object sender, KeyEventArgs e)       // reaction for each pressed key
 		{
@@ -151,6 +123,7 @@ namespace testKratki
 			wall(4, 4);
 			clear(15, 4);
 			for (int i = 0; i < Values.yAxis; i++) for (int j = 12; j < Values.xAxis; j++) wall(i, j);
+			zombieSpawn();
 		}
 
 		private void wall(int y, int x)					// creator of a single wall
@@ -166,7 +139,45 @@ namespace testKratki
 			Values.occupiedTile[y, x] = false;          // make the tile available for the player
 		}
 
+		private void zombieSpawn()
+		{
+            //Values.zombie[0] = new Zombie(6, 6);  // place the zombie
+            //Values.zombie[1] = new Zombie(7, 6);  // place the zombie
+            //Values.board[Values.zombie[0].positionY, Values.zombie[0].positionX].Image  // places the zombie onto a new tile
+            //            = Image.FromFile(@"..\..\..\images\zombie\zombie-west.png");
+            //Values.board[Values.zombie[1].positionY, Values.zombie[1].positionX].Image  // places the zombie onto a new tile
+            //            = Image.FromFile(@"..\..\..\images\zombie\zombie-west.png");
 
+            //num of zombies at random places
+
+            //int[] xRand = new int[Values.zombieCount + 1];
+            //int[] yRand = new int[Values.zombieCount + 1];
+            for (int i = 0; i <= Values.zombieCount; i++)
+            {
+                int xRand = new Random().Next(Values.xAxis - 1);
+                int yRand = new Random().Next(Values.yAxis - 1);
+
+                //xRand[i] = new Random().Next(Values.xAxis-1);
+                //yRand[i] = new Random().Next(Values.yAxis-1);
+
+                //if (Values.occupiedTile[yRand[i], xRand[i]] == false)
+                if (Values.occupiedTile[yRand, xRand] == false)
+
+                {
+                    //Values.zombie[i] = new Zombie(yRand[i], xRand[i]);
+                    Values.zombie[i] = new Zombie(yRand, xRand);
+                    Values.board[Values.zombie[i].positionY, Values.zombie[i].positionX].Image  // places the zombie onto a new tile
+                        = Image.FromFile(@"..\..\..\images\zombie\zombie-west.png");
+                }
+                else
+                {
+                    i -= 1;
+                }
+
+                //Math.Abs(Values.player.positionX - Values.zombie[i].positionX) > 2 &&
+                //	Math.Abs(Values.player.positionY - Values.zombie[i].positionY) > 2)
+            }
+        }
 	}
 
 	public static class Values							// base of the game
