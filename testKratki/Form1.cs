@@ -346,6 +346,7 @@ namespace testKratki
 		}
 		private void move(int y, int x)
 		{
+		
 			previousPositionX = positionX;
 			previousPositionY = positionY;
 
@@ -353,8 +354,29 @@ namespace testKratki
 			positionY += y;
 
 			Values.board[previousPositionY, previousPositionX].Image = null;
-			Values.board[positionY, positionX].Image  // places the zombie onto a new tile
-				= Image.FromFile(@"C:\Users\Szymon\Documents\GitHub\testKratki\testKratki\images\zombie\zombie-west.png");
+
+			if (x > 0)
+			{
+				Values.board[positionY, positionX].Image  // places the zombie onto a new tile
+					= Image.FromFile(@"C:\Users\Szymon\Documents\GitHub\testKratki\testKratki\images\zombie\zombie-east.png");
+			}
+			else if (x < 0)
+			{
+				Values.board[positionY, positionX].Image  // places the zombie onto a new tile
+					= Image.FromFile(@"C:\Users\Szymon\Documents\GitHub\testKratki\testKratki\images\zombie\zombie-west.png");
+			}
+			else if (y > 0)
+			{
+				Values.board[positionY, positionX].Image  // places the zombie onto a new tile
+					= Image.FromFile(@"C:\Users\Szymon\Documents\GitHub\testKratki\testKratki\images\zombie\zombie-south.png");
+			}
+			else if (y < 0)
+			{
+				Values.board[positionY, positionX].Image  // places the zombie onto a new tile
+					= Image.FromFile(@"C:\Users\Szymon\Documents\GitHub\testKratki\testKratki\images\zombie\zombie-north.png");
+			}
+			//Values.board[positionY, positionX].Image  // places the zombie onto a new tile
+			//	= Image.FromFile(@"C:\Users\Szymon\Documents\GitHub\testKratki\testKratki\images\zombie\zombie-west.png");
 		}
 	}
 }
