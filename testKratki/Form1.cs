@@ -104,9 +104,10 @@ namespace testKratki
 					for(int i=0; i<= Values.zombieCount; i++)
                     {
 						Values.zombie[i].brainless();
-						Values.occupiedTile[Values.player.previousPositionY, Values.player.previousPositionX] = false;
-						Values.occupiedTile[Values.player.positionY, Values.player.positionX] = true;
+				
 					}
+					//Values.occupiedTile[Values.player.previousPositionY, Values.player.previousPositionX] = false;
+					//Values.occupiedTile[Values.player.positionY, Values.player.positionX] = true;
 					//Values.zombie[0].brainless();
 					//Values.zombie[1].brainless();
 
@@ -293,7 +294,9 @@ namespace testKratki
 				}
 				else facing = 3;                            // rotate the player west
 			}
-		}
+            Values.occupiedTile[Values.player.previousPositionY, Values.player.previousPositionX] = false;
+            Values.occupiedTile[Values.player.positionY, Values.player.positionX] = true;
+        }
 	}
 	public class Spell
     {
@@ -317,44 +320,73 @@ namespace testKratki
             {
                 switch (Values.player.facing) {
 					case 0:
-						if (Values.player.positionY-i < Values.yAxis && Values.player.positionY-i+1>0) 
-						{
-							if (Values.occupiedTile[Values.player.positionY - i, Values.player.positionX] ) 
-							{
-								if (isZombie(Values.player.positionY - i, Values.player.positionX, dmg, i))
-								{
-									i = range + 1;
-								}
+						//if (Values.player.positionY - i > 0) 
+						//{
+						//	if (isZombie(Values.player.positionY - i, Values.player.positionX, dmg, i))
+						//		{
+      //                          Values.effects[Values.player.positionY - i, Values.player.positionX].Image = Image.FromFile(@"..\..\..\images\laser\laser-1.png");
+                          
+						//	}
+						//	if (!(Values.occupiedTile[Values.player.positionY - i, Values.player.positionX]))
+						//	{
+						//		Values.effects[Values.player.positionY - i, Values.player.positionX].Image = Image.FromFile(@"..\..\..\images\laser\laser-1.png");
 
 
-							}
-							else
-							{
-								Values.effects[Values.player.positionY - i, Values.player.positionX].Image = Image.FromFile(@"..\..\..\images\laser\laser-1.png");
-							}
-						}
-						
+						//	}
+						//}
+						//break;
 
-						break;
 
-				}
+
+                        if (Values.player.positionY - i < Values.yAxis && Values.player.positionY - i + 1 > 0)
+                        {
+                            if (Values.occupiedTile[Values.player.positionY - i, Values.player.positionX])
+                            {
+                                if (isZombie(Values.player.positionY - i, Values.player.positionX, dmg, i))
+                                {
+                                    i = range + 1;
+                                }
+
+
+                            }
+                            else
+                            {
+                                Values.effects[Values.player.positionY - i, Values.player.positionX].Image = Image.FromFile(@"..\..\..\images\laser\laser-1.png");
+                            }
+                        }
+
+
+                        break;
+
+                }
             }
 
 
         }
 		private bool isZombie(int y, int x, int dmg, int i)
 		{
-			for (int j = 0; j != Values.zombieCount; j++)
-			{
-				if (Values.zombie[i].positionX == y && Values.zombie[j].positionX == x)
-				{
-					Values.zombie[i].HP -= dmg;
-					Values.effects[Values.player.positionY - i, Values.player.positionX].Image = Image.FromFile(@"..\..\..\images\laser\laser-1.png");
-					return false;
-				}
-			}
-			return true;
-		}
+            for (int j = 0; j != Values.zombieCount; j++)
+            {
+                if (Values.zombie[i].positionX == y && Values.zombie[j].positionX == x)
+                {
+                    Values.zombie[i].HP -= dmg;
+                    Values.effects[Values.player.positionY - i, Values.player.positionX].Image = Image.FromFile(@"..\..\..\images\laser\laser-1.png");
+                    return false;
+                }
+            }
+            return true;
+
+            //for (int j = 0; j < Values.zombieCount; j++)
+            //{
+            //	if (Values.zombie[j].positionX == y && Values.zombie[j].positionX == x)
+            //	{
+            //		Values.zombie[i].HP -= dmg;
+            //                 Values.effects[Values.player.positionY - i, Values.player.positionX].Image = Image.FromFile(@"..\..\..\images\laser\laser-1.png");
+            //                 return true;
+            //	}
+            //}
+            //return false;
+        }
 
 	}
 	public class Zombie : Creature							// class for zombies
