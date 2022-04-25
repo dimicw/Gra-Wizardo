@@ -34,7 +34,7 @@ namespace testKratki
 				{
 					Values.floor[i, j] = new PictureBox();						// create new picturebox
 					Values.floor[i, j].Image									// fill the picturebox with floor image
-						= Image.FromFile(@"C:\Users\Szymon\Documents\GitHub\testKratki\testKratki\images\build\floor.png");
+						= Image.FromFile(@"..\..\..\images\build\floor.png");
 					Values.floor[i, j].Location = new Point(left, top);			// relocate the tile next to the previous tile
 					Values.floor[i, j].Size = new Size(20, 20);					// resize the tile
 					mapBase.Controls.Add(Values.floor[i, j]);					// fix the tiles to the base
@@ -52,12 +52,39 @@ namespace testKratki
 			LoadMap1();																	// load the first level
 			Values.player = new Player(1, 1);											// place the player
 			Values.board[Values.player.positionY, Values.player.positionX].Image        // places Wizardo onto a new tile
-						= Image.FromFile(@"C:\Users\Szymon\Documents\GitHub\testKratki\testKratki\images\wizardo\wizardo-east.png");
+						= Image.FromFile(@"..\..\..\images\wizardo\wizardo-east.png");
 			visibleHP.Text = Values.player.HP + " / 40";                                // display player's current HP 
 															
-			Values.zombie[0] = new Zombie(6, 6);                                        // place the zombie
-			Values.board[Values.zombie[0].positionY, Values.zombie[0].positionX].Image  // places the zombie onto a new tile
-						= Image.FromFile(@"C:\Users\Szymon\Documents\GitHub\testKratki\testKratki\images\zombie\zombie-west.png");
+			//Values.zombie[0] = new Zombie(6, 6);  // place the zombie
+			//Values.zombie[1] = new Zombie(7, 6);  // place the zombie
+			//Values.board[Values.zombie[0].positionY, Values.zombie[0].positionX].Image  // places the zombie onto a new tile
+			//			= Image.FromFile(@"..\..\..\images\zombie\zombie-west.png");
+			//Values.board[Values.zombie[1].positionY, Values.zombie[1].positionX].Image  // places the zombie onto a new tile
+			//			= Image.FromFile(@"..\..\..\images\zombie\zombie-west.png");
+
+											// num of zombies at random places
+			for (int i=0; i<=Values.zombieCount; i++)									
+			{
+				int[] xRand = new int[Values.zombieCount+1];
+				int[] yRand = new int[Values.zombieCount+1];
+
+				xRand[i] = new Random().Next(Values.xAxis-1);
+				yRand[i] = new Random().Next(Values.yAxis-1);
+
+                if (Values.occupiedTile[yRand[i], xRand[i]] == false)
+                {
+                    Values.zombie[i] = new Zombie(yRand[i], xRand[i]);
+					Values.board[Values.zombie[i].positionY, Values.zombie[i].positionX].Image  // places the zombie onto a new tile
+						= Image.FromFile(@"..\..\..\images\zombie\zombie-west.png");
+                }
+                else
+                {
+                    i -= 1;
+                }
+
+                //Math.Abs(Values.player.positionX - Values.zombie[i].positionX) > 2 &&
+                //	Math.Abs(Values.player.positionY - Values.zombie[i].positionY) > 2)
+            }
 		}
 
 		private void Form1_KeyDown(object sender, KeyEventArgs e)       // reaction for each pressed key
@@ -69,32 +96,39 @@ namespace testKratki
 					Values.player.Action('w');							// changes values of facing and position of the player
 					Values.board[Values.player.previousPositionY, Values.player.previousPositionX].Image = null;		// clears previous tile
 					Values.board[Values.player.positionY, Values.player.positionX].Image								// places Wizardo onto a new tile
-						= Image.FromFile(@"C:\Users\Szymon\Documents\GitHub\testKratki\testKratki\images\wizardo\wizardo-north.png");
+						= Image.FromFile(@"..\..\..\images\wizardo\wizardo-north.png");
 					break;
 				case Keys.D:
 				case Keys.Right:
 					Values.player.Action('d');                          // changes values of facing and position of the player
 					Values.board[Values.player.previousPositionY, Values.player.previousPositionX].Image = null;        // clears previous tile
 					Values.board[Values.player.positionY, Values.player.positionX].Image                                // places Wizardo onto a new tile
-						= Image.FromFile(@"C:\Users\Szymon\Documents\GitHub\testKratki\testKratki\images\wizardo\wizardo-east.png");
+						= Image.FromFile(@"..\..\..\images\wizardo\wizardo-east.png");
 					break;
 				case Keys.S:
 				case Keys.Down:
 					Values.player.Action('s');                          // changes values of facing and position of the player
 					Values.board[Values.player.previousPositionY, Values.player.previousPositionX].Image = null;        // clears previous tile
 					Values.board[Values.player.positionY, Values.player.positionX].Image                                // places Wizardo onto a new tile
-						= Image.FromFile(@"C:\Users\Szymon\Documents\GitHub\testKratki\testKratki\images\wizardo\wizardo-south.png");
+						= Image.FromFile(@"..\..\..\images\wizardo\wizardo-south.png");
 					break;
 				case Keys.A:
 				case Keys.Left:
 					Values.player.Action('a');                          // changes values of facing and position of the player
 					Values.board[Values.player.previousPositionY, Values.player.previousPositionX].Image = null;        // clears previous tile
 					Values.board[Values.player.positionY, Values.player.positionX].Image                                // places Wizardo onto a new tile
-						= Image.FromFile(@"C:\Users\Szymon\Documents\GitHub\testKratki\testKratki\images\wizardo\wizardo-west.png");
+						= Image.FromFile(@"..\..\..\images\wizardo\wizardo-west.png");
 					break;
 				case Keys.Space:
 				case Keys.Enter:
-					Values.zombie[0].brainless(0);
+					for(int i=0; i<= Values.zombieCount; i++)
+                    {
+						Values.zombie[i].brainless();
+
+					}
+					//Values.zombie[0].brainless();
+					//Values.zombie[1].brainless();
+
 					visibleHP.Text = Values.player.HP + " / 40";        // display player's current HP 
 					break;
 				default:
@@ -122,7 +156,7 @@ namespace testKratki
 		private void wall(int y, int x)					// creator of a single wall
 		{
 			Values.board[y, x].Image					// fill the tile with wall image
-				= Image.FromFile(@"C:\Users\Szymon\Documents\GitHub\testKratki\testKratki\images\build\wall.png");
+				= Image.FromFile(@"..\..\..\images\build\wall.png");
 			Values.occupiedTile[y, x] = true;           // make the tile unavailable for the player
 		}
 
@@ -137,6 +171,7 @@ namespace testKratki
 
 	public static class Values							// base of the game
 	{
+		public static int zombieCount = 4;
 		public static int xAxis = 40, yAxis = 20;       // size of the map (in tiles)
 		public static bool[,] occupiedTile;             // is something blocking you from moving onto the tile
 		public static PictureBox[,] floor;              // mesh of the floor
@@ -270,7 +305,7 @@ namespace testKratki
 			previousPositionY = posotionY;
 		}
 
-		public void brainless(int numOfZombie) // zombie movement and attack
+		public void brainless() // zombie movement and attack
 		{
 			int xDifference = Values.player.positionX - positionX;
 			int yDifference = Values.player.positionY - positionY;
@@ -358,25 +393,28 @@ namespace testKratki
 			if (x > 0)
 			{
 				Values.board[positionY, positionX].Image  // places the zombie onto a new tile
-					= Image.FromFile(@"C:\Users\Szymon\Documents\GitHub\testKratki\testKratki\images\zombie\zombie-east.png");
+					= Image.FromFile(@"..\..\..\images\zombie\zombie-east.png");
 			}
 			else if (x < 0)
 			{
 				Values.board[positionY, positionX].Image  // places the zombie onto a new tile
-					= Image.FromFile(@"C:\Users\Szymon\Documents\GitHub\testKratki\testKratki\images\zombie\zombie-west.png");
+					= Image.FromFile(@"..\..\..\images\zombie\zombie-west.png");
 			}
 			else if (y > 0)
 			{
 				Values.board[positionY, positionX].Image  // places the zombie onto a new tile
-					= Image.FromFile(@"C:\Users\Szymon\Documents\GitHub\testKratki\testKratki\images\zombie\zombie-south.png");
+					= Image.FromFile(@"..\..\..\images\zombie\zombie-south.png");
 			}
 			else if (y < 0)
 			{
 				Values.board[positionY, positionX].Image  // places the zombie onto a new tile
-					= Image.FromFile(@"C:\Users\Szymon\Documents\GitHub\testKratki\testKratki\images\zombie\zombie-north.png");
+					= Image.FromFile(@"..\..\..\images\zombie\zombie-north.png");
 			}
+			Values.occupiedTile[previousPositionY, previousPositionX] = false;
+			Values.occupiedTile[positionY, positionX] = true;
+
 			//Values.board[positionY, positionX].Image  // places the zombie onto a new tile
-			//	= Image.FromFile(@"C:\Users\Szymon\Documents\GitHub\testKratki\testKratki\images\zombie\zombie-west.png");
+			//	= Image.FromFile(@"..\..\..\images\zombie\zombie-west.png");
 		}
 	}
 }
