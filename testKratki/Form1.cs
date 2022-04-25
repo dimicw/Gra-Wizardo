@@ -283,25 +283,56 @@ namespace testKratki
 			}
 			else
 			{
-				if (xDifference > 1)
+				if (xDifference > 0 && (positionX != Values.xAxis - 1 && Values.occupiedTile[positionY, positionX + 1] == false))
 				{
-					move(0 , 1);
+					move(0, 1);
 				}
-				else if (xDifference < -1) 
+				else if (xDifference < 0 && (positionX != 0 && Values.occupiedTile[positionY, positionX - 1] == false))
 				{
-					move(0 , -1);
+					move(0, -1);
 
 				}
-				else if (yDifference > 1) 
+				else if (yDifference > 0 && (positionY != Values.yAxis - 1 && Values.occupiedTile[positionY + 1, positionX] == false))
 				{
-					move(1 , 0);
+					move(1, 0);
 
 				}
-				else if (yDifference < -1) 
+				else if (yDifference < 0 && (positionY != 0 && Values.occupiedTile[positionY - 1, positionX] == false))
 				{
-					move(-1 , 0);
+					move(-1, 0);
 				}
 
+				else
+				{
+                    switch (new Random().Next(4)) 
+                    {
+						case 0:
+							if (positionX != Values.xAxis - 1 && Values.occupiedTile[positionY, positionX + 1] == false) { 
+								move(0, 1);
+							}
+							break;
+						case 1:
+							if (positionX != 0 && Values.occupiedTile[positionY, positionX - 1] == false)
+							{
+								move(0, -1);
+
+							}
+							break;
+						case 2:
+							if (positionY != Values.yAxis - 1 && Values.occupiedTile[positionY + 1, positionX] == false)
+							{
+								move(1, 0);
+
+							}
+							break;
+						case 3:
+							if (positionY != 0 && Values.occupiedTile[positionY - 1, positionX] == false)
+							{
+								move(-1, 0);
+							}
+							break;
+					}
+				}
 			}
 		}
 		private void move(int y, int x)
