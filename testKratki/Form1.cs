@@ -23,6 +23,8 @@ namespace testKratki
 		{	
 			Values.floor = new PictureBox[Values.yAxis, Values.xAxis];			// adds dimensions to floor table
 			Values.board = new PictureBox[Values.yAxis, Values.xAxis];          // adds dimensions to board table
+			Values.effects = new PictureBox[Values.yAxis, Values.xAxis];          // adds dimensions to effects table
+
 			Values.occupiedTile = new bool[Values.yAxis, Values.xAxis];         // adds dimensions to occupiedTile table
 			Values.zombie = new Zombie[6];
 
@@ -42,7 +44,12 @@ namespace testKratki
 					Values.board[i, j] = new PictureBox();						// create new picturebox
 					Values.floor[i, j].Controls.Add(Values.board[i, j]);		// make the picturebox a child of the floor tile
 					Values.board[i, j].Location = new Point(0, 0);              // relocate the tile to match the floor tile
-					Values.board[i, j].BackColor = Color.Transparent;			// make the background of the image transparent
+					Values.board[i, j].BackColor = Color.Transparent;           // make the background of the image transparent
+
+					Values.effects[i, j] = new PictureBox();                      // create new picturebox
+					Values.board[i, j].Controls.Add(Values.effects[i, j]);        // make the picturebox a child of the floor tile
+					Values.effects[i, j].Location = new Point(0, 0);              // relocate the tile to match the floor tile
+					Values.effects[i, j].BackColor = Color.Transparent;           // make the background of the image transparent
 
 					Values.occupiedTile[i, j] = false;							// make the tile available for the player
 					left += 20;
@@ -97,12 +104,16 @@ namespace testKratki
 					for(int i=0; i<= Values.zombieCount; i++)
                     {
 						Values.zombie[i].brainless();
-
+						Values.occupiedTile[Values.player.previousPositionY, Values.player.previousPositionX] = false;
+						Values.occupiedTile[Values.player.positionY, Values.player.positionX] = true;
 					}
 					//Values.zombie[0].brainless();
 					//Values.zombie[1].brainless();
 
 					visibleHP.Text = Values.player.HP + " / 40";        // display player's current HP 
+					break;
+				case Keys.Q:
+					Values.spellOne.useSpell();
 					break;
 				default:
 					break;
@@ -170,9 +181,13 @@ namespace testKratki
 		public static int xAxis = 40, yAxis = 20;       // size of the map (in tiles)
 		public static bool[,] occupiedTile;             // is something blocking you from moving onto the tile
 		public static PictureBox[,] floor;              // mesh of the floor
-		public static PictureBox[,] board;              // board for zombies and the Magnificent Wizardo himself
+		public static PictureBox[,] board;   
+		public static PictureBox[,] effects;              // board for effects 
+														// board for zombies and the Magnificent Wizardo himself
 		public static Player player;                    // statblock for the most potent wizard - the player (Wizardo)
 		public static Zombie[] zombie;					// table of statblocks for zombies
+
+		public static Spell spellOne = new Spell(2,2,10,1);
 	}
 	public class Creature									// base class for player and zombies
 	{
@@ -280,7 +295,41 @@ namespace testKratki
 			}
 		}
 	}
+	public class Spell
+    {
+		private int range;
+		private int dmg;
+		private int manaCost;
+		private int color;
 
+		public Spell(int range, int dmg, int manaCost, int color)
+        {
+			this.range = range;
+			this.dmg = dmg;
+			this.manaCost = manaCost;
+			this.color = color;
+
+		}
+	
+		public void useSpell()
+        {
+			for(int i = 1; i <= range; i++)
+            {
+                switch (Values.player.facing) {
+					case 0:
+						Values.effects[Values.player.positionY-i, Values.player.positionX].Image = Image.FromFile(@"..\..\..\images\laser\laser-1.png");
+						break;
+
+				}
+            }
+			Values.effects[Values.player.previousPositionY, Values.player.previousPositionX].Image = null;        // clears previous tile
+			Values.board[Values.player.positionY, Values.player.positionX].Image                                // places Wizardo onto a new tile
+				= Image.FromFile(@"..\..\..\images\wizardo\wizardo-north.png");
+			Values.effects[1, 1].Image = Image.FromFile(@"..\..\..\images\laser\laser-1.png");
+
+        }
+
+	}
 	public class Zombie : Creature							// class for zombies
 	{
 		int DMG;											// damage dealt with each attack
