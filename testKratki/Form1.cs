@@ -279,7 +279,16 @@ namespace testKratki
 
 			if (Math.Abs(xDifference) <= 1 && Math.Abs(yDifference) <= 1)
 			{
-				Values.player.HP -= DMG;
+				if (Values.player.HP > DMG)
+				{
+					Values.player.HP -= DMG;
+                }
+                else
+                {
+					Values.player.HP = 0;
+					MessageBox.Show("Przegrales!");
+					
+				}
 			}
 			else
 			{
