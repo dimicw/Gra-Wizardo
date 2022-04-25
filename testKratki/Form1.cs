@@ -317,17 +317,44 @@ namespace testKratki
             {
                 switch (Values.player.facing) {
 					case 0:
-						Values.effects[Values.player.positionY-i, Values.player.positionX].Image = Image.FromFile(@"..\..\..\images\laser\laser-1.png");
+						if (Values.player.positionY-i < Values.yAxis && Values.player.positionY-i+1>0) 
+						{
+							if (Values.occupiedTile[Values.player.positionY - i, Values.player.positionX] ) 
+							{
+								if (isZombie(Values.player.positionY - i, Values.player.positionX, dmg, i))
+								{
+									i = range + 1;
+								}
+
+
+							}
+							else
+							{
+								Values.effects[Values.player.positionY - i, Values.player.positionX].Image = Image.FromFile(@"..\..\..\images\laser\laser-1.png");
+							}
+						}
+						
+
 						break;
 
 				}
             }
-			Values.effects[Values.player.previousPositionY, Values.player.previousPositionX].Image = null;        // clears previous tile
-			Values.board[Values.player.positionY, Values.player.positionX].Image                                // places Wizardo onto a new tile
-				= Image.FromFile(@"..\..\..\images\wizardo\wizardo-north.png");
-			Values.effects[1, 1].Image = Image.FromFile(@"..\..\..\images\laser\laser-1.png");
+
 
         }
+		private bool isZombie(int y, int x, int dmg, int i)
+		{
+			for (int j = 0; j != Values.zombieCount; j++)
+			{
+				if (Values.zombie[i].positionX == y && Values.zombie[j].positionX == x)
+				{
+					Values.zombie[i].HP -= dmg;
+					Values.effects[Values.player.positionY - i, Values.player.positionX].Image = Image.FromFile(@"..\..\..\images\laser\laser-1.png");
+					return false;
+				}
+			}
+			return true;
+		}
 
 	}
 	public class Zombie : Creature							// class for zombies
