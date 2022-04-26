@@ -16,10 +16,10 @@ namespace testKratki
 		public Form1()
 		{
 			InitializeComponent();
-			Text = "Zombifying Adventures of Wizardo";							// title of the game (and window)
+			Text = "Zombifying Adventures of Wizardo";								// title of the game (and window)
 		}
 
-		private void Form1_Load(object sender, EventArgs e)				// instructions done immediately after starting the program
+		private void Form1_Load(object sender, EventArgs e)							// instructions done immediately after starting the program
 		{	
 			Values.floor = new PictureBox[Values.yAxis, Values.xAxis];				// adds dimensions to floor table
 			Values.board = new PictureBox[Values.yAxis, Values.xAxis];				// adds dimensions to board table
@@ -122,7 +122,7 @@ namespace testKratki
 					foreach (PictureBox effect in Values.effects) effect.Image = null;									// clear spell effects
 					break;
 				case Keys.D1:
-					Values.spellOne.useLinearSpell();																			// use the first spell
+					Values.spellOne.useLinearSpell();																	// use the first spell
 					break;
 				case Keys.D2:
 					Values.spellTwo.useCircularSpell();
@@ -181,7 +181,7 @@ namespace testKratki
         }
 	}
 
-	public static class Values								// base of the game
+	public static class Values									// base of the game
 	{
 		public static int zombieCount = 4;						// amount of zombies on the map
 		public static int xAxis = 40, yAxis = 20;				// size of the map (in tiles)
@@ -210,7 +210,8 @@ namespace testKratki
 
 	public class Player : Creature							// class only for the player
 	{
-		bool spell1unlocked, spell2unlocked;				// true if Wizardo can use those spells
+		bool spell1unlocked, spell2unlocked;                // true if Wizardo can use those spells
+		int mana;
 
 		public Player (int positionY, int positionX)        // function to create a new plyer and assingn custom location
 		{
@@ -229,7 +230,7 @@ namespace testKratki
 			previousPositionY = positionY;
 		}
 
-		public Player(int HP, int DMG, int facing,          // function to create a new plyer and assing custom values (new lvl probably)
+		public Player(int HP, int dmg, int facing,          // function to create a new plyer and assing custom values (new lvl probably)
 			bool movement, bool attack, bool spell1unlocked, bool spell2unlocked, int positionX, int positionY)		
 		{
 
@@ -418,13 +419,13 @@ namespace testKratki
 	
 	public class Zombie : Creature							// class for zombies
 	{
-		int DMG;                                            // damage dealt with each attack
+		int dmg;                                            // damage dealt with each attack
 		public bool alive;									// true if it can move and attack
 
 		public Zombie (int positionY, int positionX)		// function to create a new zombie and assingn custom location
 		{
 			HP = 10;
-			DMG = 2;
+			dmg = 2;
 			alive = true;
 
 			facing = 0;
@@ -446,7 +447,7 @@ namespace testKratki
 			
 			if (Math.Abs(xDifference) <= 1 && Math.Abs(yDifference) <= 1)		// check if the zombie is near the player, so it can attack 
 			{
-				if (Values.player.HP > DMG) Values.player.HP -= DMG;			// check if the hp will be positive after the damage
+				if (Values.player.HP > dmg) Values.player.HP -= dmg;			// check if the hp will be positive after the damage
                 else
 				{
 					Values.player.HP = 0;                                       // change to 0 instead of negative integer
@@ -461,7 +462,7 @@ namespace testKratki
 				else if (yDifference < 0 && (positionY != 0 && Values.occupiedTile[positionY - 1, positionX] == false)) move(-1, 0);
 				else
 				{
-                    switch (new Random().Next(4))		// if it cant find a direct path to the player, it wonders in random direction
+                    switch (new Random().Next(4))								// if it cant find a direct path to the player, it wonders in random direction
                     {
 						case 0:
 							if (positionX != Values.xAxis - 1 && Values.occupiedTile[positionY, positionX + 1] == false) move(0, 1);
