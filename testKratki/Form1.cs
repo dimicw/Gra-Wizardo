@@ -19,7 +19,7 @@ namespace testKratki
 			Text = "Zombifying Adventures of Wizardo";							// title of the game (and window)
 		}
 
-		private void Form1_Load(object sender, EventArgs e)							// instructions done immediately after starting the program
+		private void Form1_Load(object sender, EventArgs e)				// instructions done immediately after starting the program
 		{	
 			Values.floor = new PictureBox[Values.yAxis, Values.xAxis];				// adds dimensions to floor table
 			Values.board = new PictureBox[Values.yAxis, Values.xAxis];				// adds dimensions to board table
@@ -66,6 +66,7 @@ namespace testKratki
 
 		private void Form1_KeyDown(object sender, KeyEventArgs e)       // reaction for each pressed key
 		{
+			bool levelCleared = false;
 			switch (e.KeyData)											// choose action depending on the key pressed by the player
 			{
 				case Keys.W:
@@ -98,12 +99,30 @@ namespace testKratki
 					break;
 				case Keys.Space:
 				case Keys.Enter:
-					for(int i=0; i<= Values.zombieCount; i++)Values.zombie[i].brainless();		// attack and move (each zombie)
-					visibleHP.Text = Values.player.HP + " / 40";                                // display player's current HP 
-					foreach (PictureBox effect in Values.effects) effect.Image = null;
+					levelCleared = true;																				// assume level is completed 
+					for (int i = 0; i <= Values.zombieCount; i++)														// attack and move (each zombie)
+					{
+						if (Values.zombie[i].HP > 0)                                                                    // check if its still alive (kind of)
+						{
+							Values.zombie[i].brainless();                                                               // move and attack
+							levelCleared = false;                                                                       // make level not completed yet
+						}
+						else
+						{
+							if (Values.zombie[i].alive)                                                                 // check if it already died
+							{
+								Values.zombie[i].alive = false;                                                         // make it considered dead
+								Values.board[Values.zombie[i].positionY, Values.zombie[i].positionX].Image = null;      // remove zombie from the map
+								Values.occupiedTile[Values.zombie[i].positionY, Values.zombie[i].positionX] = false;    // make its tile available}
+							}
+						}
+					}
+					if (levelCleared) MessageBox.Show("You won!");														// if all the zombies are dead, show the final message
+					visibleHP.Text = Values.player.HP + " / 40";														// display player's current HP 
+					foreach (PictureBox effect in Values.effects) effect.Image = null;									// clear spell effects
 					break;
 				case Keys.D1:
-					Values.spellOne.useSpell();
+					Values.spellOne.useSpell();																			// use the first spell
 					break;
 				default:
 					break;
@@ -159,7 +178,7 @@ namespace testKratki
         }
 	}
 
-	public static class Values									// base of the game
+	public static class Values								// base of the game
 	{
 		public static int zombieCount = 4;						// amount of zombies on the map
 		public static int xAxis = 40, yAxis = 20;				// size of the map (in tiles)
@@ -281,13 +300,13 @@ namespace testKratki
             Values.occupiedTile[Values.player.previousPositionY, Values.player.previousPositionX] = false;      // make the previous tile available
 			Values.occupiedTile[Values.player.positionY, Values.player.positionX] = true;                       // make the previous tile unavailable
 		}
-	}
+	}									
 	
-	public class Spell
+	public class Spell										// class for spells
     {
-		private int range;
-		private int dmg;
-		private int manaCost;
+		private int range;									// range of the effect (in tiles)
+		private int dmg;									// damage dealt for every zombie affected
+		private int manaCost;								// cost of casting the spell
 
 		public Spell(int range, int dmg, int manaCost)
         {
@@ -363,16 +382,18 @@ namespace testKratki
             }
             return false;																		// it was a wall
         }
-	}
+	}									
 	
 	public class Zombie : Creature							// class for zombies
 	{
-		int DMG;											// damage dealt with each attack
+		int DMG;                                            // damage dealt with each attack
+		public bool alive;											// true if it can move and attack
 
 		public Zombie (int positionY, int positionX)		// function to create a new zombie and assingn custom location
 		{
 			HP = 10;
 			DMG = 2;
+			alive = true;
 
 			facing = 0;
 			movement = true;
@@ -447,5 +468,5 @@ namespace testKratki
 			Values.occupiedTile[previousPositionY, previousPositionX] = false;      // make the previous tile available
 			Values.occupiedTile[positionY, positionX] = true;                       // make the new tile unavailable
 		}
-	}
+	}																		
 }
