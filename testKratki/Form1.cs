@@ -38,7 +38,7 @@ namespace testKratki
 					Values.floor[i, j].Image										// fill the picturebox with floor image
 						= Image.FromFile(@"..\..\..\images\build\floor.png");
 					Values.floor[i, j].Location = new Point(left, top);				// relocate the tile next to the previous tile
-					Values.floor[i, j].Size = new Size(20, 20);						// resize the tile
+					Values.floor[i, j].Size = new Size(32, 32);						// resize the tile
 					mapBase.Controls.Add(Values.floor[i, j]);						// fix the tiles to the base
 
 					Values.board[i, j] = new PictureBox();							// create new picturebox
@@ -52,16 +52,18 @@ namespace testKratki
 					Values.effects[i, j].BackColor = Color.Transparent;				// make the background of the image transparent
 
 					Values.occupiedTile[i, j] = false;								// make the tile available for the player
-					left += 20;
+					left += 32;
 				}
-				top += 20;
+				top += 32;
 			}
 			LoadMap1();																	// load the first level
 			zombieSpawn();																// spawn a zombie
 			Values.player = new Player(1, 1);											// place the player
 			Values.board[Values.player.positionY, Values.player.positionX].Image        // places Wizardo onto a new tile
 						= Image.FromFile(@"..\..\..\images\wizardo\wizardo-east.png");
-			visibleHP.Text = Values.player.HP + " / 40";                                // display player's current HP
+			mainGraphic.Image = Image.FromFile(@"..\..\..\images\wizardo\wizardo.gif");
+			visibleHP.Text = "HP:       " + Values.player.HP + " / 40";                 // display player's current HP
+			visibleMana.Text = "Mana:   " + Values.player.mana + " / 40";               // display player's current mana
 		}
 
 		private void Form1_KeyDown(object sender, KeyEventArgs e)       // reaction for each pressed key
@@ -99,6 +101,10 @@ namespace testKratki
 					break;
 				case Keys.Space:
 				case Keys.Enter:
+					if (Values.player.mana <= 30) Values.player.mana += 10;												// add 10 mana if its spent
+					else if (Values.player.mana > 30) Values.player.mana = 40;                                          // limit addition to maximum mana
+					visibleMana.Text = "Mana:   " + Values.player.mana + " / 40";                                       // display player's current mana
+
 					levelCleared = true;																				// assume level is completed 
 					for (int i = 0; i <= Values.zombieCount; i++)														// attack and move (each zombie)
 					{
@@ -118,14 +124,16 @@ namespace testKratki
 						}
 					}
 					if (levelCleared) MessageBox.Show("You won!");														// if all the zombies are dead, show the final message
-					visibleHP.Text = Values.player.HP + " / 40";														// display player's current HP 
+					visibleHP.Text = "HP:      " + Values.player.HP + " / 40";											// display player's current HP 
 					foreach (PictureBox effect in Values.effects) effect.Image = null;									// clear spell effects
 					break;
 				case Keys.D1:
-					Values.spellOne.useLinearSpell();																	// use the first spell
+					if (Values.player.mana >= Values.spellOne.manaCost) Values.spellOne.useLinearSpell();				// use first spell (linear) if you have enough mana
+					visibleMana.Text = "Mana:   " + Values.player.mana + " / 40";										// display player's current mana																// use the first spell
 					break;
 				case Keys.D2:
-					Values.spellTwo.useCircularSpell();
+					if (Values.player.mana >= Values.spellTwo.manaCost) Values.spellTwo.useCircularSpell();             // use second spell (circular) if you have enough mana
+					visibleMana.Text = "Mana:   " + Values.player.mana + " / 40";										// display player's current mana
 					break;
 				default:
 					break;
@@ -211,11 +219,12 @@ namespace testKratki
 	public class Player : Creature							// class only for the player
 	{
 		bool spell1unlocked, spell2unlocked;                // true if Wizardo can use those spells
-		int mana;
+		public int mana;
 
 		public Player (int positionY, int positionX)        // function to create a new plyer and assingn custom location
 		{
 			HP = 40;
+			mana = 40;
 
 			facing = 0;
 			movement = true;
@@ -230,10 +239,11 @@ namespace testKratki
 			previousPositionY = positionY;
 		}
 
-		public Player(int HP, int dmg, int facing,          // function to create a new plyer and assing custom values (new lvl probably)
+		public Player(int HP, int dmg, int facing, int mana,	// function to create a new plyer and assing custom values (new lvl probably)
 			bool movement, bool attack, bool spell1unlocked, bool spell2unlocked, int positionX, int positionY)		
 		{
-
+			this.HP = HP;
+			this.mana = mana;
 
 			this.facing = facing;
 			this.movement = movement;
@@ -311,7 +321,7 @@ namespace testKratki
     {
 		private int range;									// range of the effect (in tiles)
 		private int dmg;									// damage dealt for every zombie affected
-		private int manaCost;								// cost of casting the spell
+		public int manaCost;								// cost of casting the spell
 
 		public Spell(int range, int dmg, int manaCost)
         {
@@ -373,11 +383,12 @@ namespace testKratki
 						break;
                 }
             }
+			Values.player.mana -= manaCost;				// pay the spell's cost in mana
 		}
 
 		public void useCircularSpell()
 		{
-			circular(-1, -1); 
+			circular(-1, -1);							// affect each surrounding tile
 			circular(-1, 0);
 			circular(-1, 1);
 			circular(0, -1);
@@ -385,6 +396,8 @@ namespace testKratki
 			circular(1, -1);
 			circular(1, 0);
 			circular(1, 1);
+
+			Values.player.mana -= manaCost;				// pay the spell's cost in mana
 
 			void circular(int y, int x) 
 			{
@@ -398,7 +411,7 @@ namespace testKratki
 							Values.effects[Values.player.positionY + y, Values.player.positionX + x].Image = Image.FromFile(@"..\..\..\images\spells\spell1.png");  // visual effect on the zombie
 						}
 					}
-					else Values.effects[Values.player.positionY + y, Values.player.positionX + x].Image = Image.FromFile(@"..\..\..\images\spells\spell1.png"); // visual effect on the free tile
+					else Values.effects[Values.player.positionY + y, Values.player.positionX + x].Image = Image.FromFile(@"..\..\..\images\spells\spell1.png");		// visual effect on the free tile
 				}
 			}
 		}
