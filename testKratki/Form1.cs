@@ -125,14 +125,24 @@ namespace testKratki
 					}
 					if (levelCleared) MessageBox.Show("You won!");														// if all the zombies are dead, show the final message
 					visibleHP.Text = "HP:      " + Values.player.HP + " / 40";											// display player's current HP 
-					foreach (PictureBox effect in Values.effects) effect.Image = null;									// clear spell effects
+					foreach (PictureBox effect in Values.effects) effect.Image = null;                                  // clear spell effects
+					Values.player.movement = true;                                                                      // make movement avaliable
+					Values.player.attack = true;																		// make attacks avaliable
 					break;
 				case Keys.D1:
-					if (Values.player.mana >= Values.spellOne.manaCost) Values.spellOne.useLinearSpell();				// use first spell (linear) if you have enough mana
+					if (Values.player.attack && Values.player.mana >= Values.spellOne.manaCost)                         // check if you have attack avaliable and enough mana
+					{
+						Values.spellOne.useLinearSpell();																// use the first spell (linear) 
+						Values.player.attack = false;																	// make attacks unavaliable
+					}
 					visibleMana.Text = "Mana:   " + Values.player.mana + " / 40";										// display player's current mana																// use the first spell
 					break;
 				case Keys.D2:
-					if (Values.player.mana >= Values.spellTwo.manaCost) Values.spellTwo.useCircularSpell();             // use second spell (circular) if you have enough mana
+					if (Values.player.attack && Values.player.mana >= Values.spellTwo.manaCost)                         // check if you have attack avaliable and enough mana
+					{
+						Values.spellTwo.useCircularSpell();                                                             // use the second spell (circular) 
+						Values.player.attack = false;                                                                   // make attacks unavaliable
+					}
 					visibleMana.Text = "Mana:   " + Values.player.mana + " / 40";										// display player's current mana
 					break;
 				default:
@@ -227,7 +237,7 @@ namespace testKratki
 			mana = 40;
 
 			facing = 0;
-			movement = true;
+			 movement = true;
 			attack = true;
 
 			spell1unlocked = true;
@@ -264,11 +274,12 @@ namespace testKratki
 			{
 				if (this.facing == 0)						// check if the player is facing north
 				{
-					if (positionY != 0 && Values.occupiedTile[positionY - 1, positionX] == false)       // check for obstacles and map borders
+					if (movement == true && positionY != 0 && !Values.occupiedTile[positionY - 1, positionX])       // check if movement is avaliable and check for obstacles and map borders
 					{
 						previousPositionY = positionY;		// save current position
 						previousPositionX = positionX;		
-						positionY--;						// move the player north
+						positionY--;                        // move the player north
+						movement = false;                   // mark movement as unavaliable
 					}
 				}
 				else facing = 0;							// rotate the player north
@@ -277,11 +288,12 @@ namespace testKratki
 			{
 				if (this.facing == 1)						// check if the player is facing east
 				{
-					if (positionX != Values.xAxis - 1 && Values.occupiedTile[positionY, positionX + 1] == false)        // check for obstacles and map borders
+					if (movement == true && positionX != Values.xAxis - 1 && !Values.occupiedTile[positionY, positionX + 1])        // check if movement is avaliable and check for obstacles and map borders
 					{
 						previousPositionY = positionY;      // save current position
 						previousPositionX = positionX;
 						positionX++;                        // move the player north
+						movement = false;                   // mark movement as unavaliable
 					}
 				}
 				else facing = 1;                            // rotate the player north
@@ -290,11 +302,12 @@ namespace testKratki
 			{
 				if (this.facing == 2)                       // check if the player is facing south
 				{
-					if (positionY != Values.yAxis - 1 && Values.occupiedTile[positionY + 1, positionX] == false)        // check for obstacles and map borders
+					if (movement == true && positionY != Values.yAxis - 1 && !Values.occupiedTile[positionY + 1, positionX])        // check if movement is avaliable and check for obstacles and map borders
 					{
 						previousPositionY = positionY;      // save current position
 						previousPositionX = positionX;
 						positionY++;                        // move the player south
+						movement = false;                   // mark movement as unavaliable
 					}
 				}
 				else facing = 2;                            // rotate the player south
@@ -303,11 +316,12 @@ namespace testKratki
 			{
 				if (this.facing == 3)                       // check if the player is facing west
 				{
-					if (positionX != 0 && Values.occupiedTile[positionY, positionX - 1] == false)       // check for obstacles and map borders
+					if (movement == true && positionX != 0 && !Values.occupiedTile[positionY, positionX - 1])       // check if movement is avaliable and check for obstacles and map borders
 					{
 						previousPositionY = positionY;      // save current position
 						previousPositionX = positionX;
 						positionX--;                        // move the player west
+						movement = false;					// mark movement as unavaliable
 					}
 				}
 				else facing = 3;                            // rotate the player west
