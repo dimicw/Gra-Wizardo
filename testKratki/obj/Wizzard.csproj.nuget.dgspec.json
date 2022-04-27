@@ -1,15 +1,15 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Szymon\\Documents\\GitHub\\testKratki\\testKratki\\testKratki.csproj": {}
+    "C:\\Users\\Szymon\\Documents\\GitHub\\testKratki\\testKratki\\Wizzard.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Szymon\\Documents\\GitHub\\testKratki\\testKratki\\testKratki.csproj": {
+    "C:\\Users\\Szymon\\Documents\\GitHub\\testKratki\\testKratki\\Wizzard.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Szymon\\Documents\\GitHub\\testKratki\\testKratki\\testKratki.csproj",
-        "projectName": "testKratki",
-        "projectPath": "C:\\Users\\Szymon\\Documents\\GitHub\\testKratki\\testKratki\\testKratki.csproj",
+        "projectUniqueName": "C:\\Users\\Szymon\\Documents\\GitHub\\testKratki\\testKratki\\Wizzard.csproj",
+        "projectName": "Wizzard",
+        "projectPath": "C:\\Users\\Szymon\\Documents\\GitHub\\testKratki\\testKratki\\Wizzard.csproj",
         "packagesPath": "C:\\Users\\Szymon\\.nuget\\packages\\",
         "outputPath": "C:\\Users\\Szymon\\Documents\\GitHub\\testKratki\\testKratki\\obj\\",
         "projectStyle": "PackageReference",
