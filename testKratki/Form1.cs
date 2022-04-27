@@ -104,8 +104,8 @@ namespace testKratki
 					break;
 				case Keys.Space:
 				case Keys.Enter:
-					if (Values.player.mana <= Values.player.maxMana - 7) Values.player.mana += 7;						// add 10 mana if its spent
-					else if (Values.player.mana > Values.player.maxMana - 7) Values.player.mana = Values.player.maxMana;// limit addition to maximum mana
+					if (Values.player.mana <= Values.player.maxMana - Values.player.manaRegen) Values.player.mana += Values.player.manaRegen;		// add 10 mana if its spent
+					else if (Values.player.mana > Values.player.maxMana - Values.player.manaRegen) Values.player.mana = Values.player.maxMana;		// limit addition to maximum mana
 					visibleMana.Text = "Mana:   " + Values.player.mana + " / " + Values.player.maxMana;                 // display player's current mana
 
 					levelCleared = true;																				// assume level is completed 
@@ -164,6 +164,9 @@ namespace testKratki
 					}
 					visibleMana.Text = "Mana:   " + Values.player.mana + " / " + Values.player.maxMana;					// display player's current mana
 					break;
+/*DELETE*/		case Keys.L:
+/*DELETE*/			foreach (Zombie z in Values.zombie) z.HP = 0;
+/*DELETE*/			break;
 				default:
 					break;
 			}
@@ -189,6 +192,7 @@ namespace testKratki
 			Values.zombie = new Zombie[Values.zombieCount];                                     // create zombies
 			zombieSpawn();  // set the amout of zombies
 		}
+		
 		private void LoadMap2()                         // creator of the second level
 		{
 			clearMap();
@@ -205,6 +209,7 @@ namespace testKratki
 			Values.zombie = new Zombie[Values.zombieCount];										// create zombies
 			zombieSpawn();	// set the amout of zombies
 		}
+		
 		private void clearMap() // clearing map
         {
             for (int y = 0; y < Values.yAxis; y++)
@@ -216,6 +221,7 @@ namespace testKratki
 				}
             }
         }
+		
 		private void healPlayer()
 		{
 			Values.player.HP = Values.player.maxHP;
@@ -255,6 +261,64 @@ namespace testKratki
         }
 	}
 
+	public partial class CustomMessageBox : Form
+	{
+		public CustomMessageBox()
+		{
+			Text = "Level Up!";
+			Size = new Size(640, 128);
+
+			Label info = new Label();
+			Controls.Add(info);
+			info.Size = new Size(200, 32);
+			info.Location = new Point(220, 10);
+			info.Text = "Choose Upgrade!";
+			info.Font = new Font(info.Font.FontFamily, 16, info.Font.Style);
+
+			Button buttonMoreHP = addCustomButton("More HP", 128, 32, 21, 50);
+			Button buttonManaRegen = addCustomButton("Mana Regeneration", 128, 32, 171, 50);
+			Button buttonAddSpell2 = addCustomButton("Arcane Bolt", 128, 32, 321, 50);
+			Button buttonAddSpell3 = addCustomButton("Circle of Protection", 128, 32, 471, 50);
+
+			buttonMoreHP.Click += new EventHandler(buttonMoreHPClicked);
+			buttonManaRegen.Click += new EventHandler(buttonManaRegenClicked);
+			buttonAddSpell2.Click += new EventHandler(buttonAddSpell2Clicked);
+			buttonAddSpell3.Click += new EventHandler(buttonAddSpell3Clicked);
+		}
+
+		private Button addCustomButton(string text, int width, int height, int positionX, int positionY)
+		{
+			Button button1 = new Button();
+			Controls.Add(button1);
+			button1.Text = text;
+			button1.Size = new Size(width, height);
+			button1.Location = new Point(positionX, positionY);
+
+			return button1;
+		}
+
+		protected void buttonMoreHPClicked(object sender, EventArgs e)
+		{
+			Values.player.maxHP += 15;
+			Close();
+		}
+		protected void buttonManaRegenClicked(object sender, EventArgs e)
+		{
+			Values.player.manaRegen += 3;
+			Close();
+		}
+		protected void buttonAddSpell2Clicked(object sender, EventArgs e)
+		{
+			Values.player.spell2unlocked = true;
+			Close();
+		}
+		protected void buttonAddSpell3Clicked(object sender, EventArgs e)
+		{
+			Values.player.spell3unlocked = true;
+			Close();
+		}
+	}
+
 	public static class Values									// base of the game
 	{
 		public static int zombieCount;  						// amount of zombies on the map
@@ -286,8 +350,8 @@ namespace testKratki
 
 	public class Player : Creature							// class only for the player
 	{
-		bool spell1unlocked, spell2unlocked;                // true if Wizardo can use those spells
-		public int mana, maxMana, maxHP;					// current and maximum magical power, maximum hp
+		public bool spell2unlocked, spell3unlocked;         // true if Wizardo can use those spells
+		public int mana, maxMana, manaRegen, maxHP;			// current, regeneration and maximum of magical power, maximum hp
 
 		public Player (int positionY, int positionX)        // function to create a new plyer and assingn custom location
 		{
@@ -295,13 +359,14 @@ namespace testKratki
 			maxHP = 40;
 			HP = maxHP;
 			mana = maxMana;
+			manaRegen = 7;
 
 			facing = 0;
 			 movement = true;
 			attack = true;
 
-			spell1unlocked = true;
 			spell2unlocked = false;
+			spell3unlocked = false;
 
 			this.positionX = positionX;
 			this.positionY = positionY;
@@ -309,11 +374,12 @@ namespace testKratki
 			previousPositionY = positionY;
 		}
 
-		public Player(int HP, int facing, int mana,		// function to create a new plyer and assing custom values (new lvl probably)
-			int maxMana, int maxHP, bool movement, bool attack, bool spell1unlocked, bool spell2unlocked, int positionX, int positionY)		
+		public Player(int HP, int facing, int mana,	int manaRegen,		// function to create a new plyer and assing custom values (new lvl probably)
+			int maxMana, int maxHP, bool movement, bool attack, bool spell2unlocked, bool spell3unlocked, int positionX, int positionY)		
 		{
 			this.HP = HP;
 			this.mana = mana;
+			this.manaRegen = manaRegen;
 			this.maxHP = maxHP;
 			this.maxMana = maxMana;
 
@@ -321,8 +387,8 @@ namespace testKratki
 			this.movement = movement;
 			this.attack = attack;
 
-			this.spell1unlocked = spell1unlocked;
 			this.spell2unlocked = spell2unlocked;
+			this.spell3unlocked = spell3unlocked;
 
 			this.positionX = positionX;
 			this.positionY = positionY;
@@ -542,7 +608,8 @@ namespace testKratki
                 else
 				{
 					Values.player.HP = 0;                                       // change to 0 instead of negative integer
-					MessageBox.Show("You Died!");								// information of the failiure
+					MessageBox.Show("You Died!");                               // information of the failiure
+					Application.Exit();											// close the game
 				}
 			}
             else		                                                        // if it can't attack, it moves to the player
@@ -592,57 +659,5 @@ namespace testKratki
 			Values.occupiedTile[previousPositionY, previousPositionX] = false;      // make the previous tile available
 			Values.occupiedTile[positionY, positionX] = true;                       // make the new tile unavailable
 		}
-	}
-	
-}
-public partial class CustomMessageBox : Form
-{
-	public CustomMessageBox()
-	{
-		Text = "Level Up!";
-		Size = new Size(640, 320);
-
-		TextBox desc = new TextBox();
-		
-		Controls.Add(desc);
-		desc.Size = new Size(200, 100);
-		desc.Location = new Point(2, 2);
-		desc.Text = "Wybierz ulepszenie!";
-		desc.Enabled = false;
-
-		Button newButton1 = addCustomButton("Życie", 64, 32, 100, 50);
-        Button newButton2 = addCustomButton("Spell", 64, 32, 100, 150);
-		Button newButton3 = addCustomButton("Mana", 64, 32, 100, 250);
-
-
-		newButton1.Click += new EventHandler(newButton1Clicked);
-		newButton2.Click += new EventHandler(newButton2Clicked);
-		newButton3.Click += new EventHandler(newButton3Clicked);
-
-
-	}
-
-	private Button addCustomButton(string text, int width, int height, int positionY, int positionX)
-	{
-		Button button1 = new Button();
-		Controls.Add(button1);
-		button1.Text = text;
-		button1.Size = new Size(width, height);
-		button1.Location = new Point(positionX, positionY);
-
-		return button1;
-	}
-
-	protected void newButton1Clicked(object sender, EventArgs e)
-	{
-        //testKratki.Form1.Values.player.maxHP = 10;
-    }
-	protected void newButton2Clicked(object sender, EventArgs e)
-	{
-		//Values.player.maxHP = 10;
-	}
-	protected void newButton3Clicked(object sender, EventArgs e)
-	{
-		//Values.player.maxHP = 10;
 	}
 }
