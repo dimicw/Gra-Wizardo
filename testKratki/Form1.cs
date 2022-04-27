@@ -123,8 +123,8 @@ namespace testKratki
 							}
 						}
 					}
-					if (levelCleared) MessageBox.Show("You won!");														// if all the zombies are dead, show the final message
-					visibleHP.Text = "HP:      " + Values.player.HP + " / 40";											// display player's current HP 
+					if (levelCleared) MessageBox.Show("You won!");                                                      // if all the zombies are dead, show the final message
+					visibleHP.Text = "HP:       " + Values.player.HP + " / 40";											// display player's current HP
 					foreach (PictureBox effect in Values.effects) effect.Image = null;                                  // clear spell effects
 					Values.player.movement = true;                                                                      // make movement avaliable
 					Values.player.attack = true;																		// make attacks avaliable
