@@ -31,12 +31,12 @@ namespace testKratki
 		{
             this.mapBase = new System.Windows.Forms.Panel();
             this.characterSheet = new System.Windows.Forms.Panel();
-            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
+            this.richTextBox2 = new System.Windows.Forms.RichTextBox();
+            this.visibleCircleProtection = new System.Windows.Forms.RichTextBox();
             this.visibleArcaneBolt = new System.Windows.Forms.RichTextBox();
             this.visibleMana = new System.Windows.Forms.RichTextBox();
             this.visibleHP = new System.Windows.Forms.RichTextBox();
             this.mainGraphic = new System.Windows.Forms.PictureBox();
-            this.richTextBox2 = new System.Windows.Forms.RichTextBox();
             this.characterSheet.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.mainGraphic)).BeginInit();
             this.SuspendLayout();
@@ -51,7 +51,7 @@ namespace testKratki
             // characterSheet
             // 
             this.characterSheet.Controls.Add(this.richTextBox2);
-            this.characterSheet.Controls.Add(this.richTextBox1);
+            this.characterSheet.Controls.Add(this.visibleCircleProtection);
             this.characterSheet.Controls.Add(this.visibleArcaneBolt);
             this.characterSheet.Controls.Add(this.visibleMana);
             this.characterSheet.Controls.Add(this.visibleHP);
@@ -61,16 +61,27 @@ namespace testKratki
             this.characterSheet.Size = new System.Drawing.Size(348, 640);
             this.characterSheet.TabIndex = 2;
             // 
-            // richTextBox1
+            // richTextBox2
             // 
-            this.richTextBox1.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.richTextBox1.Enabled = false;
-            this.richTextBox1.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.richTextBox1.Location = new System.Drawing.Point(14, 555);
-            this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(320, 32);
-            this.richTextBox1.TabIndex = 7;
-            this.richTextBox1.Text = "(3) Circle of Protection - 15 mana";
+            this.richTextBox2.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.richTextBox2.Enabled = false;
+            this.richTextBox2.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.richTextBox2.Location = new System.Drawing.Point(14, 479);
+            this.richTextBox2.Name = "richTextBox2";
+            this.richTextBox2.Size = new System.Drawing.Size(320, 32);
+            this.richTextBox2.TabIndex = 8;
+            this.richTextBox2.Text = "(1) Shocking Grasp - 5 mana";
+            // 
+            // visibleCircleProtection
+            // 
+            this.visibleCircleProtection.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.visibleCircleProtection.Enabled = false;
+            this.visibleCircleProtection.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.visibleCircleProtection.Location = new System.Drawing.Point(14, 555);
+            this.visibleCircleProtection.Name = "visibleCircleProtection";
+            this.visibleCircleProtection.Size = new System.Drawing.Size(320, 32);
+            this.visibleCircleProtection.TabIndex = 7;
+            this.visibleCircleProtection.Text = "(3) Circle of Protection - 15 mana";
             // 
             // visibleArcaneBolt
             // 
@@ -113,17 +124,6 @@ namespace testKratki
             this.mainGraphic.TabIndex = 0;
             this.mainGraphic.TabStop = false;
             // 
-            // richTextBox2
-            // 
-            this.richTextBox2.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.richTextBox2.Enabled = false;
-            this.richTextBox2.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.richTextBox2.Location = new System.Drawing.Point(14, 479);
-            this.richTextBox2.Name = "richTextBox2";
-            this.richTextBox2.Size = new System.Drawing.Size(320, 32);
-            this.richTextBox2.TabIndex = 8;
-            this.richTextBox2.Text = "(1) Shocking Grasp - 5 mana";
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -147,7 +147,7 @@ namespace testKratki
         private System.Windows.Forms.PictureBox mainGraphic;
         private System.Windows.Forms.RichTextBox visibleHP;
         private System.Windows.Forms.RichTextBox visibleMana;
-        private System.Windows.Forms.RichTextBox richTextBox1;
+        private System.Windows.Forms.RichTextBox visibleCircleProtection;
         private System.Windows.Forms.RichTextBox visibleArcaneBolt;
         private System.Windows.Forms.RichTextBox richTextBox2;
     }

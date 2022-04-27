@@ -57,8 +57,8 @@ namespace testKratki
 
 			LoadMap1();                                                                         // load the first level
 
-			Values.zombie = new Zombie[Values.zombieCount];										// create zombies
-			zombieSpawn();																		// spawn zombies
+			//Values.zombie = new Zombie[Values.zombieCount];										// create zombies
+			//zombieSpawn();																		// spawn zombies
 
 			Values.player = new Player(1, 1);													// place the player
 			Values.board[Values.player.positionY, Values.player.positionX].Image				// places Wizardo onto a new tile
@@ -126,7 +126,11 @@ namespace testKratki
 							}
 						}
 					}
-					if (levelCleared) MessageBox.Show("You won!");                                                      // if all the zombies are dead, show the final message
+					if (levelCleared) {
+						new CustomMessageBox().ShowDialog();
+						LoadMap2();
+
+                    }                                                      // if all the zombies are dead, show the final message
 					visibleHP.Text = "HP:       " + Values.player.HP + " / " + Values.player.maxHP;						// display player's current HP
 					foreach (PictureBox effect in Values.effects) effect.Image = null;                                  // clear spell effects
 					Values.player.movement = true;                                                                      // make movement avaliable
@@ -175,11 +179,46 @@ namespace testKratki
 			wall(4, 3);
 			wall(4, 4);
 			clear(15, 4);
-			for (int i = 0; i < Values.yAxis; i++) for (int j = 12; j < Values.xAxis; j++) wall(i, j);
+			//for (int i = 0; i < Values.yAxis; i++) for (int j = 12; j < Values.xAxis; j++) wall(i, j);
 
-			Values.zombieCount = 15;                                                            // set the amout of zombies
+			Values.zombieCount = 1;
+			Values.zombie = new Zombie[Values.zombieCount];                                     // create zombies
+			zombieSpawn();  // set the amout of zombies
 		}
-
+		private void LoadMap2()                         // creator of the second level
+		{
+			clearMap();
+			wall(5, 3);
+			wall(2, 4);
+			wall(4, 3);
+			wall(4, 4);
+			clear(15, 4);
+			//for (int i = 0; i < Values.yAxis; i++) for (int j = 12; j < Values.xAxis; j++) wall(i, j);
+			//reset stats
+			healPlayer();
+			Values.zombieCount = 2;  
+			Values.zombie = new Zombie[Values.zombieCount];										// create zombies
+			zombieSpawn();	// set the amout of zombies
+		}
+		private void clearMap() // clearing map
+        {
+     
+            for (int y = 0; y < Values.yAxis; y++)
+            {
+                for (int x = 0; x < Values.xAxis; x++)
+                {
+					Values.board[y, x].Image = null;            // remove the tile image
+					Values.occupiedTile[y, x] = false;
+				}
+            }
+        }
+		private void healPlayer()
+		{
+			Values.player.HP = Values.player.maxHP;
+			Values.player.mana = Values.player.maxMana;
+			visibleHP.Text = "HP:       " + Values.player.HP + " / " + Values.player.maxHP;     // display player's current HP
+			visibleMana.Text = "Mana:   " + Values.player.mana + " / " + Values.player.maxMana; // display player's current mana
+		}
 		private void wall(int y, int x)														// creator of a single wall
 		{
 			Values.board[y, x].Image = Image.FromFile(@"..\..\..\images\build\wall.png");	// fill the tile with wall image
@@ -286,6 +325,7 @@ namespace testKratki
 			previousPositionY = positionY;
 		}
 
+		
 		public void Action(char input)						// change values of the player depending on the key pressed
 		{
 			if (input == 'w')
@@ -454,6 +494,7 @@ namespace testKratki
             {	
                 if (Values.zombie[j].positionY == y && Values.zombie[j].positionX == x)			// check position
                 {
+
                     Values.zombie[j].HP -= dmg;													// deal damage to the zombie on tile
                     return true;																// it was a zombie				
                 }
@@ -546,5 +587,41 @@ namespace testKratki
 			Values.occupiedTile[previousPositionY, previousPositionX] = false;      // make the previous tile available
 			Values.occupiedTile[positionY, positionX] = true;                       // make the new tile unavailable
 		}
-	}																		
+	}
+	
+}
+public partial class CustomMessageBox : Form
+{
+	public CustomMessageBox()
+	{
+		Text = "Level Up!";
+		Size = new Size(320, 320);
+
+		Button newButton1 = addCustomButton("x", 64, 32, 100, 50);
+        Button newButton2 = addCustomButton("y", 64, 32, 100, 150);
+
+        newButton1.Click += new EventHandler(newButton1Clicked);
+		newButton2.Click += new EventHandler(newButton2Clicked);
+
+	}
+
+	private Button addCustomButton(string text, int width, int height, int positionY, int positionX)
+	{
+		Button button1 = new Button();
+		Controls.Add(button1);
+		button1.Text = text;
+		button1.Size = new Size(width, height);
+		button1.Location = new Point(positionX, positionY);
+
+		return button1;
+	}
+
+	protected void newButton1Clicked(object sender, EventArgs e)
+	{
+        //testKratki.Form1.Values.player.maxHP = 10;
+    }
+	protected void newButton2Clicked(object sender, EventArgs e)
+	{
+		//Values.player.maxHP = 10;
+	}
 }
