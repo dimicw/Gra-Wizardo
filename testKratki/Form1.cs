@@ -24,9 +24,7 @@ namespace testKratki
 			Values.floor = new PictureBox[Values.yAxis, Values.xAxis];				// adds dimensions to floor table
 			Values.board = new PictureBox[Values.yAxis, Values.xAxis];				// adds dimensions to board table
 			Values.effects = new PictureBox[Values.yAxis, Values.xAxis];			// adds dimensions to effects table
-
-			Values.occupiedTile = new bool[Values.yAxis, Values.xAxis];				// adds dimensions to occupiedTile table
-			Values.zombie = new Zombie[6];
+			Values.occupiedTile = new bool[Values.yAxis, Values.xAxis];             // adds dimensions to occupiedTile table
 
 			int left = 2, top = 2;													// margin values, later used to create the board
 			for (int i=0; i < Values.yAxis; i++)									// rows of the board
@@ -56,14 +54,19 @@ namespace testKratki
 				}
 				top += 32;
 			}
-			LoadMap1();																	// load the first level
-			zombieSpawn();																// spawn a zombie
-			Values.player = new Player(1, 1);											// place the player
-			Values.board[Values.player.positionY, Values.player.positionX].Image        // places Wizardo onto a new tile
+
+			LoadMap1();                                                                         // load the first level
+
+			Values.zombie = new Zombie[Values.zombieCount];										// create zombies
+			zombieSpawn();																		// spawn zombies
+
+			Values.player = new Player(1, 1);													// place the player
+			Values.board[Values.player.positionY, Values.player.positionX].Image				// places Wizardo onto a new tile
 						= Image.FromFile(@"..\..\..\images\wizardo\wizardo-east.png");
-			mainGraphic.Image = Image.FromFile(@"..\..\..\images\wizardo\wizardo.gif");
-			visibleHP.Text = "HP:       " + Values.player.HP + " / 40";                 // display player's current HP
-			visibleMana.Text = "Mana:   " + Values.player.mana + " / 40";               // display player's current mana
+
+			mainGraphic.Image = Image.FromFile(@"..\..\..\images\wizardo\wizardo.gif");			// set the main graphic
+			visibleHP.Text = "HP:       " + Values.player.HP + " / " + Values.player.maxHP;     // display player's current HP
+			visibleMana.Text = "Mana:   " + Values.player.mana + " / " + Values.player.maxMana;	// display player's current mana
 		}
 
 		private void Form1_KeyDown(object sender, KeyEventArgs e)       // reaction for each pressed key
@@ -101,12 +104,12 @@ namespace testKratki
 					break;
 				case Keys.Space:
 				case Keys.Enter:
-					if (Values.player.mana <= 30) Values.player.mana += 10;												// add 10 mana if its spent
-					else if (Values.player.mana > 30) Values.player.mana = 40;                                          // limit addition to maximum mana
-					visibleMana.Text = "Mana:   " + Values.player.mana + " / 40";                                       // display player's current mana
+					if (Values.player.mana <= Values.player.maxMana - 7) Values.player.mana += 7;						// add 10 mana if its spent
+					else if (Values.player.mana > Values.player.maxMana - 7) Values.player.mana = Values.player.maxMana;// limit addition to maximum mana
+					visibleMana.Text = "Mana:   " + Values.player.mana + " / " + Values.player.maxMana;                 // display player's current mana
 
 					levelCleared = true;																				// assume level is completed 
-					for (int i = 0; i <= Values.zombieCount; i++)														// attack and move (each zombie)
+					for (int i = 0; i < Values.zombieCount; i++)														// attack and move (each zombie)
 					{
 						if (Values.zombie[i].HP > 0)                                                                    // check if its still alive (kind of)
 						{
@@ -124,7 +127,7 @@ namespace testKratki
 						}
 					}
 					if (levelCleared) MessageBox.Show("You won!");                                                      // if all the zombies are dead, show the final message
-					visibleHP.Text = "HP:       " + Values.player.HP + " / 40";											// display player's current HP
+					visibleHP.Text = "HP:       " + Values.player.HP + " / " + Values.player.maxHP;						// display player's current HP
 					foreach (PictureBox effect in Values.effects) effect.Image = null;                                  // clear spell effects
 					Values.player.movement = true;                                                                      // make movement avaliable
 					Values.player.attack = true;																		// make attacks avaliable
@@ -132,18 +135,26 @@ namespace testKratki
 				case Keys.D1:
 					if (Values.player.attack && Values.player.mana >= Values.spellOne.manaCost)                         // check if you have attack avaliable and enough mana
 					{
-						Values.spellOne.useLinearSpell();																// use the first spell (linear) 
-						Values.player.attack = false;																	// make attacks unavaliable
+						Values.spellOne.useLinearSpell();                                                               // use the first spell (linear) 
+						Values.player.attack = false;                                                                   // make attacks unavaliable
 					}
-					visibleMana.Text = "Mana:   " + Values.player.mana + " / 40";										// display player's current mana																// use the first spell
+					visibleMana.Text = "Mana:   " + Values.player.mana + " / " + Values.player.maxMana;                 // display player's current mana																// use the first spell
 					break;
 				case Keys.D2:
 					if (Values.player.attack && Values.player.mana >= Values.spellTwo.manaCost)                         // check if you have attack avaliable and enough mana
 					{
-						Values.spellTwo.useCircularSpell();                                                             // use the second spell (circular) 
+						Values.spellTwo.useLinearSpell();																// use the second spell (linear) 
+						Values.player.attack = false;																	// make attacks unavaliable
+					}
+					visibleMana.Text = "Mana:   " + Values.player.mana + " / " + Values.player.maxMana;					// display player's current mana																// use the first spell
+					break;
+				case Keys.D3:
+					if (Values.player.attack && Values.player.mana >= Values.spellThree.manaCost)                       // check if you have attack avaliable and enough mana
+					{
+						Values.spellThree.useCircularSpell();                                                           // use the third spell (circular) 
 						Values.player.attack = false;                                                                   // make attacks unavaliable
 					}
-					visibleMana.Text = "Mana:   " + Values.player.mana + " / 40";										// display player's current mana
+					visibleMana.Text = "Mana:   " + Values.player.mana + " / " + Values.player.maxMana;					// display player's current mana
 					break;
 				default:
 					break;
@@ -165,6 +176,8 @@ namespace testKratki
 			wall(4, 4);
 			clear(15, 4);
 			for (int i = 0; i < Values.yAxis; i++) for (int j = 12; j < Values.xAxis; j++) wall(i, j);
+
+			Values.zombieCount = 15;                                                            // set the amout of zombies
 		}
 
 		private void wall(int y, int x)														// creator of a single wall
@@ -183,7 +196,7 @@ namespace testKratki
 		{
 			int xRand, yRand;											// random x and y coordinates
 
-			for (int i = 0; i <= Values.zombieCount; i++)				// assing position for each zombie on the map
+			for (int i = 0; i < Values.zombieCount; i++)				// assing position for each zombie on the map
             {
                 xRand = new Random().Next(Values.xAxis - 1);			// random x value
                 yRand = new Random().Next(Values.yAxis - 1);			// random y value
@@ -201,7 +214,7 @@ namespace testKratki
 
 	public static class Values									// base of the game
 	{
-		public static int zombieCount = 4;						// amount of zombies on the map
+		public static int zombieCount;  						// amount of zombies on the map
 		public static int xAxis = 40, yAxis = 20;				// size of the map (in tiles)
 		public static bool[,] occupiedTile;						// is something blocking you from moving onto the tile
 		public static PictureBox[,] floor;						// mesh of the floor
@@ -211,8 +224,9 @@ namespace testKratki
 		public static Player player;							// statblock for the most potent wizard - the player (Wizardo)
 		public static Zombie[] zombie;                          // table of statblocks for zombies
 
-		public static Spell spellOne = new Spell(2, 4, 10);     // values of the first spell (linear)
-		public static Spell spellTwo = new Spell(1, 2, 15);		// values of the second spell (circular)
+		public static Spell spellOne = new Spell(1,3, 5);       // values of the first spell (linear)
+		public static Spell spellTwo = new Spell(2, 4, 10);     // values of the second spell (linear)
+		public static Spell spellThree = new Spell(1, 2, 15);	// values of the third spell (circular)
 	}
 	
 	public class Creature									// base class for player and zombies
@@ -229,12 +243,14 @@ namespace testKratki
 	public class Player : Creature							// class only for the player
 	{
 		bool spell1unlocked, spell2unlocked;                // true if Wizardo can use those spells
-		public int mana;
+		public int mana, maxMana, maxHP;					// current and maximum magical power, maximum hp
 
 		public Player (int positionY, int positionX)        // function to create a new plyer and assingn custom location
 		{
-			HP = 40;
-			mana = 40;
+			maxMana = 40;
+			maxHP = 40;
+			HP = maxHP;
+			mana = maxMana;
 
 			facing = 0;
 			 movement = true;
@@ -249,11 +265,13 @@ namespace testKratki
 			previousPositionY = positionY;
 		}
 
-		public Player(int HP, int dmg, int facing, int mana,	// function to create a new plyer and assing custom values (new lvl probably)
-			bool movement, bool attack, bool spell1unlocked, bool spell2unlocked, int positionX, int positionY)		
+		public Player(int HP, int facing, int mana,		// function to create a new plyer and assing custom values (new lvl probably)
+			int maxMana, int maxHP, bool movement, bool attack, bool spell1unlocked, bool spell2unlocked, int positionX, int positionY)		
 		{
 			this.HP = HP;
 			this.mana = mana;
+			this.maxHP = maxHP;
+			this.maxMana = maxMana;
 
 			this.facing = facing;
 			this.movement = movement;
@@ -432,7 +450,7 @@ namespace testKratki
 
 		private bool isZombie(int y, int x, int dmg)											// check if the tile is zombie or wall
 		{
-            for (int j = 0; j <= Values.zombieCount; j++)										// for each zombie
+            for (int j = 0; j < Values.zombieCount; j++)										// for each zombie
             {	
                 if (Values.zombie[j].positionY == y && Values.zombie[j].positionX == x)			// check position
                 {
