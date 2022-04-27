@@ -127,9 +127,13 @@ namespace testKratki
 						}
 					}
 					if (levelCleared) {
-						new CustomMessageBox().ShowDialog();
-						LoadMap2();
-
+						if(Values.currentLvl == 1)
+                        {
+							new CustomMessageBox().ShowDialog();
+							levelCleared = false;
+							LoadMap2();
+						}
+						
                     }                                                      // if all the zombies are dead, show the final message
 					visibleHP.Text = "HP:       " + Values.player.HP + " / " + Values.player.maxHP;						// display player's current HP
 					foreach (PictureBox effect in Values.effects) effect.Image = null;                                  // clear spell effects
@@ -180,7 +184,7 @@ namespace testKratki
 			wall(4, 4);
 			clear(15, 4);
 			//for (int i = 0; i < Values.yAxis; i++) for (int j = 12; j < Values.xAxis; j++) wall(i, j);
-
+			Values.currentLvl = 1;
 			Values.zombieCount = 1;
 			Values.zombie = new Zombie[Values.zombieCount];                                     // create zombies
 			zombieSpawn();  // set the amout of zombies
@@ -196,13 +200,13 @@ namespace testKratki
 			//for (int i = 0; i < Values.yAxis; i++) for (int j = 12; j < Values.xAxis; j++) wall(i, j);
 			//reset stats
 			healPlayer();
+			Values.currentLvl = 2;
 			Values.zombieCount = 2;  
 			Values.zombie = new Zombie[Values.zombieCount];										// create zombies
 			zombieSpawn();	// set the amout of zombies
 		}
 		private void clearMap() // clearing map
         {
-     
             for (int y = 0; y < Values.yAxis; y++)
             {
                 for (int x = 0; x < Values.xAxis; x++)
@@ -265,8 +269,9 @@ namespace testKratki
 
 		public static Spell spellOne = new Spell(1,3, 5);       // values of the first spell (linear)
 		public static Spell spellTwo = new Spell(2, 4, 10);     // values of the second spell (linear)
-		public static Spell spellThree = new Spell(1, 2, 15);	// values of the third spell (circular)
-	}
+		public static Spell spellThree = new Spell(1, 2, 15);   // values of the third spell (circular)
+        public static int currentLvl;							// current lvl
+    }
 	
 	public class Creature									// base class for player and zombies
 	{
@@ -595,13 +600,25 @@ public partial class CustomMessageBox : Form
 	public CustomMessageBox()
 	{
 		Text = "Level Up!";
-		Size = new Size(320, 320);
+		Size = new Size(640, 320);
 
-		Button newButton1 = addCustomButton("x", 64, 32, 100, 50);
-        Button newButton2 = addCustomButton("y", 64, 32, 100, 150);
+		TextBox desc = new TextBox();
+		
+		Controls.Add(desc);
+		desc.Size = new Size(200, 100);
+		desc.Location = new Point(2, 2);
+		desc.Text = "Wybierz ulepszenie!";
+		desc.Enabled = false;
 
-        newButton1.Click += new EventHandler(newButton1Clicked);
+		Button newButton1 = addCustomButton("Życie", 64, 32, 100, 50);
+        Button newButton2 = addCustomButton("Spell", 64, 32, 100, 150);
+		Button newButton3 = addCustomButton("Mana", 64, 32, 100, 250);
+
+
+		newButton1.Click += new EventHandler(newButton1Clicked);
 		newButton2.Click += new EventHandler(newButton2Clicked);
+		newButton3.Click += new EventHandler(newButton3Clicked);
+
 
 	}
 
@@ -621,6 +638,10 @@ public partial class CustomMessageBox : Form
         //testKratki.Form1.Values.player.maxHP = 10;
     }
 	protected void newButton2Clicked(object sender, EventArgs e)
+	{
+		//Values.player.maxHP = 10;
+	}
+	protected void newButton3Clicked(object sender, EventArgs e)
 	{
 		//Values.player.maxHP = 10;
 	}
