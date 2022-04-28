@@ -57,16 +57,6 @@ namespace testKratki
 
 			LoadMap1();                                                                         // load the first level
 
-			//Values.zombie = new Zombie[Values.zombieCount];										// create zombies
-			//zombieSpawn();																		// spawn zombies
-
-			//Values.player = new Player(1, 1);													// place the player
-			//Values.board[Values.player.positionY, Values.player.positionX].Image				// places Wizardo onto a new tile
-			//			= Image.FromFile(@"..\..\..\images\wizardo\wizardo-east.png");
-
-			//mainGraphic.Image = Image.FromFile(@"..\..\..\images\wizardo\wizardo.gif");			// set the main graphic
-			//visibleHP.Text = "HP:       " + Values.player.HP + " / " + Values.player.maxHP;     // display player's current HP
-			//visibleMana.Text = "Mana:   " + Values.player.mana + " / " + Values.player.maxMana;	// display player's current mana
 		}
 
 		private void Form1_KeyDown(object sender, KeyEventArgs e)       // reaction for each pressed key
@@ -193,6 +183,8 @@ namespace testKratki
 
 		private void LoadMap1()							// creator of the first level
 		{
+
+
 			Values.player = new Player(1, 1);                                                   // place the player
 			Values.board[Values.player.positionY, Values.player.positionX].Image                // places Wizardo onto a new tile
 						= Image.FromFile(@"..\..\..\images\wizardo\wizardo-east.png");
@@ -213,10 +205,13 @@ namespace testKratki
 			wall(4, 4);
 			clear(15, 4);
 			//for (int i = 0; i < Values.yAxis; i++) for (int j = 12; j < Values.xAxis; j++) wall(i, j);
+			healPlayer();
 			Values.currentLvl = 1;
 			Values.zombieCount = 1;
 			Values.zombie = new Zombie[Values.zombieCount];                                     // create zombies
 			zombieSpawn();  // set the amout of zombies
+
+		
 		}
 		
 		private void LoadMap2()                         // creator of the second level
@@ -303,6 +298,15 @@ namespace testKratki
 			Values.player.mana = Values.player.maxMana;
 			visibleHP.Text = "HP:       " + Values.player.HP + " / " + Values.player.maxHP;     // display player's current HP
 			visibleMana.Text = "Mana:   " + Values.player.mana + " / " + Values.player.maxMana; // display player's current mana
+
+			//if (!Values.player.spell2unlocked)
+			//{
+			//	visibleArcaneBolt.Hide();
+			//}
+			//if (!Values.player.spell3unlocked)  /// TO DO
+			//{
+			//	visibleCircleProtection.Hide();
+			//}
 		}
 		private void wall(int y, int x)														// creator of a single wall
 		{
@@ -357,6 +361,7 @@ namespace testKratki
 
 			if(Values.player.spell2unlocked) buttonAddSpell2.Enabled = false;
 			if(Values.player.spell3unlocked) buttonAddSpell3.Enabled = false;
+		
 
 			buttonMoreHP.Click += new EventHandler(buttonMoreHPClicked);
 			buttonManaRegen.Click += new EventHandler(buttonManaRegenClicked);
@@ -395,7 +400,9 @@ namespace testKratki
 			Values.player.spell3unlocked = true;
 			Close();
 		}
-	}
+
+		
+}
 
 	public static class Values									// base of the game
 	{
