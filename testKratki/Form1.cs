@@ -123,6 +123,11 @@ namespace testKratki
 								Values.zombie[i].alive = false;                                                         // make it considered dead
 								Values.board[Values.zombie[i].positionY, Values.zombie[i].positionX].Image = null;      // remove zombie from the map
 								Values.occupiedTile[Values.zombie[i].positionY, Values.zombie[i].positionX] = false;    // make its tile available}
+								Values.zombie[i].positionY = 1;
+								Values.zombie[i].positionX = 1;    // make its tile available}
+																   // make its tile available}
+
+
 							}
 						}
 					}
@@ -168,20 +173,26 @@ namespace testKratki
 					visibleMana.Text = "Mana:   " + Values.player.mana + " / " + Values.player.maxMana;                 // display player's current mana																// use the first spell
 					break;
 				case Keys.D2:
-					if (Values.player.attack && Values.player.mana >= Values.spellTwo.manaCost)                         // check if you have attack avaliable and enough mana
+					if (Values.player.spell2unlocked)
 					{
-						Values.spellTwo.useLinearSpell();																// use the second spell (linear) 
-						Values.player.attack = false;																	// make attacks unavaliable
+						if (Values.player.attack && Values.player.mana >= Values.spellTwo.manaCost)                         // check if you have attack avaliable and enough mana
+						{
+							Values.spellTwo.useLinearSpell();                                                               // use the second spell (linear) 
+							Values.player.attack = false;                                                                   // make attacks unavaliable
+						}
+						visibleMana.Text = "Mana:   " + Values.player.mana + " / " + Values.player.maxMana;                 // display player's current mana																// use the first spell
 					}
-					visibleMana.Text = "Mana:   " + Values.player.mana + " / " + Values.player.maxMana;					// display player's current mana																// use the first spell
 					break;
 				case Keys.D3:
-					if (Values.player.attack && Values.player.mana >= Values.spellThree.manaCost)                       // check if you have attack avaliable and enough mana
+					if (Values.player.spell3unlocked)
 					{
-						Values.spellThree.useCircularSpell();                                                           // use the third spell (circular) 
-						Values.player.attack = false;                                                                   // make attacks unavaliable
+						if (Values.player.attack && Values.player.mana >= Values.spellThree.manaCost)                       // check if you have attack avaliable and enough mana
+						{
+							Values.spellThree.useCircularSpell();                                                           // use the third spell (circular) 
+							Values.player.attack = false;                                                                   // make attacks unavaliable
+						}
+						visibleMana.Text = "Mana:   " + Values.player.mana + " / " + Values.player.maxMana;                 // display player's current mana
 					}
-					visibleMana.Text = "Mana:   " + Values.player.mana + " / " + Values.player.maxMana;					// display player's current mana
 					break;
 /*DELETE*/		case Keys.L:
 /*DELETE*/			foreach (Zombie z in Values.zombie) z.HP = 0;
@@ -212,6 +223,7 @@ namespace testKratki
 			wall(4, 3);
 			wall(4, 4);
 			clear(15, 4);
+			healPlayer();
 			//for (int i = 0; i < Values.yAxis; i++) for (int j = 12; j < Values.xAxis; j++) wall(i, j);
 			Values.currentLvl = 1;
 			Values.zombieCount = 1;
@@ -222,18 +234,61 @@ namespace testKratki
 		private void LoadMap2()                         // creator of the second level
 		{
 			clearMap();
-			Values.player = new Player(1, 1);                                                   // place the player
+			//Values.player = new Player(1, 1);                                                   // place the player
 			Values.board[Values.player.positionY, Values.player.positionX].Image                // places Wizardo onto a new tile
 						= Image.FromFile(@"..\..\..\images\wizardo\wizardo-east.png");
 
-			wall(5, 3);
-			wall(2, 4);
-			wall(4, 3);
-			wall(4, 4);
-			clear(15, 4);
-			//for (int i = 0; i < Values.yAxis; i++) for (int j = 12; j < Values.xAxis; j++) wall(i, j);
-			//reset stats
+
+			//PROTOTYP RANDOMOWOSCI MAP
+			//for (int i = 5; i < new Random().Next(10, Values.xAxis-1); i = i-4 + new Random().Next(4))
+			//{
+			//	for (int j = 5; j < new Random().Next(10, Values.yAxis-1); j = j-4 + new Random().Next(4))
+			//	{
+			//		int testBlockedPlace = 0;
+			//		wall(i, j);
+
+			//		//wall(j, i);
+			//		//clear(i, i);
+   //                 if (Values.occupiedTile[i - 1, j - 1])
+   //                 {
+			//			clear(i-1,j-1);
+			//			testBlockedPlace++;
+
+			//		}
+			//		if (Values.occupiedTile[i + 1, j + 1])
+   //                 {
+			//			testBlockedPlace++;
+
+			//		}
+			//		if (Values.occupiedTile[i + 1, j - 1])
+   //                 {
+			//			testBlockedPlace++;
+
+			//		}
+			//		if (Values.occupiedTile[i-1, j + 1])
+   //                 {
+			//			testBlockedPlace++;
+
+			//		}
+			//		if(testBlockedPlace == 4)
+   //                 {
+			//			//clear(j,i);
+			//			clear(j-1, i-1);
+			//			clear(j + 1, i + 1);
+			//			clear(j - 1, i - 1);
+			//			clear(j -+1, i + 1);
+
+
+			//		}
+			//	}
+
+
+			//}
+			
+			//clear(15, 4);
 			healPlayer();
+
+
 
 			Values.currentLvl = 2;
 			Values.zombieCount = 2;  
@@ -244,7 +299,7 @@ namespace testKratki
 		private void LoadMap3()                         // creator of the second level
 		{
 			clearMap();
-			Values.player = new Player(1, 1);                                                   // place the player
+			//Values.player = new Player(1, 1);                                                   // place the player
 			Values.board[Values.player.positionY, Values.player.positionX].Image                // places Wizardo onto a new tile
 						= Image.FromFile(@"..\..\..\images\wizardo\wizardo-east.png");
 
@@ -266,7 +321,7 @@ namespace testKratki
 		private void LoadMap4()                         // creator of the second level
 		{
 			clearMap();
-			Values.player = new Player(1, 1);                                                   // place the player
+			//Values.player = new Player(1, 1);                                                   // place the player
 			Values.board[Values.player.positionY, Values.player.positionX].Image                // places Wizardo onto a new tile
 						= Image.FromFile(@"..\..\..\images\wizardo\wizardo-east.png");
 
@@ -303,6 +358,25 @@ namespace testKratki
 			Values.player.mana = Values.player.maxMana;
 			visibleHP.Text = "HP:       " + Values.player.HP + " / " + Values.player.maxHP;     // display player's current HP
 			visibleMana.Text = "Mana:   " + Values.player.mana + " / " + Values.player.maxMana; // display player's current mana
+
+			if (!Values.player.spell2unlocked)
+			{
+				visibleArcaneBolt.Hide();
+			}
+            else
+            {
+				visibleArcaneBolt.Show();
+
+			}
+			if (!Values.player.spell3unlocked)
+			{
+				visibleCircleProtection.Hide();
+			}
+            else
+            {
+				visibleCircleProtection.Show();
+
+			}
 		}
 		private void wall(int y, int x)														// creator of a single wall
 		{
@@ -356,6 +430,7 @@ namespace testKratki
 			Button buttonAddSpell3 = addCustomButton("Circle of Protection", 128, 32, 471, 50);
 
 			if(Values.player.spell2unlocked) buttonAddSpell2.Enabled = false;
+        
 			if(Values.player.spell3unlocked) buttonAddSpell3.Enabled = false;
 
 			buttonMoreHP.Click += new EventHandler(buttonMoreHPClicked);
@@ -594,6 +669,17 @@ namespace testKratki
 						{
 							if (Values.occupiedTile[Values.player.positionY, Values.player.positionX - i])							// is it occupied
 							{
+								//if (isZombie(Values.player.positionY, Values.player.positionX - i, dmg))
+								//{
+								//	Values.zombie[j].HP -= dmg;                                                 // deal damage to the zombie on tile
+
+								//	//i = range + 1;
+								//}           // if its a wall - stop the loop, else deal damage
+								//else
+								//{
+								//	i = range + 1;
+								//	Values.effects[Values.player.positionY, Values.player.positionX - i].Image = Image.FromFile(@"..\..\..\images\spells\spell1.png");  // visual effect on the zombie
+								//}
 								if (!isZombie(Values.player.positionY, Values.player.positionX - i, dmg)) i = range + 1;			// if its a wall - stop the loop, else deal damage
 								else Values.effects[Values.player.positionY, Values.player.positionX - i].Image = Image.FromFile(@"..\..\..\images\spells\spell1.png");	// visual effect on the zombie
 							}
@@ -643,7 +729,6 @@ namespace testKratki
             {	
                 if (Values.zombie[j].positionY == y && Values.zombie[j].positionX == x)			// check position
                 {
-
                     Values.zombie[j].HP -= dmg;													// deal damage to the zombie on tile
                     return true;																// it was a zombie				
                 }
