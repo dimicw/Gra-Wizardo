@@ -70,6 +70,7 @@ namespace testKratki
 					Values.board[Values.player.previousPositionY, Values.player.previousPositionX].Image = null;		// clears previous tile
 					Values.board[Values.player.positionY, Values.player.positionX].Image								// places Wizardo onto a new tile
 						= Image.FromFile(@"..\..\..\images\wizardo\wizardo-north.png");
+					createfog();
 					break;
 				case Keys.D:
 				case Keys.Right:
@@ -77,6 +78,7 @@ namespace testKratki
 					Values.board[Values.player.previousPositionY, Values.player.previousPositionX].Image = null;        // clears previous tile
 					Values.board[Values.player.positionY, Values.player.positionX].Image                                // places Wizardo onto a new tile
 						= Image.FromFile(@"..\..\..\images\wizardo\wizardo-east.png");
+					createfog();
 					break;
 				case Keys.S:
 				case Keys.Down:
@@ -84,6 +86,7 @@ namespace testKratki
 					Values.board[Values.player.previousPositionY, Values.player.previousPositionX].Image = null;        // clears previous tile
 					Values.board[Values.player.positionY, Values.player.positionX].Image                                // places Wizardo onto a new tile
 						= Image.FromFile(@"..\..\..\images\wizardo\wizardo-south.png");
+					createfog();
 					break;
 				case Keys.A:
 				case Keys.Left:
@@ -91,12 +94,15 @@ namespace testKratki
 					Values.board[Values.player.previousPositionY, Values.player.previousPositionX].Image = null;        // clears previous tile
 					Values.board[Values.player.positionY, Values.player.positionX].Image                                // places Wizardo onto a new tile
 						= Image.FromFile(@"..\..\..\images\wizardo\wizardo-west.png");
+					createfog();
 					break;
 				case Keys.Space:
 				case Keys.Enter:
 					if (Values.player.mana <= Values.player.maxMana - Values.player.manaRegen) Values.player.mana += Values.player.manaRegen;		// add 10 mana if its spent
 					else if (Values.player.mana > Values.player.maxMana - Values.player.manaRegen) Values.player.mana = Values.player.maxMana;		// limit addition to maximum mana
 					visibleMana.Text = "Mana:   " + Values.player.mana + " / " + Values.player.maxMana;                 // display player's current mana
+
+					createfog();
 
 					levelCleared = true;																				// assume level is completed 
 					for (int i = 0; i < Values.zombieCount; i++)														// attack and move (each zombie)
@@ -222,7 +228,7 @@ namespace testKratki
 			Values.zombieCount = 5;
 			Values.zombie = new Zombie[Values.zombieCount];                                     // create zombies
 			zombieSpawn();  // set the amout of zombies
-			createFod();
+			createfog();
 
 
 		}
@@ -290,7 +296,9 @@ namespace testKratki
 			Values.zombieCount = 10;  
 			Values.zombie = new Zombie[Values.zombieCount];	// create zombies
 
-			zombieSpawn();	// set the amout of zombies
+			zombieSpawn();  // set the amout of zombies
+			createfog();
+
 		}
 		private void LoadMap3()                         // creator of the second level
 		{
@@ -313,6 +321,8 @@ namespace testKratki
 			Values.zombie = new Zombie[Values.zombieCount]; // create zombies
 
 			zombieSpawn();  // set the amout of zombies
+			createfog();
+
 		}
 		private void LoadMap4()                         // creator of the second level
 		{
@@ -335,6 +345,8 @@ namespace testKratki
 			Values.zombie = new Zombie[Values.zombieCount]; // create zombies
 
 			zombieSpawn();  // set the amout of zombies
+			createfog();
+
 		}
 		private void clearMap() // clearing map
         {
@@ -350,6 +362,7 @@ namespace testKratki
 		
 		private void healPlayer() // restoring max hp and mana of player
 		{
+			
 			Values.player.HP = Values.player.maxHP;
 			Values.player.mana = Values.player.maxMana;
 			visibleHP.Text = "HP:       " + Values.player.HP + " / " + Values.player.maxHP;     // display player's current HP
@@ -405,60 +418,71 @@ namespace testKratki
             }
         }
 
-		public void createFod()
+		public void createfog()
         {
-			int playerPosY = Values.player.positionY;
-			int playerPosX = Values.player.positionX;
-			
-			for(int y=0; y<Values.yAxis; y++)
-            {
-				for (int x = 0; x < Values.xAxis; x++)
+			//int playerPosY = Values.player.positionY;
+			//int playerPosX = Values.player.positionX;
+
+			//for(int y=0; y<Values.yAxis; y++)
+			//         {
+			//	for (int x = 0; x < Values.xAxis; x++)
+			//	{
+
+			//		if (Values.player.positionY + 1 < Values.yAxis && Values.player.positionY - 1 > 0                      // check if the tile exists
+			//			&& Values.player.positionX + 1 < Values.xAxis && Values.player.positionX - 1 > 0)
+			//                 {
+			//			for (int i = Values.player.positionY - 3; i != 17; i++)
+			//			{
+			//				if (i == 10 || i == 16) for (int j = 12; j != 15; j++) wall(i, j);
+			//				else if (i == 11 || i == 15) for (int j = 11; j != 16; j++) wall(i, j);
+			//				else for (int j = Values.player.positionX - 3; j != 17; j++) wall(i, j);
+			//			}
+
+			//		}
+
+			//	}
+			//}
+
+			for (int i = 0; i != Values.yAxis; i++) for (int j = 0; j != Values.xAxis; j++)
+					Values.effects[i, j].Image = Image.FromFile(@"..\..\..\images\build\fod.png");
+			for (int i = -3; i != 4; i++)
+			{
+				if (Values.player.positionY + i >= 0 && Values.player.positionY + i <= Values.yAxis)
 				{
-
-					if (Values.player.positionY + 1 < Values.yAxis && Values.player.positionY - 1 > 0                      // check if the tile exists
-						&& Values.player.positionX + 1 < Values.xAxis && Values.player.positionX - 1 > 0)
-                    {
-						//for(int i=1; i<2; i++)
-      //                  {
-						//	if (Values.player.positionY - i > 0)
-      //                      {
-
-      //                      }
-      //                  }
-						Values.effects[y, x].Image = null; // set fog
-
-                    }
-					else
-                    {
-						//Values.effects[y, x].Image = Image.FromFile(@"..\..\..\images\build\fod.png"); // set fog
-
+					if (i == -3 || i == 3)
+					{
+						for (int j = -1; j != 2; j++)
+						{
+							if (Values.player.positionX + j >= 0 && Values.player.positionX + j <= Values.xAxis)
+							{
+								Values.effects[Values.player.positionY + i, Values.player.positionX + j].Image = null;
+							}
+						}
 					}
-					Values.effects[y, x].Image = Image.FromFile(@"..\..\..\images\build\fod.png"); // set fog
-
-
-					//if (Values.effects[y, x] != Values.effects[Values.player.positionY,Values.player.positionX])
-					//{
-
-
-					//	Values.effects[y, x].Image = Image.FromFile(@"..\..\..\images\build\fod.png"); // set fog
-
-					//}
-					//if (((Values.player.positionY - 3 > 0) || (Values.player.positionX - 3 > 0)) || ((Values.player.positionY + 3 < Values.yAxis) || (Values.player.positionX + 3 < Values.xAxis)))
-					//{
-					//	for (int i = 1; i < 3; i++)
-					//	{
-					//		//Values.effects[Values.player.positionY - i, Values.player.positionX - i].Image = null;
-					//	}
-					//}
-					//               else
-					//               {
-					//	Values.effects[y, x].Image = Image.FromFile(@"..\..\..\images\build\fod.png"); // set fog
-
-					//}
+					else if (i == -2 || i == 2)
+					{
+						for (int j = -2; j != 3; j++)
+						{
+							if (Values.player.positionX + j >= 0 && Values.player.positionX + j <= Values.xAxis)
+							{
+								Values.effects[Values.player.positionY + i, Values.player.positionX + j].Image = null;
+							}
+						}
+					}
+					else
+					{
+						for (int j = -3; j != 4; j++)
+						{
+							if (Values.player.positionX + j >= 0 && Values.player.positionX + j <= Values.xAxis)
+							{
+								Values.effects[Values.player.positionY + i, Values.player.positionX + j].Image = null;
+							}
+						}
+					}
 				}
 			}
 
-        }
+		}
 	}
 
 	public partial class CustomMessageBox : Form
@@ -875,6 +899,7 @@ namespace testKratki
 
 			Values.occupiedTile[previousPositionY, previousPositionX] = false;      // make the previous tile available
 			Values.occupiedTile[positionY, positionX] = true;                       // make the new tile unavailable
+
 		}
 	}
 }
