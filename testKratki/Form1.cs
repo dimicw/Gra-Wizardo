@@ -102,8 +102,6 @@ namespace testKratki
 					else if (Values.player.mana > Values.player.maxMana - Values.player.manaRegen) Values.player.mana = Values.player.maxMana;		// limit addition to maximum mana
 					visibleMana.Text = "Mana:   " + Values.player.mana + " / " + Values.player.maxMana;                 // display player's current mana
 
-					createfog();
-
 					levelCleared = true;																				// assume level is completed 
 					for (int i = 0; i < Values.zombieCount; i++)														// attack and move (each zombie)
 					{
@@ -159,6 +157,8 @@ namespace testKratki
 					foreach (PictureBox effect in Values.effects) effect.Image = null;                                  // clear spell effects
 					Values.player.movement = true;                                                                      // make movement avaliable
 					Values.player.attack = true;																		// make attacks avaliable
+					createfog();
+
 					break;
 				case Keys.D1:
 					if (Values.player.attack && Values.player.mana >= Values.spellOne.manaCost)                         // check if you have attack avaliable and enough mana
@@ -345,7 +345,7 @@ namespace testKratki
 			Values.zombie = new Zombie[Values.zombieCount]; // create zombies
 
 			zombieSpawn();  // set the amout of zombies
-			createfog();
+			createfog(); // Creating a fog
 
 		}
 		private void clearMap() // clearing map
@@ -420,42 +420,21 @@ namespace testKratki
 
 		public void createfog()
         {
-			//int playerPosY = Values.player.positionY;
-			//int playerPosX = Values.player.positionX;
-
-			//for(int y=0; y<Values.yAxis; y++)
-			//         {
-			//	for (int x = 0; x < Values.xAxis; x++)
-			//	{
-
-			//		if (Values.player.positionY + 1 < Values.yAxis && Values.player.positionY - 1 > 0                      // check if the tile exists
-			//			&& Values.player.positionX + 1 < Values.xAxis && Values.player.positionX - 1 > 0)
-			//                 {
-			//			for (int i = Values.player.positionY - 3; i != 17; i++)
-			//			{
-			//				if (i == 10 || i == 16) for (int j = 12; j != 15; j++) wall(i, j);
-			//				else if (i == 11 || i == 15) for (int j = 11; j != 16; j++) wall(i, j);
-			//				else for (int j = Values.player.positionX - 3; j != 17; j++) wall(i, j);
-			//			}
-
-			//		}
-
-			//	}
-			//}
+		
 
 			for (int i = 0; i != Values.yAxis; i++) for (int j = 0; j != Values.xAxis; j++)
-					Values.effects[i, j].Image = Image.FromFile(@"..\..\..\images\build\fod.png");
+					Values.effects[i, j].Image = Image.FromFile(@"..\..\..\images\build\fod.png"); // painting a fog
 			for (int i = -3; i != 4; i++)
 			{
-				if (Values.player.positionY + i >= 0 && Values.player.positionY + i <= Values.yAxis)
+				if (Values.player.positionY + i >= 0 && Values.player.positionY + i <= Values.yAxis) // check a map border
 				{
 					if (i == -3 || i == 3)
 					{
 						for (int j = -1; j != 2; j++)
 						{
-							if (Values.player.positionX + j >= 0 && Values.player.positionX + j <= Values.xAxis)
+							if (Values.player.positionX + j >= 0 && Values.player.positionX + j <= Values.xAxis) // check a map border
 							{
-								Values.effects[Values.player.positionY + i, Values.player.positionX + j].Image = null;
+								Values.effects[Values.player.positionY + i, Values.player.positionX + j].Image = null; // set visible terrain around player
 							}
 						}
 					}
@@ -463,9 +442,9 @@ namespace testKratki
 					{
 						for (int j = -2; j != 3; j++)
 						{
-							if (Values.player.positionX + j >= 0 && Values.player.positionX + j <= Values.xAxis)
+							if (Values.player.positionX + j >= 0 && Values.player.positionX + j <= Values.xAxis) // check a map border
 							{
-								Values.effects[Values.player.positionY + i, Values.player.positionX + j].Image = null;
+								Values.effects[Values.player.positionY + i, Values.player.positionX + j].Image = null;  // set visible terrain around player  // set visible terrain around player
 							}
 						}
 					}
@@ -473,9 +452,9 @@ namespace testKratki
 					{
 						for (int j = -3; j != 4; j++)
 						{
-							if (Values.player.positionX + j >= 0 && Values.player.positionX + j <= Values.xAxis)
+							if (Values.player.positionX + j >= 0 && Values.player.positionX + j <= Values.xAxis) // check a map border
 							{
-								Values.effects[Values.player.positionY + i, Values.player.positionX + j].Image = null;
+								Values.effects[Values.player.positionY + i, Values.player.positionX + j].Image = null;  // set visible terrain around player
 							}
 						}
 					}
