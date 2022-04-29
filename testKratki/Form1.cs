@@ -209,7 +209,7 @@ namespace testKratki
 		{
 
 			
-			Values.player = new Player(4, 4);                                                   // place the player
+			Values.player = new Player(1,1);                                                   // place the player
 			Values.board[Values.player.positionY, Values.player.positionX].Image                // places Wizardo onto a new tile
 						= Image.FromFile(@"..\..\..\images\wizardo\wizardo-east.png");
 
