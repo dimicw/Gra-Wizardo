@@ -34,7 +34,7 @@ namespace testKratki
 				{
 					Values.floor[i, j] = new PictureBox();							// create new picturebox
 					Values.floor[i, j].Image										// fill the picturebox with floor image
-						= Image.FromFile(@"..\..\..\images\build\floor.png");
+						= Values.floorImage;
 					Values.floor[i, j].Location = new Point(left, top);				// relocate the tile next to the previous tile
 					Values.floor[i, j].Size = new Size(32, 32);						// resize the tile
 					mapBase.Controls.Add(Values.floor[i, j]);						// fix the tiles to the base
@@ -69,7 +69,7 @@ namespace testKratki
 					Values.player.Action('w');							// changes values of facing and position of the player
 					Values.board[Values.player.previousPositionY, Values.player.previousPositionX].Image = null;		// clears previous tile
 					Values.board[Values.player.positionY, Values.player.positionX].Image								// places Wizardo onto a new tile
-						= Image.FromFile(@"..\..\..\images\wizardo\wizardo-north.png");
+						= Values.wizardoNorthImage;
 					//createFog();
 					//explore();
 					break;
@@ -78,7 +78,7 @@ namespace testKratki
 					Values.player.Action('d');                          // changes values of facing and position of the player
 					Values.board[Values.player.previousPositionY, Values.player.previousPositionX].Image = null;        // clears previous tile
 					Values.board[Values.player.positionY, Values.player.positionX].Image                                // places Wizardo onto a new tile
-						= Image.FromFile(@"..\..\..\images\wizardo\wizardo-east.png");
+						= Values.wizardoEastImage;
 					//createFog();
 					//explore();
 
@@ -88,7 +88,7 @@ namespace testKratki
 					Values.player.Action('s');                          // changes values of facing and position of the player
 					Values.board[Values.player.previousPositionY, Values.player.previousPositionX].Image = null;        // clears previous tile
 					Values.board[Values.player.positionY, Values.player.positionX].Image                                // places Wizardo onto a new tile
-						= Image.FromFile(@"..\..\..\images\wizardo\wizardo-south.png");
+						= Values.wizardoSouthImage;
 					//createFog();
 					//explore();
 
@@ -98,7 +98,7 @@ namespace testKratki
 					Values.player.Action('a');                          // changes values of facing and position of the player
 					Values.board[Values.player.previousPositionY, Values.player.previousPositionX].Image = null;        // clears previous tile
 					Values.board[Values.player.positionY, Values.player.positionX].Image                                // places Wizardo onto a new tile
-						= Image.FromFile(@"..\..\..\images\wizardo\wizardo-west.png");
+						= Values.wizardoWestImage;
 					//createFog();
 					//explore();
 
@@ -211,8 +211,7 @@ namespace testKratki
 			
 			Values.player = new Player(1,1);                                                   // place the player
 			Values.board[Values.player.positionY, Values.player.positionX].Image                // places Wizardo onto a new tile
-						= Image.FromFile(@"..\..\..\images\wizardo\wizardo-east.png");
-
+						= Values.wizardoWestImage;
 			mainGraphic.Image = Image.FromFile(@"..\..\..\images\wizardo\wizardo.gif");         // set the main graphic
 			visibleHP.Text = "HP:       " + Values.player.HP + " / " + Values.player.maxHP;     // display player's current HP
 			visibleMana.Text = "Mana:   " + Values.player.mana + " / " + Values.player.maxMana; // display player's current mana
@@ -238,7 +237,7 @@ namespace testKratki
 			createFog();
 
 			for (int i = 0; i != Values.yAxis; i++) for (int j = 0; j != Values.xAxis; j++)
-					Values.effects[i, j].Image = Image.FromFile(@"..\..\..\images\build\fog.png");
+					Values.effects[i, j].Image = Values.fogImage;
 
 		}
 
@@ -247,7 +246,7 @@ namespace testKratki
 			clearMap();
 			//Values.player = new Player(1, 1);                                                   // place the player
 			Values.board[Values.player.positionY, Values.player.positionX].Image                // places Wizardo onto a new tile
-						= Image.FromFile(@"..\..\..\images\wizardo\wizardo-east.png");
+						= Values.wizardoEastImage;
 
 
 			//PROTOTYP RANDOMOWOSCI MAP
@@ -314,7 +313,7 @@ namespace testKratki
 			clearMap();
 			//Values.player = new Player(1, 1);                                                   // place the player
 			Values.board[Values.player.positionY, Values.player.positionX].Image                // places Wizardo onto a new tile
-						= Image.FromFile(@"..\..\..\images\wizardo\wizardo-east.png");
+						= Values.wizardoWestImage;
 
 			wall(5, 3);
 			wall(2, 4);
@@ -338,7 +337,7 @@ namespace testKratki
 			clearMap();
 			//Values.player = new Player(1, 1);                                                   // place the player
 			Values.board[Values.player.positionY, Values.player.positionX].Image                // places Wizardo onto a new tile
-						= Image.FromFile(@"..\..\..\images\wizardo\wizardo-east.png");
+						= Values.wizardoWestImage;
 
 			wall(5, 3);
 			wall(2, 4);
@@ -398,7 +397,7 @@ namespace testKratki
 		}
 		private void wall(int y, int x)														// creator of a single wall
 		{
-			Values.board[y, x].Image = Image.FromFile(@"..\..\..\images\build\wall.png");	// fill the tile with wall image
+			Values.board[y, x].Image = Values.wallImage;	// fill the tile with wall image
 			Values.occupiedTile[y, x] = true;												// make the tile unavailable for the player
 		}
 
@@ -421,7 +420,7 @@ namespace testKratki
 				{
                     Values.zombie[i] = new Zombie(yRand, xRand);		// place the zombie
                     Values.board[Values.zombie[i].positionY, Values.zombie[i].positionX].Image  
-                        = Image.FromFile(@"..\..\..\images\zombie\zombie-west.png");
+                        = Values.zombieWestImage;
                 }
 				else i -= 1;											// try this loop again
             }
@@ -926,10 +925,10 @@ namespace testKratki
 
 			Values.board[previousPositionY, previousPositionX].Image = null;		// clear the previous tile
 
-			if (x > 0) Values.board[positionY, positionX].Image = Image.FromFile(@"..\..\..\images\zombie\zombie-east.png");			// place and rotate zombie on the new tile
-			else if (x < 0) Values.board[positionY, positionX].Image = Image.FromFile(@"..\..\..\images\zombie\zombie-west.png");
-			else if (y > 0) Values.board[positionY, positionX].Image = Image.FromFile(@"..\..\..\images\zombie\zombie-south.png"); 
-			else if (y < 0) Values.board[positionY, positionX].Image = Image.FromFile(@"..\..\..\images\zombie\zombie-north.png");
+			if (x > 0) Values.board[positionY, positionX].Image = Values.zombieEastImage;			// place and rotate zombie on the new tile
+			else if (x < 0) Values.board[positionY, positionX].Image = Values.zombieWestImage;
+			else if (y > 0) Values.board[positionY, positionX].Image = Values.zombieSouthImage; 
+			else if (y < 0) Values.board[positionY, positionX].Image = Values.zombieNorthImage;
 
 			Values.occupiedTile[previousPositionY, previousPositionX] = false;      // make the previous tile available
 			Values.occupiedTile[positionY, positionX] = true;                       // make the new tile unavailable

@@ -1,8 +1,13 @@
 {
   "version": 2,
-  "dgSpecHash": "2CkB/lSCWmD9f2rAydcOws1J910wQX5wfkQZtkT04xcV8MNAc0Gl2muyHzhcKv//8Naqj2oXmfkQfT7CgTSK7A==",
+  "dgSpecHash": "rZg4fCWER5e85vrl+zwlp9izaSkqnbwVOqdk90Fqd2EfF0FOv9Fdf8sp46OVdFL03CkyP5LQSVWW2JI5xp6o6Q==",
   "success": true,
-  "projectFilePath": "D:\\gitHubRepositories\\testKratki\\testKratki\\testKratki.csproj",
-  "expectedPackageFiles": [],
+  "projectFilePath": "C:\\Users\\Szymon\\Documents\\GitHub\\testKratki\\testKratki\\testKratki.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Szymon\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\5.0.13\\microsoft.netcore.app.host.win-x64.5.0.13.nupkg.sha512",
+    "C:\\Users\\Szymon\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\5.0.0\\microsoft.aspnetcore.app.ref.5.0.0.nupkg.sha512",
+    "C:\\Users\\Szymon\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\5.0.0\\microsoft.windowsdesktop.app.ref.5.0.0.nupkg.sha512",
+    "C:\\Users\\Szymon\\.nuget\\packages\\microsoft.netcore.app.ref\\5.0.0\\microsoft.netcore.app.ref.5.0.0.nupkg.sha512"
+  ],
   "logs": []
 }
