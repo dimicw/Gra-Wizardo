@@ -70,7 +70,8 @@ namespace testKratki
 					Values.board[Values.player.previousPositionY, Values.player.previousPositionX].Image = null;		// clears previous tile
 					Values.board[Values.player.positionY, Values.player.positionX].Image								// places Wizardo onto a new tile
 						= Image.FromFile(@"..\..\..\images\wizardo\wizardo-north.png");
-					createfog();
+					//createFog();
+					//explore();
 					break;
 				case Keys.D:
 				case Keys.Right:
@@ -78,7 +79,9 @@ namespace testKratki
 					Values.board[Values.player.previousPositionY, Values.player.previousPositionX].Image = null;        // clears previous tile
 					Values.board[Values.player.positionY, Values.player.positionX].Image                                // places Wizardo onto a new tile
 						= Image.FromFile(@"..\..\..\images\wizardo\wizardo-east.png");
-					createfog();
+					//createFog();
+					//explore();
+
 					break;
 				case Keys.S:
 				case Keys.Down:
@@ -86,7 +89,9 @@ namespace testKratki
 					Values.board[Values.player.previousPositionY, Values.player.previousPositionX].Image = null;        // clears previous tile
 					Values.board[Values.player.positionY, Values.player.positionX].Image                                // places Wizardo onto a new tile
 						= Image.FromFile(@"..\..\..\images\wizardo\wizardo-south.png");
-					createfog();
+					//createFog();
+					//explore();
+
 					break;
 				case Keys.A:
 				case Keys.Left:
@@ -94,7 +99,9 @@ namespace testKratki
 					Values.board[Values.player.previousPositionY, Values.player.previousPositionX].Image = null;        // clears previous tile
 					Values.board[Values.player.positionY, Values.player.positionX].Image                                // places Wizardo onto a new tile
 						= Image.FromFile(@"..\..\..\images\wizardo\wizardo-west.png");
-					createfog();
+					//createFog();
+					//explore();
+
 					break;
 				case Keys.Space:
 				case Keys.Enter:
@@ -157,7 +164,7 @@ namespace testKratki
 					foreach (PictureBox effect in Values.effects) effect.Image = null;                                  // clear spell effects
 					Values.player.movement = true;                                                                      // make movement avaliable
 					Values.player.attack = true;																		// make attacks avaliable
-					createfog();
+					createFog();
 
 					break;
 				case Keys.D1:
@@ -228,8 +235,10 @@ namespace testKratki
 			Values.zombieCount = 5;
 			Values.zombie = new Zombie[Values.zombieCount];                                     // create zombies
 			zombieSpawn();  // set the amout of zombies
-			createfog();
+			createFog();
 
+			for (int i = 0; i != Values.yAxis; i++) for (int j = 0; j != Values.xAxis; j++)
+					Values.effects[i, j].Image = Image.FromFile(@"..\..\..\images\build\fod.png");
 
 		}
 
@@ -297,7 +306,7 @@ namespace testKratki
 			Values.zombie = new Zombie[Values.zombieCount];	// create zombies
 
 			zombieSpawn();  // set the amout of zombies
-			createfog();
+			createFog();
 
 		}
 		private void LoadMap3()                         // creator of the second level
@@ -321,7 +330,7 @@ namespace testKratki
 			Values.zombie = new Zombie[Values.zombieCount]; // create zombies
 
 			zombieSpawn();  // set the amout of zombies
-			createfog();
+			createFog();
 
 		}
 		private void LoadMap4()                         // creator of the second level
@@ -345,7 +354,7 @@ namespace testKratki
 			Values.zombie = new Zombie[Values.zombieCount]; // create zombies
 
 			zombieSpawn();  // set the amout of zombies
-			createfog(); // Creating a fog
+			createFog(); // Creating a fog
 
 		}
 		private void clearMap() // clearing map
@@ -418,7 +427,42 @@ namespace testKratki
             }
         }
 
-		public void createfog()
+  //      public void explore(int direction)
+  //      {
+  //          switch (direction)
+  //          {
+		//		case 0:
+		//			if (Values.player.positionY + i >= 0 && Values.player.positionY + i <= Values.yAxis)
+		//			{
+
+		//			}
+
+		//		break;
+		//		case 1:
+		//			if (Values.player.positionY + i >= 0 && Values.player.positionY + i <= Values.yAxis)
+		//			{
+
+		//			}
+
+		//			break;
+		//		case 2:
+		//			if (Values.player.positionY + i >= 0 && Values.player.positionY + i <= Values.yAxis)
+		//			{
+
+		//			}
+
+		//			break;
+		//		case 3:
+		//			if (Values.player.positionY + i >= 0 && Values.player.positionY + i <= Values.yAxis)
+		//			{
+
+		//			}
+
+		//			break;
+		//	}
+
+		//}
+		public void createFog()
         {
 		
 
