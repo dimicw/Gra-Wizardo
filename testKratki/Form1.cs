@@ -161,7 +161,7 @@ namespace testKratki
 						
                     }                                                      // if all the zombies are dead, show the final message
 					visibleHP.Text = "HP:       " + Values.player.HP + " / " + Values.player.maxHP;						// display player's current HP
-					foreach (PictureBox effect in Values.effects) effect.Image = null;                                  // clear spell effects
+					foreach (PictureBox effect in Values.effects) if (effect.Image == Values.spell1Image) effect.Image = null;                                  // clear spell effects
 					Values.player.movement = true;                                                                      // make movement avaliable
 					Values.player.attack = true;																		// make attacks avaliable
 					createFog();
@@ -238,7 +238,7 @@ namespace testKratki
 			createFog();
 
 			for (int i = 0; i != Values.yAxis; i++) for (int j = 0; j != Values.xAxis; j++)
-					Values.effects[i, j].Image = Image.FromFile(@"..\..\..\images\build\fod.png");
+					Values.effects[i, j].Image = Image.FromFile(@"..\..\..\images\build\fog.png");
 
 		}
 
@@ -464,10 +464,6 @@ namespace testKratki
 		//}
 		public void createFog()
         {
-		
-
-			for (int i = 0; i != Values.yAxis; i++) for (int j = 0; j != Values.xAxis; j++)
-					Values.effects[i, j].Image = Image.FromFile(@"..\..\..\images\build\fod.png"); // painting a fog
 			for (int i = -3; i != 4; i++)
 			{
 				if (Values.player.positionY + i >= 0 && Values.player.positionY + i <= Values.yAxis) // check a map border
@@ -589,7 +585,22 @@ namespace testKratki
 		public static Spell spellTwo = new Spell(2, 4, 10);     // values of the second spell (linear)
 		public static Spell spellThree = new Spell(1, 2, 15);   // values of the third spell (circular)
         public static int currentLvl;							// current lvl
-    }
+
+		public static Image spell1Image = Image.FromFile(@"..\..\..\images\spells\spell1.png");
+		//public static Image spell2Image = Image.FromFile(@"..\..\..\images\spells\spell2.png");
+		//public static Image spell3Image = Image.FromFile(@"..\..\..\images\spells\spell3.png");
+		public static Image wallImage = Image.FromFile(@"..\..\..\images\build\wall.png");
+		public static Image floorImage = Image.FromFile(@"..\..\..\images\build\floor.png");
+		public static Image fogImage = Image.FromFile(@"..\..\..\images\build\fog.png");
+		public static Image wizardoNorthImage = Image.FromFile(@"..\..\..\images\wizardo\wizardo-north.png");
+		public static Image wizardoEastImage = Image.FromFile(@"..\..\..\images\wizardo\wizardo-east.png");
+		public static Image wizardoSouthImage = Image.FromFile(@"..\..\..\images\wizardo\wizardo-south.png");
+		public static Image wizardoWestImage = Image.FromFile(@"..\..\..\images\wizardo\wizardo-west.png");
+		public static Image zombieNorthImage = Image.FromFile(@"..\..\..\images\zombie\zombie-north.png");
+		public static Image zombieEastImage = Image.FromFile(@"..\..\..\images\zombie\zombie-east.png");
+		public static Image zombieSouthImage = Image.FromFile(@"..\..\..\images\zombie\zombie-south.png");
+		public static Image zombieWestImage = Image.FromFile(@"..\..\..\images\zombie\zombie-west.png");
+	}
 	
 	public class Creature									// base class for player and zombies
 	{
@@ -738,9 +749,9 @@ namespace testKratki
                             if (Values.occupiedTile[Values.player.positionY - i, Values.player.positionX])							// is it occupied
                             {
                                 if (!isZombie(Values.player.positionY - i, Values.player.positionX, dmg)) i = range + 1;			// if its a wall - stop the loop, else deal damage
-								else Values.effects[Values.player.positionY - i, Values.player.positionX].Image = Image.FromFile(@"..\..\..\images\spells\spell1.png"); // visual effect on the zombie
+								else Values.effects[Values.player.positionY - i, Values.player.positionX].Image = Values.spell1Image; // visual effect on the zombie
 							}
-                            else Values.effects[Values.player.positionY - i, Values.player.positionX].Image = Image.FromFile(@"..\..\..\images\spells\spell1.png");		// visual effect on the free tile
+                            else Values.effects[Values.player.positionY - i, Values.player.positionX].Image = Values.spell1Image;		// visual effect on the free tile
 						}
                         break;
 					case 1:		// east - right - d
@@ -749,9 +760,9 @@ namespace testKratki
 							if (Values.occupiedTile[Values.player.positionY, Values.player.positionX + i])							// is it occupied
 							{
 								if (!isZombie(Values.player.positionY, Values.player.positionX + i, dmg)) i = range + 1;			// if its a wall - stop the loop, else deal damage
-								else Values.effects[Values.player.positionY, Values.player.positionX + i].Image = Image.FromFile(@"..\..\..\images\spells\spell1.png"); // visual effect on the zombie
+								else Values.effects[Values.player.positionY, Values.player.positionX + i].Image = Values.spell1Image; // visual effect on the zombie
 							}
-							else Values.effects[Values.player.positionY, Values.player.positionX + i].Image = Image.FromFile(@"..\..\..\images\spells\spell1.png");     // visual effect on the free tile
+							else Values.effects[Values.player.positionY, Values.player.positionX + i].Image = Values.spell1Image;     // visual effect on the free tile
 						}
 						break;
 					case 2:		// south - down - s
@@ -760,9 +771,9 @@ namespace testKratki
 							if (Values.occupiedTile[Values.player.positionY + i, Values.player.positionX])							// is it occupied
 							{
 								if (!isZombie(Values.player.positionY + i, Values.player.positionX, dmg)) i = range + 1;			// if its a wall - stop the loop, else deal damage
-								else Values.effects[Values.player.positionY + i, Values.player.positionX].Image = Image.FromFile(@"..\..\..\images\spells\spell1.png"); // visual effect on the zombie
+								else Values.effects[Values.player.positionY + i, Values.player.positionX].Image = Values.spell1Image; // visual effect on the zombie
 							}
-							else Values.effects[Values.player.positionY + i, Values.player.positionX].Image = Image.FromFile(@"..\..\..\images\spells\spell1.png");     // visual effect on the free tile
+							else Values.effects[Values.player.positionY + i, Values.player.positionX].Image = Values.spell1Image;     // visual effect on the free tile
 						}
 						break;
 					case 3:		// west - left - a
@@ -779,12 +790,12 @@ namespace testKratki
 								//else
 								//{
 								//	i = range + 1;
-								//	Values.effects[Values.player.positionY, Values.player.positionX - i].Image = Image.FromFile(@"..\..\..\images\spells\spell1.png");  // visual effect on the zombie
+								//	Values.effects[Values.player.positionY, Values.player.positionX - i].Image = Values.spell1Image;  // visual effect on the zombie
 								//}
 								if (!isZombie(Values.player.positionY, Values.player.positionX - i, dmg)) i = range + 1;			// if its a wall - stop the loop, else deal damage
-								else Values.effects[Values.player.positionY, Values.player.positionX - i].Image = Image.FromFile(@"..\..\..\images\spells\spell1.png");	// visual effect on the zombie
+								else Values.effects[Values.player.positionY, Values.player.positionX - i].Image = Values.spell1Image;	// visual effect on the zombie
 							}
-							else Values.effects[Values.player.positionY, Values.player.positionX - i].Image = Image.FromFile(@"..\..\..\images\spells\spell1.png");     // visual effect on the free tile
+							else Values.effects[Values.player.positionY, Values.player.positionX - i].Image = Values.spell1Image;     // visual effect on the free tile
 						}
 						break;
 					default:
@@ -816,10 +827,10 @@ namespace testKratki
 					{
 						if (isZombie(Values.player.positionY + y, Values.player.positionX + x, dmg))                       // if its a zombie - make an effect
 						{
-							Values.effects[Values.player.positionY + y, Values.player.positionX + x].Image = Image.FromFile(@"..\..\..\images\spells\spell1.png");  // visual effect on the zombie
+							Values.effects[Values.player.positionY + y, Values.player.positionX + x].Image = Values.spell1Image;  // visual effect on the zombie
 						}
 					}
-					else Values.effects[Values.player.positionY + y, Values.player.positionX + x].Image = Image.FromFile(@"..\..\..\images\spells\spell1.png");		// visual effect on the free tile
+					else Values.effects[Values.player.positionY + y, Values.player.positionX + x].Image = Values.spell1Image;		// visual effect on the free tile
 				}
 			}
 		}
