@@ -11,45 +11,45 @@ using System.Windows.Forms;
 namespace testKratki
 {
 	public partial class Form1 : Form
-	{				
+	{
 
 		public Form1()
 		{
 			InitializeComponent();
-			Text = "Zombifying Adventures of Wizardo";								// title of the game (and window)
+			Text = "Zombifying Adventures of Wizardo";                              // title of the game (and window)
 		}
 
-		private void Form1_Load(object sender, EventArgs e)							// instructions done immediately after starting the program
-		{	
-			Values.floor = new PictureBox[Values.yAxis, Values.xAxis];				// adds dimensions to floor table
-			Values.board = new PictureBox[Values.yAxis, Values.xAxis];				// adds dimensions to board table
-			Values.effects = new PictureBox[Values.yAxis, Values.xAxis];			// adds dimensions to effects table
+		private void Form1_Load(object sender, EventArgs e)                         // instructions done immediately after starting the program
+		{
+			Values.floor = new PictureBox[Values.yAxis, Values.xAxis];              // adds dimensions to floor table
+			Values.board = new PictureBox[Values.yAxis, Values.xAxis];              // adds dimensions to board table
+			Values.effects = new PictureBox[Values.yAxis, Values.xAxis];            // adds dimensions to effects table
 			Values.occupiedTile = new bool[Values.yAxis, Values.xAxis];             // adds dimensions to occupiedTile table
 
-			int left = 2, top = 2;													// margin values, later used to create the board
-			for (int i=0; i < Values.yAxis; i++)									// rows of the board
+			int left = 2, top = 2;                                                  // margin values, later used to create the board
+			for (int i = 0; i < Values.yAxis; i++)                                  // rows of the board
 			{
-				left = 2;															// reset of margin
-				for (int j = 0; j < Values.xAxis; j++)								// columns of the board
+				left = 2;                                                           // reset of margin
+				for (int j = 0; j < Values.xAxis; j++)                              // columns of the board
 				{
-					Values.floor[i, j] = new PictureBox();							// create new picturebox
-					Values.floor[i, j].Image										// fill the picturebox with floor image
+					Values.floor[i, j] = new PictureBox();                          // create new picturebox
+					Values.floor[i, j].Image                                        // fill the picturebox with floor image
 						= Values.floorImage;
-					Values.floor[i, j].Location = new Point(left, top);				// relocate the tile next to the previous tile
-					Values.floor[i, j].Size = new Size(32, 32);						// resize the tile
-					mapBase.Controls.Add(Values.floor[i, j]);						// fix the tiles to the base
+					Values.floor[i, j].Location = new Point(left, top);             // relocate the tile next to the previous tile
+					Values.floor[i, j].Size = new Size(32, 32);                     // resize the tile
+					mapBase.Controls.Add(Values.floor[i, j]);                       // fix the tiles to the base
 
-					Values.board[i, j] = new PictureBox();							// create new picturebox
-					Values.floor[i, j].Controls.Add(Values.board[i, j]);			// make the picturebox a child of the floor tile
-					Values.board[i, j].Location = new Point(0, 0);					// relocate the tile to match the floor tile
-					Values.board[i, j].BackColor = Color.Transparent;				// make the background of the image transparent
+					Values.board[i, j] = new PictureBox();                          // create new picturebox
+					Values.floor[i, j].Controls.Add(Values.board[i, j]);            // make the picturebox a child of the floor tile
+					Values.board[i, j].Location = new Point(0, 0);                  // relocate the tile to match the floor tile
+					Values.board[i, j].BackColor = Color.Transparent;               // make the background of the image transparent
 
-					Values.effects[i, j] = new PictureBox();						// create new picturebox
-					Values.board[i, j].Controls.Add(Values.effects[i, j]);			// make the picturebox a child of the floor tile
-					Values.effects[i, j].Location = new Point(0, 0);				// relocate the tile to match the floor tile
-					Values.effects[i, j].BackColor = Color.Transparent;				// make the background of the image transparent
+					Values.effects[i, j] = new PictureBox();                        // create new picturebox
+					Values.board[i, j].Controls.Add(Values.effects[i, j]);          // make the picturebox a child of the floor tile
+					Values.effects[i, j].Location = new Point(0, 0);                // relocate the tile to match the floor tile
+					Values.effects[i, j].BackColor = Color.Transparent;             // make the background of the image transparent
 
-					Values.occupiedTile[i, j] = false;								// make the tile available for the player
+					Values.occupiedTile[i, j] = false;                              // make the tile available for the player
 					left += 32;
 				}
 				top += 32;
@@ -62,15 +62,15 @@ namespace testKratki
 		private void Form1_KeyDown(object sender, KeyEventArgs e)       // reaction for each pressed key
 		{
 			bool levelCleared = false;
-			switch (e.KeyData)											// choose action depending on the key pressed by the player
+			switch (e.KeyData)                                          // choose action depending on the key pressed by the player
 			{
 				case Keys.W:
 				case Keys.Up:
-					Values.player.Action('w');							// changes values of facing and position of the player
-					Values.board[Values.player.previousPositionY, Values.player.previousPositionX].Image = null;		// clears previous tile
-					Values.board[Values.player.positionY, Values.player.positionX].Image								// places Wizardo onto a new tile
+					Values.player.Action('w');                          // changes values of facing and position of the player
+					Values.board[Values.player.previousPositionY, Values.player.previousPositionX].Image = null;        // clears previous tile
+					Values.board[Values.player.positionY, Values.player.positionX].Image                                // places Wizardo onto a new tile
 						= Values.wizardoNorthImage;
-					//createFog();
+					//clearFog();
 					//explore();
 					break;
 				case Keys.D:
@@ -79,7 +79,7 @@ namespace testKratki
 					Values.board[Values.player.previousPositionY, Values.player.previousPositionX].Image = null;        // clears previous tile
 					Values.board[Values.player.positionY, Values.player.positionX].Image                                // places Wizardo onto a new tile
 						= Values.wizardoEastImage;
-					//createFog();
+					//clearFog();
 					//explore();
 
 					break;
@@ -89,7 +89,7 @@ namespace testKratki
 					Values.board[Values.player.previousPositionY, Values.player.previousPositionX].Image = null;        // clears previous tile
 					Values.board[Values.player.positionY, Values.player.positionX].Image                                // places Wizardo onto a new tile
 						= Values.wizardoSouthImage;
-					//createFog();
+					//clearFog();
 					//explore();
 
 					break;
@@ -99,18 +99,18 @@ namespace testKratki
 					Values.board[Values.player.previousPositionY, Values.player.previousPositionX].Image = null;        // clears previous tile
 					Values.board[Values.player.positionY, Values.player.positionX].Image                                // places Wizardo onto a new tile
 						= Values.wizardoWestImage;
-					//createFog();
+					//clearFog();
 					//explore();
 
 					break;
 				case Keys.Space:
 				case Keys.Enter:
-					if (Values.player.mana <= Values.player.maxMana - Values.player.manaRegen) Values.player.mana += Values.player.manaRegen;		// add 10 mana if its spent
-					else if (Values.player.mana > Values.player.maxMana - Values.player.manaRegen) Values.player.mana = Values.player.maxMana;		// limit addition to maximum mana
+					if (Values.player.mana <= Values.player.maxMana - Values.player.manaRegen) Values.player.mana += Values.player.manaRegen;       // add 10 mana if its spent
+					else if (Values.player.mana > Values.player.maxMana - Values.player.manaRegen) Values.player.mana = Values.player.maxMana;      // limit addition to maximum mana
 					visibleMana.Text = "Mana:   " + Values.player.mana + " / " + Values.player.maxMana;                 // display player's current mana
 
-					levelCleared = true;																				// assume level is completed 
-					for (int i = 0; i < Values.zombieCount; i++)														// attack and move (each zombie)
+					levelCleared = true;                                                                                // assume level is completed 
+					for (int i = 0; i < Values.zombieCount; i++)                                                        // attack and move (each zombie)
 					{
 						if (Values.zombie[i].HP > 0)                                                                    // check if its still alive (kind of)
 						{
@@ -133,38 +133,38 @@ namespace testKratki
 						}
 					}
 					if (levelCleared) {
-						switch (Values.currentLvl)
+						switch (Values.currentLevel)
 						{
 							case 1:
-								new CustomMessageBox().ShowDialog();
+								new LevelUpMessage().ShowDialog();
 								levelCleared = false;
 								LoadMap2();
 								break;
 							case 2:
-								new CustomMessageBox().ShowDialog();
+								new LevelUpMessage().ShowDialog();
 								levelCleared = false;
-                                LoadMap3();
-                                break;
+								LoadMap3();
+								break;
 							case 5:
-								new CustomMessageBox().ShowDialog();
+								new LevelUpMessage().ShowDialog();
 								levelCleared = false;
-                                LoadMap4();
-                                break;	
+								LoadMap4();
+								break;
 							case 4:
-								new CustomMessageBox().ShowDialog();
+								new LevelUpMessage().ShowDialog();
 								levelCleared = false;
 								MessageBox.Show("You are finished game!");
 								System.Windows.Forms.Application.Exit();
 								break;
-							
+
 						}
-						
-                    }                                                      // if all the zombies are dead, show the final message
-					visibleHP.Text = "HP:       " + Values.player.HP + " / " + Values.player.maxHP;						// display player's current HP
+
+					}                                                      // if all the zombies are dead, show the final message
+					visibleHP.Text = "HP:       " + Values.player.HP + " / " + Values.player.maxHP;                     // display player's current HP
 					foreach (PictureBox effect in Values.effects) if (effect.Image == Values.spell1Image) effect.Image = null;                                  // clear spell effects
 					Values.player.movement = true;                                                                      // make movement avaliable
-					Values.player.attack = true;																		// make attacks avaliable
-					createFog();
+					Values.player.attack = true;                                                                        // make attacks avaliable
+					clearFog();
 
 					break;
 				case Keys.D1:
@@ -197,19 +197,22 @@ namespace testKratki
 						visibleMana.Text = "Mana:   " + Values.player.mana + " / " + Values.player.maxMana;                 // display player's current mana
 					}
 					break;
-/*DELETE*/		case Keys.L:
-/*DELETE*/			foreach (Zombie z in Values.zombie) z.HP = 0;
-/*DELETE*/			break;
+				/*DELETE*/
+				case Keys.L:
+					/*DELETE*/
+					foreach (Zombie z in Values.zombie) z.HP = 0;
+					/*DELETE*/
+					break;
 				default:
 					break;
 			}
 		}
 
-		private void LoadMap1()							// creator of the first level
+		private void LoadMap1()                         // creator of the first level
 		{
 
-			
-			Values.player = new Player(1,1);                                                   // place the player
+
+			Values.player = new Player(1, 1);                                                    // place the player
 			Values.board[Values.player.positionY, Values.player.positionX].Image                // places Wizardo onto a new tile
 						= Values.wizardoWestImage;
 			mainGraphic.Image = Image.FromFile(@"..\..\..\images\wizardo\wizardo.gif");         // set the main graphic
@@ -228,134 +231,110 @@ namespace testKratki
 			wall(4, 4);
 			clear(15, 4);
 			healPlayer();
-			//for (int i = 0; i < Values.yAxis; i++) for (int j = 12; j < Values.xAxis; j++) wall(i, j);
 			healPlayer();
-			Values.currentLvl = 1;
+			Values.currentLevel = 1;
 			Values.zombieCount = 5;
 			Values.zombie = new Zombie[Values.zombieCount];                                     // create zombies
-			zombieSpawn();  // set the amout of zombies
-			createFog();
-
-			for (int i = 0; i != Values.yAxis; i++) for (int j = 0; j != Values.xAxis; j++)
+			zombieSpawn();                                                                      // set the amout of zombies
+			for (int i = 0; i != Values.yAxis; i++) for (int j = 0; j != Values.xAxis; j++)     // set fog for the whole map
 					Values.effects[i, j].Image = Values.fogImage;
+			clearFog();                                                                         // clear the fog around the player
+
 
 		}
 
 		private void LoadMap2()                         // creator of the second level
 		{
 			clearMap();
-			//Values.player = new Player(1, 1);                                                   // place the player
+			Values.player.positionX = 1;                                                        // place the player
+			Values.player.positionY = 1;
+			Values.player.previousPositionX = 1;
+			Values.player.previousPositionY = 1;
 			Values.board[Values.player.positionY, Values.player.positionX].Image                // places Wizardo onto a new tile
 						= Values.wizardoEastImage;
-
-
-			//PROTOTYP RANDOMOWOSCI MAP
-			//for (int i = 5; i < new Random().Next(10, Values.xAxis-1); i = i-4 + new Random().Next(4))
-			//{
-			//	for (int j = 5; j < new Random().Next(10, Values.yAxis-1); j = j-4 + new Random().Next(4))
-			//	{
-			//		int testBlockedPlace = 0;
-			//		wall(i, j);
-
-			//		//wall(j, i);
-			//		//clear(i, i);
-   //                 if (Values.occupiedTile[i - 1, j - 1])
-   //                 {
-			//			clear(i-1,j-1);
-			//			testBlockedPlace++;
-
-			//		}
-			//		if (Values.occupiedTile[i + 1, j + 1])
-   //                 {
-			//			testBlockedPlace++;
-
-			//		}
-			//		if (Values.occupiedTile[i + 1, j - 1])
-   //                 {
-			//			testBlockedPlace++;
-
-			//		}
-			//		if (Values.occupiedTile[i-1, j + 1])
-   //                 {
-			//			testBlockedPlace++;
-
-			//		}
-			//		if(testBlockedPlace == 4)
-   //                 {
-			//			//clear(j,i);
-			//			clear(j-1, i-1);
-			//			clear(j + 1, i + 1);
-			//			clear(j - 1, i - 1);
-			//			clear(j -+1, i + 1);
-
-
-			//		}
-			//	}
-
-
-			//}
-			
-			//clear(15, 4);
 			healPlayer();
 
+			Values.currentLevel = 2;
+			Values.zombieCount = 10;
+			Values.zombie = new Zombie[Values.zombieCount];                                     // create zombies
 
+			// create walls
 
-			Values.currentLvl = 2;
-			Values.zombieCount = 10;  
-			Values.zombie = new Zombie[Values.zombieCount];	// create zombies
-
-			zombieSpawn();  // set the amout of zombies
-			createFog();
-
+			zombieSpawn();                                                                      // set the amout of zombies
+			for (int i = 0; i != Values.yAxis; i++) for (int j = 0; j != Values.xAxis; j++)     // set fog for the whole map
+					Values.effects[i, j].Image = Values.fogImage;
+			clearFog();                                                                         // clear the fog around the player
 		}
-		private void LoadMap3()                         // creator of the second level
+
+		private void LoadMap3()																	// creator of the second level
 		{
 			clearMap();
-			//Values.player = new Player(1, 1);                                                   // place the player
+			Values.player.positionX = 1;                                                        // place the player
+			Values.player.positionY = 1;
+			Values.player.previousPositionX = 1;
+			Values.player.previousPositionY = 1;
 			Values.board[Values.player.positionY, Values.player.positionX].Image                // places Wizardo onto a new tile
-						= Values.wizardoWestImage;
-
-			wall(5, 3);
-			wall(2, 4);
-			wall(4, 3);
-			wall(4, 4);
-			clear(15, 4);
-			//for (int i = 0; i < Values.yAxis; i++) for (int j = 12; j < Values.xAxis; j++) wall(i, j);
-			//reset stats
+						= Values.wizardoEastImage;
 			healPlayer();
 
-			Values.currentLvl = 3;
+			Values.currentLevel = 3;
 			Values.zombieCount = 15;
-			Values.zombie = new Zombie[Values.zombieCount]; // create zombies
+			Values.zombie = new Zombie[Values.zombieCount];										// create zombies
 
-			zombieSpawn();  // set the amout of zombies
-			createFog();
+			// create walls
 
+			zombieSpawn();                                                                      // set the amout of zombies
+			for (int i = 0; i != Values.yAxis; i++) for (int j = 0; j != Values.xAxis; j++)     // set fog for the whole map
+					Values.effects[i, j].Image = Values.fogImage;
+			clearFog();                                                                         // clear the fog around the player
 		}
-		private void LoadMap4()                         // creator of the second level
+
+		private void LoadMap4()                                                                 // creator of the second level
 		{
 			clearMap();
-			//Values.player = new Player(1, 1);                                                   // place the player
+			Values.player.positionX = 1;                                                        // place the player
+			Values.player.positionY = 1;
+			Values.player.previousPositionX = 1;
+			Values.player.previousPositionY = 1;
 			Values.board[Values.player.positionY, Values.player.positionX].Image                // places Wizardo onto a new tile
-						= Values.wizardoWestImage;
-
-			wall(5, 3);
-			wall(2, 4);
-			wall(4, 3);
-			wall(4, 4);
-			clear(15, 4);
-			//for (int i = 0; i < Values.yAxis; i++) for (int j = 12; j < Values.xAxis; j++) wall(i, j);
-			//reset stats
+						= Values.wizardoEastImage;
 			healPlayer();
 
-			Values.currentLvl = 4;
+			Values.currentLevel = 4;
 			Values.zombieCount = 20;
-			Values.zombie = new Zombie[Values.zombieCount]; // create zombies
+			Values.zombie = new Zombie[Values.zombieCount];										// create zombies
 
-			zombieSpawn();  // set the amout of zombies
-			createFog(); // Creating a fog
+			// create walls
 
+			zombieSpawn();                                                                      // set the amout of zombies
+			for (int i = 0; i != Values.yAxis; i++) for (int j = 0; j != Values.xAxis; j++)     // set fog for the whole map
+					Values.effects[i, j].Image = Values.fogImage;
+			clearFog();                                                                         // clear the fog around the player
 		}
+
+		private void LoadMap5()                                                                 // creator of the second level
+		{
+			clearMap();
+			Values.player.positionX = 1;                                                        // place the player
+			Values.player.positionY = 1;
+			Values.player.previousPositionX = 1;
+			Values.player.previousPositionY = 1;
+			Values.board[Values.player.positionY, Values.player.positionX].Image                // places Wizardo onto a new tile
+						= Values.wizardoEastImage;
+			healPlayer();
+
+			Values.currentLevel = 5;
+			Values.zombieCount = 25;
+			Values.zombie = new Zombie[Values.zombieCount];                                     // create zombies
+
+			// create walls
+
+			zombieSpawn();                                                                      // set the amout of zombies
+			for (int i = 0; i != Values.yAxis; i++) for (int j = 0; j != Values.xAxis; j++)     // set fog for the whole map
+					Values.effects[i, j].Image = Values.fogImage;
+			clearFog();                                                                         // clear the fog around the player
+		}
+
 		private void clearMap() // clearing map
         {
             for (int y = 0; y < Values.yAxis; y++)
@@ -368,36 +347,21 @@ namespace testKratki
             }
         }
 		
-		private void healPlayer() // restoring max hp and mana of player
+		private void healPlayer()																// restoring max hp and mana of player
 		{
-			
 			Values.player.HP = Values.player.maxHP;
 			Values.player.mana = Values.player.maxMana;
 			visibleHP.Text = "HP:       " + Values.player.HP + " / " + Values.player.maxHP;     // display player's current HP
-			visibleMana.Text = "Mana:   " + Values.player.mana + " / " + Values.player.maxMana; // display player's current mana<<<<<<< HEAD
-			if (!Values.player.spell2unlocked)
-			{
-				visibleArcaneBolt.Hide();
-			}
-            else
-            {
-				visibleArcaneBolt.Show();
+			visibleMana.Text = "Mana:   " + Values.player.mana + " / " + Values.player.maxMana; // display player's current mana
 
-			}
-			if (!Values.player.spell3unlocked)
-			{
-				visibleCircleProtection.Hide();
-			}
-            else
-            {
-				visibleCircleProtection.Show();
-
-			}
-
+			if (!Values.player.spell2unlocked)visibleArcaneBolt.Hide();							// set visibility of spells
+            else visibleArcaneBolt.Show();
+			if (!Values.player.spell3unlocked) visibleCircleProtection.Hide();
+            else visibleCircleProtection.Show();
 		}
 		private void wall(int y, int x)														// creator of a single wall
 		{
-			Values.board[y, x].Image = Values.wallImage;	// fill the tile with wall image
+			Values.board[y, x].Image = Values.wallImage;									// fill the tile with wall image
 			Values.occupiedTile[y, x] = true;												// make the tile unavailable for the player
 		}
 
@@ -426,54 +390,19 @@ namespace testKratki
             }
         }
 
-  //      public void explore(int direction)
-  //      {
-  //          switch (direction)
-  //          {
-		//		case 0:
-		//			if (Values.player.positionY + i >= 0 && Values.player.positionY + i <= Values.yAxis)
-		//			{
-
-		//			}
-
-		//		break;
-		//		case 1:
-		//			if (Values.player.positionY + i >= 0 && Values.player.positionY + i <= Values.yAxis)
-		//			{
-
-		//			}
-
-		//			break;
-		//		case 2:
-		//			if (Values.player.positionY + i >= 0 && Values.player.positionY + i <= Values.yAxis)
-		//			{
-
-		//			}
-
-		//			break;
-		//		case 3:
-		//			if (Values.player.positionY + i >= 0 && Values.player.positionY + i <= Values.yAxis)
-		//			{
-
-		//			}
-
-		//			break;
-		//	}
-
-		//}
-		public void createFog()
+		public void clearFog()
         {
 			for (int i = -3; i != 4; i++)
 			{
-				if (Values.player.positionY + i >= 0 && Values.player.positionY + i <= Values.yAxis) // check a map border
+				if (Values.player.positionY + i >= 0 && Values.player.positionY + i <= Values.yAxis)						// check for a map border
 				{
 					if (i == -3 || i == 3)
 					{
 						for (int j = -1; j != 2; j++)
 						{
-							if (Values.player.positionX + j >= 0 && Values.player.positionX + j <= Values.xAxis) // check a map border
+							if (Values.player.positionX + j >= 0 && Values.player.positionX + j <= Values.xAxis)			// check for a map border
 							{
-								Values.effects[Values.player.positionY + i, Values.player.positionX + j].Image = null; // set visible terrain around player
+								Values.effects[Values.player.positionY + i, Values.player.positionX + j].Image = null;		// clear the fog
 							}
 						}
 					}
@@ -481,9 +410,9 @@ namespace testKratki
 					{
 						for (int j = -2; j != 3; j++)
 						{
-							if (Values.player.positionX + j >= 0 && Values.player.positionX + j <= Values.xAxis) // check a map border
+							if (Values.player.positionX + j >= 0 && Values.player.positionX + j <= Values.xAxis)			// check for a map border
 							{
-								Values.effects[Values.player.positionY + i, Values.player.positionX + j].Image = null;  // set visible terrain around player  // set visible terrain around player
+								Values.effects[Values.player.positionY + i, Values.player.positionX + j].Image = null;		// clear the fog
 							}
 						}
 					}
@@ -491,21 +420,70 @@ namespace testKratki
 					{
 						for (int j = -3; j != 4; j++)
 						{
-							if (Values.player.positionX + j >= 0 && Values.player.positionX + j <= Values.xAxis) // check a map border
+							if (Values.player.positionX + j >= 0 && Values.player.positionX + j <= Values.xAxis)			// check for a map border
 							{
-								Values.effects[Values.player.positionY + i, Values.player.positionX + j].Image = null;  // set visible terrain around player
+								Values.effects[Values.player.positionY + i, Values.player.positionX + j].Image = null;		// clear the fog
 							}
 						}
 					}
 				}
 			}
+		}
 
+		private void PROTOTYP_RANDOMOWOSCI_MAP()
+		{
+			//for (int i = 5; i < new Random().Next(10, Values.xAxis-1); i = i-4 + new Random().Next(4))
+			//{
+			//	for (int j = 5; j < new Random().Next(10, Values.yAxis-1); j = j-4 + new Random().Next(4))
+			//	{
+			//		int testBlockedPlace = 0;
+			//		wall(i, j);
+
+			//		//wall(j, i);
+			//		//clear(i, i);
+			//                 if (Values.occupiedTile[i - 1, j - 1])
+			//                 {
+			//			clear(i-1,j-1);
+			//			testBlockedPlace++;
+
+			//		}
+			//		if (Values.occupiedTile[i + 1, j + 1])
+			//                 {
+			//			testBlockedPlace++;
+
+			//		}
+			//		if (Values.occupiedTile[i + 1, j - 1])
+			//                 {
+			//			testBlockedPlace++;
+
+			//		}
+			//		if (Values.occupiedTile[i-1, j + 1])
+			//                 {
+			//			testBlockedPlace++;
+
+			//		}
+			//		if(testBlockedPlace == 4)
+			//                 {
+			//			//clear(j,i);
+			//			clear(j-1, i-1);
+			//			clear(j + 1, i + 1);
+			//			clear(j - 1, i - 1);
+			//			clear(j -+1, i + 1);
+
+
+			//		}
+			//	}
+
+
+			//}
+
+			//clear(15, 4);
 		}
 	}
 
-	public partial class CustomMessageBox : Form
+	public partial class LevelUpMessage : Form					// form for level ups
 	{
-		public CustomMessageBox()
+		public LevelUpMessage()
 		{
 			Text = "Level Up!";
 			Size = new Size(640, 128);
@@ -526,14 +504,13 @@ namespace testKratki
         
 			if(Values.player.spell3unlocked) buttonAddSpell3.Enabled = false;
 		
-
-			buttonMoreHP.Click += new EventHandler(buttonMoreHPClicked);
+			buttonMoreHP.Click += new EventHandler(buttonMoreHPClicked);								
 			buttonManaRegen.Click += new EventHandler(buttonManaRegenClicked);
 			buttonAddSpell2.Click += new EventHandler(buttonAddSpell2Clicked);
 			buttonAddSpell3.Click += new EventHandler(buttonAddSpell3Clicked);
 		}
 
-		private Button addCustomButton(string text, int width, int height, int positionX, int positionY)
+		private Button addCustomButton(string text, int width, int height, int positionX, int positionY)	// create new button with custom paramenters
 		{
 			Button button1 = new Button();
 			Controls.Add(button1);
@@ -546,22 +523,22 @@ namespace testKratki
 
 		protected void buttonMoreHPClicked(object sender, EventArgs e)
 		{
-			Values.player.maxHP += 15;
+			Values.player.maxHP += 15;				// increase maximum HP by 15 points
 			Close();
 		}
 		protected void buttonManaRegenClicked(object sender, EventArgs e)
 		{
-			Values.player.manaRegen += 3;
+			Values.player.manaRegen += 3;           // increase mana regeneration by 3 points
 			Close();
 		}
 		protected void buttonAddSpell2Clicked(object sender, EventArgs e)
 		{
-			Values.player.spell2unlocked = true;
+			Values.player.spell2unlocked = true;	// unlock Arcane Bolt
 			Close();
 		}
 		protected void buttonAddSpell3Clicked(object sender, EventArgs e)
 		{
-			Values.player.spell3unlocked = true;
+			Values.player.spell3unlocked = true;	// unlock Circle of Protection
 			Close();
 		}
 
@@ -583,19 +560,19 @@ namespace testKratki
 		public static Spell spellOne = new Spell(1,3, 5);       // values of the first spell (linear)
 		public static Spell spellTwo = new Spell(2, 4, 10);     // values of the second spell (linear)
 		public static Spell spellThree = new Spell(1, 2, 15);   // values of the third spell (circular)
-        public static int currentLvl;							// current lvl
+        public static int currentLevel;							// current lvl
 
-		public static Image spell1Image = Image.FromFile(@"..\..\..\images\spells\spell1.png");
+		public static Image spell1Image = Image.FromFile(@"..\..\..\images\spells\spell1.png");						// images for spells
 		//public static Image spell2Image = Image.FromFile(@"..\..\..\images\spells\spell2.png");
 		//public static Image spell3Image = Image.FromFile(@"..\..\..\images\spells\spell3.png");
-		public static Image wallImage = Image.FromFile(@"..\..\..\images\build\wall.png");
+		public static Image wallImage = Image.FromFile(@"..\..\..\images\build\wall.png");							// images for map elements
 		public static Image floorImage = Image.FromFile(@"..\..\..\images\build\floor.png");
-		public static Image fogImage = Image.FromFile(@"..\..\..\images\build\fog.png");
-		public static Image wizardoNorthImage = Image.FromFile(@"..\..\..\images\wizardo\wizardo-north.png");
+		public static Image fogImage = Image.FromFile(@"..\..\..\images\build\fog.png");	
+		public static Image wizardoNorthImage = Image.FromFile(@"..\..\..\images\wizardo\wizardo-north.png");		// images for Wizardo
 		public static Image wizardoEastImage = Image.FromFile(@"..\..\..\images\wizardo\wizardo-east.png");
 		public static Image wizardoSouthImage = Image.FromFile(@"..\..\..\images\wizardo\wizardo-south.png");
 		public static Image wizardoWestImage = Image.FromFile(@"..\..\..\images\wizardo\wizardo-west.png");
-		public static Image zombieNorthImage = Image.FromFile(@"..\..\..\images\zombie\zombie-north.png");
+		public static Image zombieNorthImage = Image.FromFile(@"..\..\..\images\zombie\zombie-north.png");			// images for zombies
 		public static Image zombieEastImage = Image.FromFile(@"..\..\..\images\zombie\zombie-east.png");
 		public static Image zombieSouthImage = Image.FromFile(@"..\..\..\images\zombie\zombie-south.png");
 		public static Image zombieWestImage = Image.FromFile(@"..\..\..\images\zombie\zombie-west.png");
@@ -638,7 +615,7 @@ namespace testKratki
 			previousPositionY = positionY;
 		}
 
-		public Player(int HP, int facing, int mana,	int manaRegen,		// function to create a new plyer and assing custom values (new lvl probably)
+		public Player(int HP, int facing, int mana,	int manaRegen,			// function to create a new plyer and assing custom values (new lvl probably)
 			int maxMana, int maxHP, bool movement, bool attack, bool spell2unlocked, bool spell3unlocked, int positionX, int positionY)		
 		{
 			this.HP = HP;
@@ -743,58 +720,47 @@ namespace testKratki
             {
                 switch (Values.player.facing) {
 					case 0:		// north - up - w
-                        if (Values.player.positionY - i < Values.yAxis && Values.player.positionY - i + 1 > 0)						// check if the tile exists
+                        if (Values.player.positionY - i < Values.yAxis && Values.player.positionY - i + 1 > 0)							// check if the tile exists
                         {
-                            if (Values.occupiedTile[Values.player.positionY - i, Values.player.positionX])							// is it occupied
+                            if (Values.occupiedTile[Values.player.positionY - i, Values.player.positionX])								// is it occupied
                             {
-                                if (!isZombie(Values.player.positionY - i, Values.player.positionX, dmg)) i = range + 1;			// if its a wall - stop the loop, else deal damage
-								else Values.effects[Values.player.positionY - i, Values.player.positionX].Image = Values.spell1Image; // visual effect on the zombie
+                                if (!isZombie(Values.player.positionY - i, Values.player.positionX, dmg)) i = range + 1;				// if its a wall - stop the loop, else deal damage
+								else Values.effects[Values.player.positionY - i, Values.player.positionX].Image = Values.spell1Image;	// visual effect on the zombie
 							}
                             else Values.effects[Values.player.positionY - i, Values.player.positionX].Image = Values.spell1Image;		// visual effect on the free tile
 						}
                         break;
 					case 1:		// east - right - d
-						if (Values.player.positionX + i < Values.xAxis && Values.player.positionX + i + 1 > 0)						// check if the tile exists
+						if (Values.player.positionX + i < Values.xAxis && Values.player.positionX + i + 1 > 0)							// check if the tile exists
 						{
-							if (Values.occupiedTile[Values.player.positionY, Values.player.positionX + i])							// is it occupied
+							if (Values.occupiedTile[Values.player.positionY, Values.player.positionX + i])								// is it occupied
 							{
-								if (!isZombie(Values.player.positionY, Values.player.positionX + i, dmg)) i = range + 1;			// if its a wall - stop the loop, else deal damage
-								else Values.effects[Values.player.positionY, Values.player.positionX + i].Image = Values.spell1Image; // visual effect on the zombie
+								if (!isZombie(Values.player.positionY, Values.player.positionX + i, dmg)) i = range + 1;				// if its a wall - stop the loop, else deal damage
+								else Values.effects[Values.player.positionY, Values.player.positionX + i].Image = Values.spell1Image;	// visual effect on the zombie
 							}
-							else Values.effects[Values.player.positionY, Values.player.positionX + i].Image = Values.spell1Image;     // visual effect on the free tile
+							else Values.effects[Values.player.positionY, Values.player.positionX + i].Image = Values.spell1Image;		// visual effect on the free tile
 						}
 						break;
 					case 2:		// south - down - s
-						if (Values.player.positionY + i < Values.yAxis && Values.player.positionY + i + 1 > 0)						// check if the tile exists
+						if (Values.player.positionY + i < Values.yAxis && Values.player.positionY + i + 1 > 0)							// check if the tile exists
 						{
-							if (Values.occupiedTile[Values.player.positionY + i, Values.player.positionX])							// is it occupied
+							if (Values.occupiedTile[Values.player.positionY + i, Values.player.positionX])								// is it occupied
 							{
-								if (!isZombie(Values.player.positionY + i, Values.player.positionX, dmg)) i = range + 1;			// if its a wall - stop the loop, else deal damage
-								else Values.effects[Values.player.positionY + i, Values.player.positionX].Image = Values.spell1Image; // visual effect on the zombie
+								if (!isZombie(Values.player.positionY + i, Values.player.positionX, dmg)) i = range + 1;				// if its a wall - stop the loop, else deal damage
+								else Values.effects[Values.player.positionY + i, Values.player.positionX].Image = Values.spell1Image;	// visual effect on the zombie
 							}
-							else Values.effects[Values.player.positionY + i, Values.player.positionX].Image = Values.spell1Image;     // visual effect on the free tile
+							else Values.effects[Values.player.positionY + i, Values.player.positionX].Image = Values.spell1Image;		// visual effect on the free tile
 						}
 						break;
 					case 3:		// west - left - a
-						if (Values.player.positionX - i < Values.xAxis && Values.player.positionX - i + 1 > 0)						// check if the tile exists
+						if (Values.player.positionX - i < Values.xAxis && Values.player.positionX - i + 1 > 0)							// check if the tile exists
 						{
-							if (Values.occupiedTile[Values.player.positionY, Values.player.positionX - i])							// is it occupied
+							if (Values.occupiedTile[Values.player.positionY, Values.player.positionX - i])								// is it occupied
 							{
-								//if (isZombie(Values.player.positionY, Values.player.positionX - i, dmg))
-								//{
-								//	Values.zombie[j].HP -= dmg;                                                 // deal damage to the zombie on tile
-
-								//	//i = range + 1;
-								//}           // if its a wall - stop the loop, else deal damage
-								//else
-								//{
-								//	i = range + 1;
-								//	Values.effects[Values.player.positionY, Values.player.positionX - i].Image = Values.spell1Image;  // visual effect on the zombie
-								//}
-								if (!isZombie(Values.player.positionY, Values.player.positionX - i, dmg)) i = range + 1;			// if its a wall - stop the loop, else deal damage
+								if (!isZombie(Values.player.positionY, Values.player.positionX - i, dmg)) i = range + 1;				// if its a wall - stop the loop, else deal damage
 								else Values.effects[Values.player.positionY, Values.player.positionX - i].Image = Values.spell1Image;	// visual effect on the zombie
 							}
-							else Values.effects[Values.player.positionY, Values.player.positionX - i].Image = Values.spell1Image;     // visual effect on the free tile
+							else Values.effects[Values.player.positionY, Values.player.positionX - i].Image = Values.spell1Image;		// visual effect on the free tile
 						}
 						break;
 					default:
@@ -819,14 +785,14 @@ namespace testKratki
 
 			void circular(int y, int x) 
 			{
-				if (Values.player.positionY + y < Values.yAxis && Values.player.positionY + y + 1 > 0                      // check if the tile exists
+				if (Values.player.positionY + y < Values.yAxis && Values.player.positionY + y + 1 > 0								// check if the tile exists
 					&& Values.player.positionX + x < Values.xAxis && Values.player.positionX + x + 1 > 0)                     
 				{
-					if (Values.occupiedTile[Values.player.positionY + y, Values.player.positionX + x])                     // is it occupied
+					if (Values.occupiedTile[Values.player.positionY + y, Values.player.positionX + x])								// is it occupied
 					{
-						if (isZombie(Values.player.positionY + y, Values.player.positionX + x, dmg))                       // if its a zombie - make an effect
+						if (isZombie(Values.player.positionY + y, Values.player.positionX + x, dmg))								// if its a zombie - make an effect
 						{
-							Values.effects[Values.player.positionY + y, Values.player.positionX + x].Image = Values.spell1Image;  // visual effect on the zombie
+							Values.effects[Values.player.positionY + y, Values.player.positionX + x].Image = Values.spell1Image;	// visual effect on the zombie
 						}
 					}
 					else Values.effects[Values.player.positionY + y, Values.player.positionX + x].Image = Values.spell1Image;		// visual effect on the free tile
@@ -917,21 +883,21 @@ namespace testKratki
 
 		private void move(int y, int x)
 		{
-			previousPositionX = positionX;			// save current position
+			previousPositionX = positionX;															// save current position
 			previousPositionY = positionY;
 
-			positionX += x;							// move to the new tile
+			positionX += x;																			// move to the new tile
 			positionY += y;	
 
-			Values.board[previousPositionY, previousPositionX].Image = null;		// clear the previous tile
+			Values.board[previousPositionY, previousPositionX].Image = null;						// clear the previous tile
 
 			if (x > 0) Values.board[positionY, positionX].Image = Values.zombieEastImage;			// place and rotate zombie on the new tile
 			else if (x < 0) Values.board[positionY, positionX].Image = Values.zombieWestImage;
 			else if (y > 0) Values.board[positionY, positionX].Image = Values.zombieSouthImage; 
 			else if (y < 0) Values.board[positionY, positionX].Image = Values.zombieNorthImage;
 
-			Values.occupiedTile[previousPositionY, previousPositionX] = false;      // make the previous tile available
-			Values.occupiedTile[positionY, positionX] = true;                       // make the new tile unavailable
+			Values.occupiedTile[previousPositionY, previousPositionX] = false;						// make the previous tile available
+			Values.occupiedTile[positionY, positionX] = true;										// make the new tile unavailable
 
 		}
 	}
