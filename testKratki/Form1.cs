@@ -251,20 +251,20 @@ namespace testKratki
 			{
 				wall(0, j);
 				wall(18, j);
+				Values.floor[19, j].Image = null;
 			}
-			for (int i = 0; i < 18; i++)
+			for (int i = 0; i < 19; i++)
 			{
 				wall(i, 0);
 				wall(i, 38);
-			}
-			for (int i = 0; i < 19; i += 2)
-			{
-				for (int j = 0; j < 39; j += 2)
+				Values.floor[i, 39].Image = null;
+				if (i % 2 == 0) for (int j = 0; j < 39; j += 2)
 				{
 					wall(i, j);
 					wall(i, j);
 				}
 			}
+			Values.floor[19, 39].Image = null;
 
 			zombieSpawn();                                                                      // set the amout of zombies
 			for (int i = 0; i != Values.yAxis; i++) for (int j = 0; j != Values.xAxis; j++)     // set fog for the whole map
