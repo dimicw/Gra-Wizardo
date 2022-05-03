@@ -159,7 +159,7 @@ namespace testKratki
 				case Keys.D1:
 					if (Values.player.attack && Values.player.mana >= Values.spellOne.manaCost)                         // check if you have attack avaliable and enough mana
 					{
-						Values.spellOne.useLinearSpell();                                                               // use the first spell (linear) 
+						Values.spellOne.useLinearSpell(Values.spell1Image);                                             // use the first spell (linear) 
 						Values.player.attack = false;                                                                   // make attacks unavaliable
 					}
 					visibleMana.Text = "Mana:   " + Values.player.mana + " / " + Values.player.maxMana;                 // display player's current mana
@@ -170,7 +170,7 @@ namespace testKratki
 					{
 						if (Values.player.attack && Values.player.mana >= Values.spellTwo.manaCost)                         // check if you have attack avaliable and enough mana
 						{
-							Values.spellTwo.useLinearSpell();                                                               // use the second spell (linear) 
+							Values.spellTwo.useLinearSpell(Values.spell2Image);                                             // use the second spell (linear) 
 							Values.player.attack = false;                                                                   // make attacks unavaliable
 						}
 						visibleMana.Text = "Mana:   " + Values.player.mana + " / " + Values.player.maxMana;                 // display player's current mana									
@@ -206,6 +206,12 @@ namespace testKratki
 			mainGraphic.Image = Image.FromFile(@"..\..\..\images\wizardo\wizardo.gif");         // set the main graphic
 			visibleHP.Text = "HP:       " + Values.player.HP + " / " + Values.player.maxHP;     // display player's current HP
 			visibleMana.Text = "Mana:   " + Values.player.mana + " / " + Values.player.maxMana; // display player's current mana
+			healPlayer();
+
+			Values.currentLevel = 1;
+			Values.zombieCount = 5;
+			Values.zombie = new Zombie[Values.zombieCount];                                     // create zombies
+
 			for (int i = 0; i < 10; i++)
 			{
 				wall(0, i);
@@ -218,11 +224,7 @@ namespace testKratki
 			wall(4, 3);
 			wall(4, 4);
 			clear(15, 4);
-			healPlayer();
-			healPlayer();
-			Values.currentLevel = 1;
-			Values.zombieCount = 5;
-			Values.zombie = new Zombie[Values.zombieCount];                                     // create zombies
+
 			zombieSpawn();                                                                      // set the amout of zombies
 			for (int i = 0; i != Values.yAxis; i++) for (int j = 0; j != Values.xAxis; j++)     // set fog for the whole map
 					Values.effects[i, j].Image = Values.fogImage;
@@ -244,7 +246,25 @@ namespace testKratki
 			Values.zombieCount = 10;
 			Values.zombie = new Zombie[Values.zombieCount];                                     // create zombies
 
-			// create walls
+
+			for (int j = 0; j < 39; j++)
+			{
+				wall(0, j);
+				wall(18, j);
+			}
+			for (int i = 0; i < 18; i++)
+			{
+				wall(i, 0);
+				wall(i, 38);
+			}
+			for (int i = 0; i < 19; i += 2)
+			{
+				for (int j = 0; j < 39; j += 2)
+				{
+					wall(i, j);
+					wall(i, j);
+				}
+			}
 
 			zombieSpawn();                                                                      // set the amout of zombies
 			for (int i = 0; i != Values.yAxis; i++) for (int j = 0; j != Values.xAxis; j++)     // set fog for the whole map
@@ -381,13 +401,13 @@ namespace testKratki
 		{
 			for (int i = -3; i != 4; i++)
 			{
-				if (Values.player.positionY + i >= 0 && Values.player.positionY + i <= Values.yAxis)                        // check for a map border
+				if (Values.player.positionY + i >= 0 && Values.player.positionY + i <= Values.yAxis - 1)                    // check for a map border
 				{
 					if (i == -3 || i == 3)
 					{
 						for (int j = -1; j != 2; j++)
 						{
-							if (Values.player.positionX + j >= 0 && Values.player.positionX + j <= Values.xAxis)            // check for a map border
+							if (Values.player.positionX + j >= 0 && Values.player.positionX + j <= Values.xAxis - 1)        // check for a map border
 							{
 								Values.effects[Values.player.positionY + i, Values.player.positionX + j].Image = null;      // clear the fog
 							}
@@ -397,7 +417,7 @@ namespace testKratki
 					{
 						for (int j = -2; j != 3; j++)
 						{
-							if (Values.player.positionX + j >= 0 && Values.player.positionX + j <= Values.xAxis)            // check for a map border
+							if (Values.player.positionX + j >= 0 && Values.player.positionX + j <= Values.xAxis - 1)        // check for a map border
 							{
 								Values.effects[Values.player.positionY + i, Values.player.positionX + j].Image = null;      // clear the fog
 							}
@@ -407,7 +427,7 @@ namespace testKratki
 					{
 						for (int j = -3; j != 4; j++)
 						{
-							if (Values.player.positionX + j >= 0 && Values.player.positionX + j <= Values.xAxis)            // check for a map border
+							if (Values.player.positionX + j >= 0 && Values.player.positionX + j <= Values.xAxis - 1)        // check for a map border
 							{
 								Values.effects[Values.player.positionY + i, Values.player.positionX + j].Image = null;      // clear the fog
 							}
@@ -499,7 +519,7 @@ namespace testKratki
 			public static int currentLevel;                         // current lvl
 
 			public static Image spell1Image = Image.FromFile(@"..\..\..\images\spells\spell1.png");                     // images for spells
-																														//public static Image spell2Image = Image.FromFile(@"..\..\..\images\spells\spell2.png");
+			public static Image spell2Image = Image.FromFile(@"..\..\..\images\spells\spell2.png");
 																														//public static Image spell3Image = Image.FromFile(@"..\..\..\images\spells\spell3.png");
 			public static Image wallImage = Image.FromFile(@"..\..\..\images\build\wall.png");                          // images for map elements
 			public static Image floorImage = Image.FromFile(@"..\..\..\images\build\floor.png");
@@ -650,7 +670,7 @@ namespace testKratki
 				this.manaCost = manaCost;
 			}
 
-			public void useLinearSpell()
+			public void useLinearSpell(Image spellImage)
 			{
 				for (int i = 1; i <= range; i++)
 				{
@@ -662,9 +682,9 @@ namespace testKratki
 								if (Values.occupiedTile[Values.player.positionY - i, Values.player.positionX])                              // is it occupied
 								{
 									if (!isZombie(Values.player.positionY - i, Values.player.positionX, dmg)) i = range + 1;                // if its a wall - stop the loop, else deal damage
-									else Values.effects[Values.player.positionY - i, Values.player.positionX].Image = Values.spell1Image;   // visual effect on the zombie
+									else Values.effects[Values.player.positionY - i, Values.player.positionX].Image = spellImage;			// visual effect on the zombie
 								}
-								else Values.effects[Values.player.positionY - i, Values.player.positionX].Image = Values.spell1Image;       // visual effect on the free tile
+								else Values.effects[Values.player.positionY - i, Values.player.positionX].Image = spellImage;				// visual effect on the free tile
 							}
 							break;
 						case 1:     // east - right - d
@@ -673,9 +693,9 @@ namespace testKratki
 								if (Values.occupiedTile[Values.player.positionY, Values.player.positionX + i])                              // is it occupied
 								{
 									if (!isZombie(Values.player.positionY, Values.player.positionX + i, dmg)) i = range + 1;                // if its a wall - stop the loop, else deal damage
-									else Values.effects[Values.player.positionY, Values.player.positionX + i].Image = Values.spell1Image;   // visual effect on the zombie
+									else Values.effects[Values.player.positionY, Values.player.positionX + i].Image = spellImage;			// visual effect on the zombie
 								}
-								else Values.effects[Values.player.positionY, Values.player.positionX + i].Image = Values.spell1Image;       // visual effect on the free tile
+								else Values.effects[Values.player.positionY, Values.player.positionX + i].Image = spellImage;				// visual effect on the free tile
 							}
 							break;
 						case 2:     // south - down - s
@@ -684,9 +704,9 @@ namespace testKratki
 								if (Values.occupiedTile[Values.player.positionY + i, Values.player.positionX])                              // is it occupied
 								{
 									if (!isZombie(Values.player.positionY + i, Values.player.positionX, dmg)) i = range + 1;                // if its a wall - stop the loop, else deal damage
-									else Values.effects[Values.player.positionY + i, Values.player.positionX].Image = Values.spell1Image;   // visual effect on the zombie
+									else Values.effects[Values.player.positionY + i, Values.player.positionX].Image = spellImage;			// visual effect on the zombie
 								}
-								else Values.effects[Values.player.positionY + i, Values.player.positionX].Image = Values.spell1Image;       // visual effect on the free tile
+								else Values.effects[Values.player.positionY + i, Values.player.positionX].Image = spellImage;				// visual effect on the free tile
 							}
 							break;
 						case 3:     // west - left - a
@@ -695,9 +715,9 @@ namespace testKratki
 								if (Values.occupiedTile[Values.player.positionY, Values.player.positionX - i])                              // is it occupied
 								{
 									if (!isZombie(Values.player.positionY, Values.player.positionX - i, dmg)) i = range + 1;                // if its a wall - stop the loop, else deal damage
-									else Values.effects[Values.player.positionY, Values.player.positionX - i].Image = Values.spell1Image;   // visual effect on the zombie
+									else Values.effects[Values.player.positionY, Values.player.positionX - i].Image = spellImage;			// visual effect on the zombie
 								}
-								else Values.effects[Values.player.positionY, Values.player.positionX - i].Image = Values.spell1Image;       // visual effect on the free tile
+								else Values.effects[Values.player.positionY, Values.player.positionX - i].Image = spellImage;				// visual effect on the free tile
 							}
 							break;
 						default:
