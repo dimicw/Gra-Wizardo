@@ -134,7 +134,7 @@ namespace testKratki
 
 					if (levelCleared)                                                       // if all the zombies are dead, show the final message
 					{
-						switch (Values.currentLevel)
+						switch (Values.currentLevel)										// loading next map
 						{
 							case 1:
 								new LevelUpMessage().ShowDialog();
