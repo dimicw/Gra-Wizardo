@@ -117,6 +117,17 @@ namespace testKratki
 								Values.occupiedTile[Values.zombie[i].positionY, Values.zombie[i].positionX] = false;    // make its tile available}
 								Values.zombie[i].positionY = 1;
 								Values.zombie[i].positionX = 1;
+                                if(Values.player.HP < Values.player.maxHP)												// check if HP of Player is lower than maximum
+                                {
+                                    if (Values.player.maxHP - Values.player.HP < 6)										// if difference maxHP - HP is less than 6
+                                    {
+										Values.player.HP += Values.player.maxHP - Values.player.HP;						// heal at difference after zombie die
+									}
+                                    else
+                                    {
+										Values.player.HP += 6;															// heal at 6 after zombie die
+                                    }
+								}
 							}
 						}
 					}
