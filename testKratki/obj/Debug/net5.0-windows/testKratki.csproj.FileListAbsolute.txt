@@ -70,3 +70,4 @@ C:\Users\Mateusz\Documents\GitHub\testKratki\testKratki\obj\Debug\net5.0-windows
 C:\Users\Mateusz\Documents\GitHub\testKratki\testKratki\obj\Debug\net5.0-windows\testKratki.pdb
 C:\Users\Mateusz\Documents\GitHub\testKratki\testKratki\obj\Debug\net5.0-windows\testKratki.genruntimeconfig.cache
 C:\Users\Mateusz\Documents\GitHub\testKratki\testKratki\obj\Debug\net5.0-windows\ref\testKratki.dll
+C:\Users\Szymon\Documents\GitHub\testKratki\testKratki\obj\Debug\net5.0-windows\testKratki.LevelUpMessage.resources
