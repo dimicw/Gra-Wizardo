@@ -508,10 +508,10 @@ namespace testKratki
 			Values.occupiedTile[5, 22] = true;
 
 			zombieSpawn();                                                                      // set the amout of zombies
-			//for (int i = 0; i != Values.yAxis; i++) for (int j = 0; j != Values.xAxis; j++)     // set fog for the whole map
-			//		Values.effects[i, j].Image = Values.fogImage;
-			//clearFog();                                                                         // clear the fog around the player
-			Values.board[Values.player.positionY, Values.player.positionX].Image                // places Wizardo onto a new tile
+            for (int i = 0; i != Values.yAxis; i++) for (int j = 0; j != Values.xAxis; j++)     // set fog for the whole map
+                    Values.effects[i, j].Image = Values.fogImage;
+            clearFog();                                                                         // clear the fog around the player
+            Values.board[Values.player.positionY, Values.player.positionX].Image                // places Wizardo onto a new tile
 						= Values.wizardoEastImage;
 		}
 
@@ -571,6 +571,19 @@ namespace testKratki
 
 		private void LoadMap5()                                                                 // creator of the fifth level
 		{
+			clearMap();
+			Values.player.positionX = 26;                                                        // place the player
+			Values.player.positionY = 2;
+			Values.player.previousPositionX = 26;
+			Values.player.previousPositionY = 2;
+
+			healPlayer();
+
+			Values.currentLevel = 5;
+			Values.zombieCount = 25;
+			Values.zombie = new Zombie[Values.zombieCount];                                     // create zombies
+
+			// create walls
 			for (int i = 5; i != Values.yAxis; i++) for (int j = 14; j != Values.xAxis; j++) wall(i, j);
 			for (int i = 0; i != 5; i++) for (int j = 16; j != Values.xAxis; j++) wall(i, j);
 			for (int i = 1; i != 5; i++) for (int j = 19; j != 34; j++) clear(i, j);
@@ -628,6 +641,12 @@ namespace testKratki
 			wall(12, 1);
 			wall(1, 5);
 			wall(4, 5);                                                                         // clear the fog around the player
+			zombieSpawn();                                                                      // set the amout of zombies
+			for (int i = 0; i != Values.yAxis; i++) for (int j = 0; j != Values.xAxis; j++)     // set fog for the whole map
+					Values.effects[i, j].Image = Values.fogImage;
+			clearFog();                                                                         // clear the fog around the player
+			Values.board[Values.player.positionY, Values.player.positionX].Image                // places Wizardo onto a new tile
+						= Values.wizardoEastImage;
 		}
 
 		private void clearMap()																	// clearing the whole map
