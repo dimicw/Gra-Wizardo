@@ -23,7 +23,6 @@ D:\gitHubRepositories\testKratki\testKratki\bin\Debug\net5.0-windows\testKratki.
 D:\gitHubRepositories\testKratki\testKratki\bin\Debug\net5.0-windows\testKratki.dll
 D:\gitHubRepositories\testKratki\testKratki\bin\Debug\net5.0-windows\testKratki.pdb
 D:\gitHubRepositories\testKratki\testKratki\obj\Debug\net5.0-windows\testKratki.csproj.AssemblyReference.cache
-D:\gitHubRepositories\testKratki\testKratki\obj\Debug\net5.0-windows\testKratki.Form1.resources
 D:\gitHubRepositories\testKratki\testKratki\obj\Debug\net5.0-windows\testKratki.csproj.GenerateResource.cache
 D:\gitHubRepositories\testKratki\testKratki\obj\Debug\net5.0-windows\testKratki.GeneratedMSBuildEditorConfig.editorconfig
 D:\gitHubRepositories\testKratki\testKratki\obj\Debug\net5.0-windows\testKratki.AssemblyInfoInputs.cache
@@ -71,3 +70,5 @@ C:\Users\Mateusz\Documents\GitHub\testKratki\testKratki\obj\Debug\net5.0-windows
 C:\Users\Mateusz\Documents\GitHub\testKratki\testKratki\obj\Debug\net5.0-windows\testKratki.genruntimeconfig.cache
 C:\Users\Mateusz\Documents\GitHub\testKratki\testKratki\obj\Debug\net5.0-windows\ref\testKratki.dll
 C:\Users\Szymon\Documents\GitHub\testKratki\testKratki\obj\Debug\net5.0-windows\testKratki.LevelUpMessage.resources
+D:\gitHubRepositories\testKratki\testKratki\obj\Debug\net5.0-windows\testKratki.LevelUpMessage.resources
+D:\gitHubRepositories\testKratki\testKratki\obj\Debug\net5.0-windows\testKratki.MainGameForm.resources

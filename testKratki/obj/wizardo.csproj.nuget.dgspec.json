@@ -1,15 +1,15 @@
 {
   "format": 1,
   "restore": {
-    "D:\\gitHubRepositories\\testKratki\\testKratki\\testKratki.csproj": {}
+    "D:\\gitHubRepositories\\testKratki\\testKratki\\wizardo.csproj": {}
   },
   "projects": {
-    "D:\\gitHubRepositories\\testKratki\\testKratki\\testKratki.csproj": {
+    "D:\\gitHubRepositories\\testKratki\\testKratki\\wizardo.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\gitHubRepositories\\testKratki\\testKratki\\testKratki.csproj",
-        "projectName": "testKratki",
-        "projectPath": "D:\\gitHubRepositories\\testKratki\\testKratki\\testKratki.csproj",
+        "projectUniqueName": "D:\\gitHubRepositories\\testKratki\\testKratki\\wizardo.csproj",
+        "projectName": "wizardo",
+        "projectPath": "D:\\gitHubRepositories\\testKratki\\testKratki\\wizardo.csproj",
         "packagesPath": "C:\\Users\\Gaming\\.nuget\\packages\\",
         "outputPath": "D:\\gitHubRepositories\\testKratki\\testKratki\\obj\\",
         "projectStyle": "PackageReference",

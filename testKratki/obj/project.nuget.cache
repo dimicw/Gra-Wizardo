@@ -1,13 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "yE7rM7PtZsQf/yGIRUBXVpNOmVzSUtwiRDhePMFvr4UNpJReqCvvVqLtMAtgNwyupQWMfjKeKaSjRUqyDa75pw==",
+  "dgSpecHash": "V9E8Aqg6ZPhgWbY8sDPYVxgIAulbR1ucm8f+C6T+ab4zy2BA7d5y5/GHDFUKGokyBfrWOeYCEUP61SJlHHn22w==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Szymon\\Documents\\GitHub\\testKratki\\testKratki\\testKratki.csproj",
-  "expectedPackageFiles": [
-    "C:\\Users\\Szymon\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\5.0.12\\microsoft.netcore.app.host.win-x64.5.0.12.nupkg.sha512",
-    "C:\\Users\\Szymon\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\5.0.0\\microsoft.aspnetcore.app.ref.5.0.0.nupkg.sha512",
-    "C:\\Users\\Szymon\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\5.0.0\\microsoft.windowsdesktop.app.ref.5.0.0.nupkg.sha512",
-    "C:\\Users\\Szymon\\.nuget\\packages\\microsoft.netcore.app.ref\\5.0.0\\microsoft.netcore.app.ref.5.0.0.nupkg.sha512"
-  ],
+  "projectFilePath": "D:\\gitHubRepositories\\testKratki\\testKratki\\wizardo.csproj",
+  "expectedPackageFiles": [],
   "logs": []
 }

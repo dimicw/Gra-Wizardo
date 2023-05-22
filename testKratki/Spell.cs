@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace testKratki
+namespace wizardo
 {
 	public class Spell                                      // class for spells
 	{

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace testKratki
+namespace wizardo
 {
 	public class Creature                                   // base class for player and zombies
 	{

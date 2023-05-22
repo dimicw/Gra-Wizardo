@@ -1,7 +1,7 @@
 ﻿
-namespace testKratki
+namespace wizardo
 {
-	partial class Form1
+	partial class MainGameForm
 	{
 		/// <summary>
 		///  Required designer variable.
@@ -133,8 +133,8 @@ namespace testKratki
             this.Controls.Add(this.mapBase);
             this.Name = "Form1";
             this.Text = "Form1";
-            this.Load += new System.EventHandler(this.Form1_Load);
-            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Form1_KeyDown);
+            this.Load += new System.EventHandler(this.MainGameForm_Load);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MainGameForm_KeyDown);
             this.characterSheet.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.mainGraphic)).EndInit();
             this.ResumeLayout(false);

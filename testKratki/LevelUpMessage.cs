@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace testKratki
+namespace wizardo
 {
 	public partial class LevelUpMessage : Form                  // form for level ups
     {

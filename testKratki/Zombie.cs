@@ -5,14 +5,14 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace testKratki
+namespace wizardo
 {
 	public class Zombie : Creature                          // class for zombies
 	{
 		int dmg;                                            // damage dealt with each attack
 		public bool alive;                                  // true if it can move and attack
 
-		public Zombie(int positionY, int positionX)     // function to create a new zombie and assingn custom location
+		public Zombie(int positionY, int positionX)			// function to create a new zombie and assingn custom location
 		{
 			HP = 10;
 			dmg = 2;

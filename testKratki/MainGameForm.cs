@@ -8,18 +8,18 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace testKratki
+namespace wizardo
 {
-	public partial class Form1 : Form
+	public partial class MainGameForm : Form
 	{
 
-		public Form1()
+		public MainGameForm()
 		{
 			InitializeComponent();
 			Text = "Zombifying Adventures of Wizardo";                              // title of the game (and window)
 		}
 
-		private void Form1_Load(object sender, EventArgs e)                         // instructions done immediately after starting the program
+		private void MainGameForm_Load(object sender, EventArgs e)                  // instructions done immediately after starting the program
 		{
 			Values.floor = new PictureBox[Values.yAxis, Values.xAxis];              // adds dimensions to floor table
 			Values.board = new PictureBox[Values.yAxis, Values.xAxis];              // adds dimensions to board table
@@ -57,7 +57,7 @@ namespace testKratki
 			LoadMap1();                                                             // load the first level
 		}
 
-		private void Form1_KeyDown(object sender, KeyEventArgs e)       // reaction for each pressed key
+		private void MainGameForm_KeyDown(object sender, KeyEventArgs e)       // reaction for each pressed key
 		{
 			bool levelCleared = false;
 			switch (e.KeyData)                                          // choose action depending on the key pressed by the player
@@ -215,7 +215,7 @@ namespace testKratki
 
 		private void LoadMap1()																	// creator of the first level
 		{
-			Values.player = new Player(10, 1);                                                   // place the player
+			Values.player = new Player(10, 1);                                                  // place the player
 			
 			mainGraphic.Image = Image.FromFile(@"..\..\..\images\wizardo\wizardo.gif");         // set the main graphic
 			visibleHP.Text = "HP:       " + Values.player.HP + " / " + Values.player.maxHP;     // display player's current HP
@@ -226,7 +226,8 @@ namespace testKratki
 			Values.zombieCount = 5;
 			Values.zombie = new Zombie[Values.zombieCount];                                     // create zombies
 
-			for (int j = 0; j <= 39; j++)
+			// create walls
+			for (int j = 0; j <= 39; j++)											
 			{
 				wall(0, j);
 				wall(19, j);
@@ -334,7 +335,7 @@ namespace testKratki
 
 			}
 
-				zombieSpawn();                                                                      // set the amout of zombies
+			zombieSpawn();																		// set the amout of zombies
 			for (int i = 0; i != Values.yAxis; i++) for (int j = 0; j != Values.xAxis; j++)     // set fog for the whole map
 					Values.effects[i, j].Image = Values.fogImage;
 			clearFog();                                                                         // clear the fog around the player
@@ -356,8 +357,8 @@ namespace testKratki
 			Values.zombieCount = 10;
 			Values.zombie = new Zombie[Values.zombieCount];                                     // create zombies
 
-
-			for (int j = 0; j < 39; j++)
+			// create walls
+			for (int j = 0; j < 39; j++)                                                     
 			{
 				wall(0, j);
 				wall(18, j);
@@ -744,6 +745,5 @@ namespace testKratki
 				}
 			}
 		}
-
 	}
 }

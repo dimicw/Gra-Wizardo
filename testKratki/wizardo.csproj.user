@@ -7,7 +7,7 @@
     <Compile Update="LevelUpMessage.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="Form1.cs">
+    <Compile Update="MainGameForm.cs">
       <SubType>Form</SubType>
     </Compile>
   </ItemGroup>

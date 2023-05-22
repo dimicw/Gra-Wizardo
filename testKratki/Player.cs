@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace testKratki
+namespace wizardo
 {
 	public class Player : Creature                          // class only for the player
 	{
@@ -17,7 +17,7 @@ namespace testKratki
 			maxHP = 40;
 			HP = maxHP;
 			mana = maxMana;
-			manaRegen = 7;
+			manaRegen = 3;
 
 			facing = 0;
 			movement = true;

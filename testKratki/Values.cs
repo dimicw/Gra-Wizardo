@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace testKratki
+namespace wizardo
 {
 	public static class Values                                  // base of the game
 	{
@@ -20,7 +20,7 @@ namespace testKratki
 		public static Player player;                            // statblock for the most potent wizard - the player (Wizardo)
 		public static Zombie[] zombie;                          // table of statblocks for zombies
 
-		public static Spell spellOne = new Spell(1, 3, 5);       // values of the first spell (linear)
+		public static Spell spellOne = new Spell(1, 3, 5);      // values of the first spell (linear)
 		public static Spell spellTwo = new Spell(2, 4, 10);     // values of the second spell (linear)
 		public static Spell spellThree = new Spell(1, 2, 15);   // values of the third spell (circular)
 		public static int currentLevel;                         // current lvl
