@@ -1,4 +1,5 @@
 To open the game go to wizardo/bin/Release/net5.0-windows/wizardo.exe
+(For the project to work you need to download only the wizardo/bin/Release/net5.0-windows folder)
 
 How the game works:
 - using arrows/WASD you can rotate your character and move
